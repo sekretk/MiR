@@ -4,14 +4,18 @@ import vuetify from './plugins/vuetify';
 
 import './components'
 
+import './plugins'
+
 //import { sync } from 'vuex-router-sync'
 
-//import router from '@/router'
-//import store from '@/store'
+import router from '@/router'
+import store from '@/store'
 
 Vue.config.productionTip = false
 
 new Vue({
-  vuetify,
+  router,
+  store,
+  vuetify,  
   render: h => h(App)
 }).$mount('#app')
