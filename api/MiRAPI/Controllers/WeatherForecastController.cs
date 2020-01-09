@@ -2,8 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DataModels;
+using LinqToDB;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using MiRAPI.DataModel;
 
 namespace MiRAPI.Controllers
 {
@@ -26,6 +29,15 @@ namespace MiRAPI.Controllers
         [HttpGet]
         public IEnumerable<WeatherForecast> Get()
         {
+            using (var db = new IR2016DB("MiR"))
+            {
+                var i = db.Goods.ToArray();
+
+                db.Insert(new Good() { Name = "asdasd" });
+
+                var l = 1;
+            }
+
             var rng = new Random();
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast
             {
