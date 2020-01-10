@@ -5,18 +5,19 @@ export default [
       view: 'Dashboard'
     },
     {
-      path: '/user-profile',
-      name: 'User Profile',
-      view: 'UserProfile'
+      path: '/operations',
+      // name: 'Продажи',
+      view: 'Operations'
     },
     {
-      path: '/table-list',
-      name: 'Table List',
-      view: 'TableList'
+      path: '/store',
+      // name: 'Склад',
+      view: 'Store'
     },
     {
-      path: '/typography',
-      view: 'Typography'
+      path: '/card',
+      // name: 'Заказ',
+      view: 'Card'
     },
   ]
   

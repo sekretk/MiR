@@ -29,7 +29,7 @@
             />
           </v-list-item-avatar>
           <v-list-item-title class="title">
-            Vuetify MD
+            MI отчёт
           </v-list-item-title>
         </v-list-item>
         <v-divider/>
@@ -47,19 +47,7 @@
           <v-list-item-title
             v-text="link.text"
           />
-        </v-list-item>
-        <v-list-item
-          active-class="success"
-          class="v-list-item v-list__tile--buy"
-          to="/upgrade"
-        >
-          <v-list-item-action>
-            <v-icon>mdi-package-up</v-icon>
-          </v-list-item-action>
-          <v-list-item-title class="font-weight-light">
-            Upgrade To PRO
-          </v-list-item-title>
-        </v-list-item>
+        </v-list-item>       
       </v-layout>
     </v-img>
   </v-navigation-drawer>
@@ -85,38 +73,23 @@ export default {
       {
         to: '/',
         icon: 'mdi-view-dashboard',
-        text: 'Dashboard'
+        text: 'Главная'
       },
       {
-        to: '/user-profile',
-        icon: 'mdi-account',
-        text: 'User Profile'
-      },
-      {
-        to: '/table-list',
+        to: '/operations',
         icon: 'mdi-clipboard-outline',
-        text: 'Table List'
+        text: 'Продажи'
       },
       {
-        to: '/typography',
-        icon: 'mdi-format-font',
-        text: 'Typography'
-      },
-      {
-        to: '/icons',
+        to: '/store',
         icon: 'mdi-chart-bubble',
-        text: 'Icons'
+        text: 'Склад'
       },
       {
-        to: '/maps',
-        icon: 'mdi-map-marker',
-        text: 'Maps'
+        to: '/card',
+        icon: 'mdi-cart',
+        text: 'Заказ'
       },
-      {
-        to: '/notifications',
-        icon: 'mdi-bell',
-        text: 'Notifications'
-      }
     ]
   }),
   computed: {
