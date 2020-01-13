@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using LinqToDB.Data;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -12,6 +13,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using MiRAPI.DataModel;
+using MiRAPI.Extentions;
 
 namespace MiRAPI
 {
@@ -33,8 +35,10 @@ namespace MiRAPI
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
         {
+            var logger = loggerFactory.CreateLogger<Program>();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -44,7 +48,17 @@ namespace MiRAPI
 
             app.UseRouting();
 
-            app.UseAuthorization();
+            app.ConfigureExceptionHandler(logger);
+
+            // use cors to allow all
+            app.UseCors(builder => builder
+                .WithOrigins("*")
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader());
+
+            app.UseWhen(context => !context.Request.Path.StartsWithSegments("/api/auth/login"), appBuilder =>    
+                                                                    appBuilder.UseMiddleware<Microsoft.AspNetCore.Authentication.AuthenticationMiddleware>());
 
             app.UseEndpoints(endpoints =>
             {

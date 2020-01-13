@@ -29,14 +29,14 @@ namespace MiRAPI.Controllers
         [HttpGet]
         public IEnumerable<WeatherForecast> Get()
         {
-            using (var db = new IR2016DB("MiR"))
-            {
-                var i = db.Goods.ToArray();
+            //using (var db = new IR2016DB("MiR"))
+            //{
+            //    var i = db.Goods.ToArray();
 
-                db.Insert(new Good() { Name = "asdasd" });
+            //    db.Insert(new Good() { Name = "asdasd" });
 
-                var l = 1;
-            }
+            //    var l = 1;
+            //}
 
             var rng = new Random();
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast

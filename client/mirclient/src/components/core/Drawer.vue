@@ -13,11 +13,7 @@
       :src="image"
       height="100%"
     >
-      <v-layout
-        class="fill-height"
-        tag="v-list"
-        column
-      >
+      <v-list      >
         <v-list-item avatar>
           <v-list-item-avatar
             color="white"
@@ -48,7 +44,7 @@
             v-text="link.text"
           />
         </v-list-item>       
-      </v-layout>
+      </v-list>
     </v-img>
   </v-navigation-drawer>
 </template>

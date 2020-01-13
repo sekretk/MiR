@@ -1,25 +1,33 @@
 <template>
   <v-app>
-    <core-filter />
+    <template v-if="isAuth">
+      <core-filter />
 
-    <core-toolbar />
+      <core-toolbar />
 
-    <core-drawer />
+      <core-drawer />
 
-    <core-view />
+      <core-view />
+    </template>
+    <core-login v-else />      
   </v-app>
 </template>
 
 <script>
-
 export default {
-  name: 'App',
-
-  components: {    
-  },
-
-  data: () => ({
-    //
-  }),
-};
+  data() {
+    return {
+      isAuth: false,
+    }
+  }
+}
 </script>
+
+<style lang="scss">
+@import "@/styles/index.scss";
+
+/* Remove in 1.2 */
+.v-datatable thead th.column.sortable i {
+  vertical-align: unset;
+}
+</style>
