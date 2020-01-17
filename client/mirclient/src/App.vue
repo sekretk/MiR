@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <template v-if="isAuth">
+    <template v-if="isAuthenticated">
       <core-filter />
 
       <core-toolbar />
@@ -9,18 +9,23 @@
 
       <core-view />
     </template>
-    <core-login v-else />      
+    <template v-else>
+      <router-view></router-view>
+    </template>
   </v-app>
 </template>
 
 <script>
+import { mapMutations, mapState } from "vuex";
+
 export default {
-  data() {
-    return {
-      isAuth: false,
-    }
+  computed: {
+    ...mapState("auth", ["isAuthenticated"])
+  },
+  methods: {
+    ...mapMutations("auth", ["toggleAuth"])
   }
-}
+};
 </script>
 
 <style lang="scss">

@@ -3,13 +3,27 @@ import Router from 'vue-router'
 
 import paths from './paths'
 
-function route (path, view, name) {
+import store from '@/store/'
+
+function requireAuth (to, from, next) {
+  if (!store.getters['isAuthenticated']) {
+    next({
+      path: '/login',
+      query: { redirect: to.fullPath }
+    })
+  } else {
+    next()
+  }
+}
+
+function route (path) {
   return {
-    name: name || view,
-    path,
+    name: path.name || path.view,
+    path: path.path,
     component: (resolve) => import(
-      `@/views/${view}.vue`
-    ).then(resolve)
+      `@/views/${path.view}.vue`
+    ).then(resolve),
+    beforeEnter: requireAuth
   }
 }
 
@@ -17,9 +31,12 @@ Vue.use(Router)
 
 const router = new Router({
   mode: 'history',
-  routes: paths.map(path => route(path.path, path.view, path.name)).concat([
-    { path: '*', redirect: '/' }
-  ]),
+  routes: paths
+        .map(path => route(path))
+        .concat([
+            { path: '*', redirect: '/' },
+            { path: '/login', name: 'login', component: (resolve) => import('@/views/Login.vue').then(resolve) },
+            ]),
   scrollBehavior (to, from, savedPosition) {
     if (savedPosition) {
       return savedPosition

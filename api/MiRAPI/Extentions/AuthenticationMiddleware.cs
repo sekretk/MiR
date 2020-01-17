@@ -37,16 +37,15 @@ namespace MiRAPI.Extentions
             string authHeader = context.Request.Headers[MiRConsts.Authorization];
 
             if (authHeader != null)
-            {
-                var token = AppState.Tokens.FirstOrDefault(t => t.Token == authHeader);
+            {               
 
-                if (token == null)
+                if (!AppState.Tokens.ContainsKey(authHeader))
                 {
                     logger.LogError($"Request for {context.Request.Path} has incorrect auth token {authHeader} ");
 
                     await GenerateAuthResponse(context, ErrorCodes.IncorrectToken);
                 }
-                else if (token.ActiveTill < DateTime.Now)
+                else if (AppState.Tokens[authHeader].ActiveTill < DateTime.Now)
                 {
                     logger.LogError($"Request for {context.Request.Path} has expired authorization token {authHeader} ");
 
@@ -56,7 +55,7 @@ namespace MiRAPI.Extentions
                 {
                     using (var db = new IR2016DB())
                     {
-                        var user = db.Users.First(u => u.ID == token.UserId);
+                        var user = db.Users.First(u => u.ID == AppState.Tokens[authHeader].UserId);
 
                         context.Items[MiRConsts.USER_BAG] = user;
                     }
