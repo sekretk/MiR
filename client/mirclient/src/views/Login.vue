@@ -43,16 +43,12 @@
 </template>
 
 <script>
+import { AUTH_REQUEST, AUTH_LOGOUT } from "@/store/modules/auth/consts";
 
-import { AUTH_REQUEST } from "@/store/modules/auth/consts";
-
-import {
-  mapActions,
-} from 'vuex'
-
+import { mapActions, mapGetters } from "vuex";
 
 export default {
- data() {
+  data() {
     return {
       user: localStorage.getItem("lastuser")
         ? localStorage.getItem("lastuser")
@@ -60,11 +56,11 @@ export default {
       password: "",
       error: null,
       from: null,
-      isAuth: false,
+      isAuth: false
     };
   },
-  methods: {
-       ...mapActions('auth', { authRequest: AUTH_REQUEST}),
+  methods: {    
+    ...mapActions("auth", { authRequest: AUTH_REQUEST, logout: AUTH_LOGOUT }),
     proceedLogin() {
       this.error = null;
 
@@ -73,7 +69,7 @@ export default {
       this.authRequest({ user, password })
         .then(() => {
           localStorage.setItem("lastuser", user);
-          this.$router.push(this.$route.params.apiAuth ? this.from : '/');
+          this.$router.push(this.$route.params.apiAuth ? this.from : "/");
         })
         .catch(err => {
           this.error = err;
@@ -81,20 +77,29 @@ export default {
     }
   },
   computed: {
-    // a computed getter
+    ...mapGetters("auth", ["isAuthenticated"]),
     hasError: function() {
       // `this` points to the vm instance
       return this.error != null;
     }
+  },
+  beforeMount() {
+
+    if (this.isAuthenticated)
+      this.logout()
+        .then(() => {
+        })
+        .catch(err => {
+          this.error = err;
+        });
   },
   beforeRouteEnter(to, from, next) {
     next(vm => {
       vm.from = from;
     });
   }
-}
+};
 </script>
 
 <style>
-
 </style>

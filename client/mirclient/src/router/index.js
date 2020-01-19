@@ -6,13 +6,10 @@ import paths from './paths'
 import store from '@/store/'
 
 function requireAuth (to, from, next) {
-  if (!store.getters['isAuthenticated']) {
-    next({
-      path: '/login',
-      query: { redirect: to.fullPath }
-    })
+  if (!store.getters['auth/isAuthenticated']) {
+    next('/login')
   } else {
-    next()
+    next('/')
   }
 }
 

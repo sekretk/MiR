@@ -1,4 +1,9 @@
 import { AUTH_REQUEST, AUTH_ERROR, AUTH_SUCCESS, AUTH_LOGOUT } from './consts'
+import { LOG_MESSAGE } from '@/utils/events';
+import {USER_REQUEST} from '@/store/modules/user/consts'
+import axios from 'axios'
+import apiCall from '@/utils/api'
+import EventBus from '@/plugins/eventbus.js';
 
 export default {
     [AUTH_REQUEST]: ({ commit, dispatch }, user) => {
@@ -15,7 +20,7 @@ export default {
               localStorage.setItem('user-token', resp.token)
               axios.defaults.headers.common['Authorization'] = resp.token
               commit(AUTH_SUCCESS, resp)
-              dispatch(USER_REQUEST)
+              dispatch(`user/${USER_REQUEST}`)
               resolve(resp)
             })
             .catch(err => {

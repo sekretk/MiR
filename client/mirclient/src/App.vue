@@ -16,11 +16,11 @@
 </template>
 
 <script>
-import { mapMutations, mapState } from "vuex";
+import { mapMutations, mapGetters } from "vuex";
 
 export default {
   computed: {
-    ...mapState("auth", ["isAuthenticated"])
+    ...mapGetters("auth", ["isAuthenticated"])
   },
   methods: {
     ...mapMutations("auth", ["toggleAuth"])

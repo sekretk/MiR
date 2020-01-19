@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace MiRAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class AuthController : Controller
     {
@@ -47,7 +47,8 @@ namespace MiRAPI.Controllers
         [Route("signout")]
         public ActionResult SignOut()
         {
-            AppState.RemoveAuth(HttpContext.Request.Headers[MiRConsts.Authorization]);
+            if (!String.IsNullOrEmpty(HttpContext.Request.Headers[MiRConsts.Authorization]))
+                AppState.RemoveAuth(HttpContext.Request.Headers[MiRConsts.Authorization]);
 
             return Ok();
         }
