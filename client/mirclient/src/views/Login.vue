@@ -85,13 +85,13 @@ export default {
   },
   beforeMount() {
 
-    if (this.isAuthenticated)
-      this.logout()
-        .then(() => {
-        })
-        .catch(err => {
-          this.error = err;
-        });
+    // if (this.isAuthenticated)
+    //   this.logout()
+    //     .then(() => {
+    //     })
+    //     .catch(err => {
+    //       this.error = err;
+    //     });
   },
   beforeRouteEnter(to, from, next) {
     next(vm => {

@@ -9,7 +9,7 @@ function requireAuth (to, from, next) {
   if (!store.getters['auth/isAuthenticated']) {
     next('/login')
   } else {
-    next('/')
+    next()
   }
 }
 
