@@ -6,11 +6,15 @@
 </template>
 
 <script>
-export default {};
+export default {
+  metaInfo: {
+    title: "Главная"
+  }
+};
 </script>
 
 <style>
-#dashboard{
+#dashboard {
   height: 900px;
 }
 </style>

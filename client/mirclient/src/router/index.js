@@ -1,9 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-
 import paths from './paths'
-
 import store from '@/store/'
+import Meta from 'vue-meta'
 
 function requireAuth (to, from, next) {
   if (!store.getters['auth/isAuthenticated']) {
@@ -43,6 +42,10 @@ const router = new Router({
     }
     return { x: 0, y: 0 }
   }
+})
+
+Vue.use(Meta, {
+  refreshOnceOnNavigation: true
 })
 
 export default router

@@ -19,15 +19,13 @@
         <v-btn v-ripple light icon @click="handleFullScreen()">
           <v-icon color="rgba(0, 0, 0, 0.54)">mdi-fullscreen</v-icon>
         </v-btn>
-        <v-menu bottom left content-class="dropdown-menu" offset-y transition="slide-y-transition">
+        <v-menu bottom left content-class="dropdown-menu" offset-y transition="slide-y-transition" :nudge-bottom="14">
           <template v-slot:activator="{ on }">
-            <v-btn icon v-on="on">
-              <router-link v-ripple icon slot="activator" class="toolbar-items" to="/notifications">
-                <v-badge color="error" overlap>
-                  <template slot="badge">{{ notifications.length }}</template>
-                  <v-icon color="tertiary">mdi-bell</v-icon>
-                </v-badge>
-              </router-link>
+             <v-btn icon text slot="activator" v-on="on">
+              <v-badge color="red" overlap>
+                <span slot="badge">{{notifications.length}}</span>
+                <v-icon color="rgba(0, 0, 0, 0.54)" medium>mdi-bell</v-icon>
+              </v-badge>
             </v-btn>
           </template>
 

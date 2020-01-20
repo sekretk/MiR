@@ -1,6 +1,6 @@
 <template>
   <v-app>
-     <core-login v-if="isLogin"/>
+    <core-login v-if="isLogin" />
     <template v-else>
       <core-filter />
 
@@ -14,15 +14,18 @@
 </template>
 
 <script>
-import { mapMutations } from "vuex";
-
 export default {
-  methods: {
-    ...mapMutations("auth", ["toggleAuth"])
+  metaInfo: {
+    title: "Главная",
+    titleTemplate: "MI отчёт - %s",
+    htmlAttrs: {
+      lang: "ru",
+      amp: true
+    }
   },
-   computed: {    
-    isLogin: function () {      
-      return this.$route.name == 'login'
+  computed: {
+    isLogin: function() {
+      return this.$route.name == "login";
     }
   }
 };
@@ -35,5 +38,4 @@ export default {
 .v-datatable thead th.column.sortable i {
   vertical-align: unset;
 }
-
 </style>

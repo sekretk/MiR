@@ -4,10 +4,11 @@
 
 <script>
 export default {
-
-}
+  metaInfo: {
+    title: "Заказ",
+  }
+};
 </script>
 
 <style>
-
 </style>
