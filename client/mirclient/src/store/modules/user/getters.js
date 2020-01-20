@@ -1,4 +1,4 @@
 export default {
-    getProfile: state => state.profile,
+    profile: state => state.profile,
   }
   

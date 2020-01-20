@@ -1,5 +1,4 @@
-<template>
-  <p>filter</p>
+<template>  
 </template>
 
 <script>

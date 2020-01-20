@@ -26,9 +26,13 @@ namespace MiRAPI.Controllers
         [Route("me")]
         public JsonResult Me()
         {
-            var user = (User)HttpContext.Items[MiRConsts.USER_BAG];
+            using (var db = new IR2016DB())
+            {
 
-            return Json(new { user.ID, user.Name});
+                var user = (User)HttpContext.Items[MiRConsts.USER_BAG];                
+
+            return Json(new { id = user.ID, name = user.Name, role = db.UsersGroups.FirstOrDefault(ug => ug.ID == user.GroupID)?.Name });
+            }
         }
     }
 }

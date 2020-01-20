@@ -58,7 +58,7 @@ namespace MiRAPI
                 .AllowAnyHeader());
 
             app.UseWhen(context => !context.Request.Path.StartsWithSegments("/auth/login"), appBuilder =>    
-                                                                    appBuilder.UseMiddleware<Microsoft.AspNetCore.Authentication.AuthenticationMiddleware>());
+                                                                    appBuilder.UseMiddleware<Extentions.AuthenticationMiRMiddleware>());
 
             app.UseEndpoints(endpoints =>
             {

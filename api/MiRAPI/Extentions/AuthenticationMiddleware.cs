@@ -10,16 +10,16 @@ using System.Threading.Tasks;
 
 namespace MiRAPI.Extentions
 {
-    public class AuthenticationMiddleware
+    public class AuthenticationMiRMiddleware
     {
         private readonly RequestDelegate _next;
 
-        public AuthenticationMiddleware(RequestDelegate next)
+        public AuthenticationMiRMiddleware(RequestDelegate next)
         {
             _next = next;
         }
 
-        public async Task Invoke(HttpContext context, ILogger<AuthenticationMiddleware> logger)
+        public async Task Invoke(HttpContext context, ILogger<AuthenticationMiRMiddleware> logger)
         {
             if (context.Request.Method == "OPTIONS")
             {

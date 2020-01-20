@@ -1,6 +1,7 @@
 <template>
   <v-app>
-    <template v-if="isAuthenticated">
+     <core-login v-if="isLogin"/>
+    <template v-else>
       <core-filter />
 
       <core-toolbar />
@@ -9,21 +10,20 @@
 
       <core-view />
     </template>
-    <template v-else>
-      <router-view></router-view>
-    </template>
   </v-app>
 </template>
 
 <script>
-import { mapMutations, mapGetters } from "vuex";
+import { mapMutations } from "vuex";
 
 export default {
-  computed: {
-    ...mapGetters("auth", ["isAuthenticated"])
-  },
   methods: {
     ...mapMutations("auth", ["toggleAuth"])
+  },
+   computed: {    
+    isLogin: function () {      
+      return this.$route.name == 'login'
+    }
   }
 };
 </script>
@@ -35,4 +35,5 @@ export default {
 .v-datatable thead th.column.sortable i {
   vertical-align: unset;
 }
+
 </style>

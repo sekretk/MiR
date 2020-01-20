@@ -32,7 +32,7 @@ const router = new Router({
         .map(path => route(path))
         .concat([
             { path: '*', redirect: '/' },
-            { path: '/login', name: 'login', component: (resolve) => import('@/views/Login.vue').then(resolve) },
+            { path: '/login', name: 'login' },
             ]),
   scrollBehavior (to, from, savedPosition) {
     if (savedPosition) {
