@@ -13,9 +13,6 @@ else
 axios.interceptors.response.use(response => {
   return response;
 }, error => {
-
-  
-
   if (error.config && error.config.url)
     EventBus.$emit(LOG_MESSAGE, `Ошибка при выполнение запроса к API ${error.config.url}.` + error);
   else
@@ -24,7 +21,7 @@ axios.interceptors.response.use(response => {
   if (error && error.response && error.response.status == 401) {
     
     //todo: save current URL       
-    store.commit(AUTH_LOGOUT)
+    store.commit(`auth/${AUTH_LOGOUT}`)
     Router.push({name: "/login", params: { apiAuth: true }}); //push to login
   }
   else //on other
