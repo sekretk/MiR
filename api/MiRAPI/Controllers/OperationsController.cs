@@ -24,14 +24,16 @@ namespace MiRAPI.Controllers
 
         [HttpGet()]
         [Route("list")]
-        public JsonResult List()
+        public JsonResult List([FromQuery] Page page)
         {
             using (var db = new IR2016DB())
             {
-
-                var user = (User)HttpContext.Items[MiRConsts.USER_BAG];                
-
-            return Json(new { id = user.ID, name = user.Name, role = db.UsersGroups.FirstOrDefault(ug => ug.ID == user.GroupID)?.Name });
+                return Json(new PageResult<Operation>
+                {
+                    Items = db.Operations.Skip(page.Skip).Take(page.Size),
+                    Skiped = page.Skip,
+                    TotalAmount = db.Operations.Count()
+                });
             }
         }
     }
