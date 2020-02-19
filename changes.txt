@@ -1,48 +1,101 @@
-#rev 1.23 Date: 2019-07-22
-фильтр по ролям пользвателя
-#rev 1.22 Date: 2019-07-22
-Обработка авторизационных ошибок
-#rev 1.21 Date: 2019-07-19
-Удаление и изменение паролея пользователей
-#rev 1.20 Date: 2019-07-19
-выход из системы
-#rev 1.19 Date: 2019-07-19
-авторизационные изменения
-#rev 1.18 Date: 2019-07-18
-Добавлено логирование ошибок
-#rev 1.17 Date: 2019-07-17
-вызовы сервера с клиента
-#rev 1.16 Date: 2019-07-17
-Создание пользователя и проверка пароля
-#rev 1.15 Date: 2019-07-16
-игнор
-#rev 1.14 Date: 2019-07-16
-сервеная авторизация
-#rev 1.13 Date: 2019-07-16
-болванка сервера
-#rev 1.12 Date: 2019-07-09
-список пользователей
-#rev 1.11 Date: 2019-07-09
-список пользователей
-#rev 1.10 Date: 2019-07-08
-нотификации, логирование, работа с глоссарием
-#rev 1.9 Date: 2019-07-08
-работа с глоссарием
-#rev 1.8 Date: 2019-07-05
-починен глоссарий
-#rev 1.7 Date: 2019-07-05
-фильтрация глоссария
-#rev 1.6 Date: 2019-07-04
-навигация и глоссарий
-#rev 1.5 Date: 2019-07-03
-роутинг с логином
-#rev 1.4 Date: 2019-07-03
-логин в систему
-#rev 1.3 Date: 2019-07-01
-Пользователи - болванка
-#rev 1.2 Date: 2019-07-01
-болванки представлений отчетово и словаря
-#rev 1.1 Date: 2019-06-26
-added vuetify
-#rev 1.0 Date: 2019-06-26
-add client scaffold
+commit 6647ddb6d519f39aad3a80484191e19da6ee9ed0 (HEAD -> master)
+Author: Constantine <boyko.constantine@gmail.com>
+Date:   Sun Feb 16 01:24:41 2020 +0300
+
+    СЃРєСЂРёРїС‚ Р°РІС‚РѕРјР°С‚РёС‡РµСЃРєРѕР№ СЃР±РѕСЂРєРё Рё РґРѕСЃС‚Р°РІРєРё РїСЂРёР»РѕР¶РµРЅРёСЏ
+
+commit 5ecf715ac2be6b93f3fda19bc89621c4fda8eefc
+Author: Constantine <boyko.constantine@gmail.com>
+Date:   Sun Feb 16 01:10:05 2020 +0300
+
+    РїРѕР»СѓС‡РµРЅРёРµ СЃРїРёСЃРєР° РѕРїСЂРµСЂР°С†РёР№
+
+commit 0ba9a834968f2c740df618d1aeb3a13c3d8feb1e
+Author: Constantine <boyko.constantine@gmail.com>
+Date:   Sun Feb 16 00:49:54 2020 +0300
+
+    РїРѕР»СѓС‡РµРЅРёРµ СЃРїРёСЃРєР° С‚РѕРІР°СЂРѕРІ РЅР° API
+
+commit 5e355d495d94b8acb0553d15aaabed7d28643214
+Author: Constantine <boyko.constantine@gmail.com>
+Date:   Sun Feb 16 00:25:34 2020 +0300
+
+    РёСЃРїСЂР°РІР»РµРЅРёРµ СЃРєСЂРёРїС‚Р° СЃРѕР·РґР°РЅРёСЏ Р±Р°Р·С‹ РґР°РЅРЅС‹С…
+
+commit 7139909e010bd414e5a9d853341b4ceae04d74ec
+Author: Constantine <boyko.constantine@gmail.com>
+Date:   Sun Feb 16 00:24:47 2020 +0300
+
+    РЎРѕР·РґР°РЅРёРµ РєРѕРЅС„РёРіСѓСЂР°С†РёРё Рё СЂР°СЊРѕС‚С‹ РєР°Рє СЃРµСЂРІРёСЃР°
+
+commit d424abda6659fbd5d2a07ddcc719e0191d73bc5f (origin/master, origin/HEAD)
+Author: boy <boyko.constantine@gmail.com>
+Date:   Mon Jan 20 18:39:21 2020 +0300
+
+    footer + api interceptor
+
+commit acb262ef7a3d3bdf715c9a5d3da4136d2930fec9
+Author: boy <boyko.constantine@gmail.com>
+Date:   Mon Jan 20 18:24:34 2020 +0300
+
+    meta info
+
+commit e8b4f65e4646b7f76c9e6a359db07251484dc4da
+Author: boy <boyko.constantine@gmail.com>
+Date:   Mon Jan 20 16:59:16 2020 +0300
+
+    login iron out
+
+commit 07eff355e5f4e3c21e3d31d479f44e1a73743e8e
+Author: boy <boyko.constantine@gmail.com>
+Date:   Sun Jan 19 20:13:50 2020 +0300
+
+    login routing fix
+
+commit 8669c1edaf735fff7205a49c6ee80589fbebc7cd
+Author: boy <boyko.constantine@gmail.com>
+Date:   Sun Jan 19 19:42:50 2020 +0300
+
+    login logic
+
+commit bb1860da212a8330d84e7550b11f225cf34fb955
+Author: boy <boyko.constantine@gmail.com>
+Date:   Fri Jan 17 18:52:13 2020 +0300
+
+    login call
+
+commit 0ede999442cae91352a6bc20beb0a69f5886a74a
+Author: boy <boyko.constantine@gmail.com>
+Date:   Mon Jan 13 17:42:33 2020 +0300
+
+    auth info
+
+commit f7e3fd2fd8524f357110baed95fe815862ed87ee
+Author: boy <boyko.constantine@gmail.com>
+Date:   Fri Jan 10 18:16:20 2020 +0300
+
+    views scaffold
+
+commit 82d460016d1c098bfdbb682db031a66c0334ccc2
+Author: boy <boyko.constantine@gmail.com>
+Date:   Thu Jan 9 18:13:43 2020 +0300
+
+    client start project
+
+commit b91a22a64ec2244ebe67b79fb0479414c17a7488
+Author: boy <boyko.constantine@gmail.com>
+Date:   Thu Jan 9 11:20:46 2020 +0300
+
+    MiR db initials
+
+commit b9c8b771f3a7fa40d912ef28227f1fae099922bf
+Author: boy <boyko.constantine@gmail.com>
+Date:   Wed Dec 25 13:21:03 2019 +0300
+
+    scaffold api and client
+
+commit 3c42f26070446b46dafff431a5f52a4b7e676a2c
+Author: sekretk <boyko.constantine@gmail.com>
+Date:   Wed Dec 25 13:10:51 2019 +0300
+
+    Initial commit
