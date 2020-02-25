@@ -53,7 +53,7 @@
 
 	NamespaceName = "DataModels";
 
-	LoadSqlServerMetadata(".", "IR2016", "sa", "open");
+	LoadSqlServerMetadata(".", "MiR", "sa", "open");
 //	LoadSqlServerMetadata(".", "MyDatabase"); // Integrated Security
 //	LoadSqlServerMetadata(string connectionString);
 

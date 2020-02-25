@@ -30,7 +30,7 @@ namespace MiRAPI.Extentions
             if (context.Request.GetEncodedUrl().EndsWith("startpage"))
             {
                 var response = context.Response;
-                response.Redirect(@"http://localhost:8080/");
+                response.Redirect(@"http://localhost:8666/");
                 return;
             }
 
@@ -53,7 +53,7 @@ namespace MiRAPI.Extentions
                 }
                 else
                 {
-                    using (var db = new IR2016DB())
+                    using (var db = new MiRDB())
                     {
                         var user = db.Users.First(u => u.ID == AppState.Tokens[authHeader].UserId);
 

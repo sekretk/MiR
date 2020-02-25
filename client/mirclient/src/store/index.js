@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import axios from 'axios'
 
 //import actions from './actions'
 //import getters from './getters'
@@ -16,5 +17,8 @@ const store = new Vuex.Store({
   //mutations,
   //state
 })
+
+if (store.state.auth.token)
+  axios.defaults.headers.common['Authorization'] = store.state.auth.token
 
 export default store

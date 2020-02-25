@@ -26,7 +26,7 @@ namespace MiRAPI.Controllers
         [Route("me")]
         public JsonResult Me()
         {
-            using (var db = new IR2016DB())
+            using (var db = new MiRDB())
             {
 
                 var user = (User)HttpContext.Items[MiRConsts.USER_BAG];                

@@ -26,11 +26,11 @@ namespace MiRAPI.Controllers
         [Route("list")]
         public JsonResult List([FromQuery] Page page)
         {
-            using (var db = new IR2016DB())
+            using (var db = new MiRDB())
             {
                 return Json(new PageResult<Operation>
                 {
-                    Items = db.Operations.Skip(page.Skip).Take(page.Size),
+                    Items = db.Operations.Skip(page.Skip).Take(page.Size).ToArray(),
                     Skiped = page.Skip,
                     TotalAmount = db.Operations.Count()
                 });

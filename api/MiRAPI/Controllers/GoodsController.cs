@@ -26,7 +26,7 @@ namespace MiRAPI.Controllers
         [Route("list")]
         public JsonResult List(int? groupid)
         {
-            using (var db = new IR2016DB())
+            using (var db = new MiRDB())
             {
                 if (groupid.HasValue)
                 {

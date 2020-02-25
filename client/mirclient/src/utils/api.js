@@ -6,9 +6,9 @@ import Router from '@/router';
 import { AUTH_LOGOUT } from '@/store/modules/auth/consts'
 
 if (process.env.NODE_ENV == 'production')
-  axios.defaults.baseURL = 'http://localhost:5000'
+  axios.defaults.baseURL = 'http://localhost:6000'
 else
-  axios.defaults.baseURL = 'https://localhost:44372'
+  axios.defaults.baseURL = 'https://localhost:6001'
 
 axios.interceptors.response.use(response => {
   return response;

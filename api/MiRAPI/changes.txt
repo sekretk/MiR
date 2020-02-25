@@ -1,0 +1,17 @@
+2020-02-16 скрипт автоматической сборки и доставки приложения
+2020-02-16 получение списка опрераций
+2020-02-16 получение списка товаров на API
+2020-02-16 исправление скрипта создания базы данных
+2020-02-16 Создание конфигурации и раьоты как сервиса
+2020-01-20 footer + api interceptor
+2020-01-20 meta info
+2020-01-20 login iron out
+2020-01-19 login routing fix
+2020-01-19 login logic
+2020-01-17 login call
+2020-01-13 auth info
+2020-01-10 views scaffold
+2020-01-09 client start project
+2020-01-09 MiR db initials
+2019-12-25 scaffold api and client
+2019-12-25 Initial commit

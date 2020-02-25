@@ -16,11 +16,11 @@ using LinqToDB.Mapping;
 namespace DataModels
 {
 	/// <summary>
-	/// Database       : IR2016
+	/// Database       : MiR
 	/// Data Source    : .
-	/// Server Version : 15.00.2000
+	/// Server Version : 14.00.1000
 	/// </summary>
-	public partial class IR2016DB : LinqToDB.Data.DataConnection
+	public partial class MiRDB : LinqToDB.Data.DataConnection
 	{
 		public ITable<ApplicationLog>    ApplicationLogs     { get { return this.GetTable<ApplicationLog>(); } }
 		public ITable<CashBook>          CashBooks           { get { return this.GetTable<CashBook>(); } }
@@ -56,13 +56,13 @@ namespace DataModels
 		public ITable<UsersSecurity>     UsersSecurities     { get { return this.GetTable<UsersSecurity>(); } }
 		public ITable<VATGroup>          VATGroups           { get { return this.GetTable<VATGroup>(); } }
 
-		public IR2016DB()
+		public MiRDB()
 		{
 			InitDataContext();
 			InitMappingSchema();
 		}
 
-		public IR2016DB(string configuration)
+		public MiRDB(string configuration)
 			: base(configuration)
 		{
 			InitDataContext();

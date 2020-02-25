@@ -26,7 +26,7 @@ namespace MiRAPI.Controllers
         [Route("login")]
         public ActionResult<object> Login([FromBody] AuthModel authModel)
         {
-            using (var db = new IR2016DB())
+            using (var db = new MiRDB())
             {
                 var pwd = Crypto.EncryptText(authModel.password);
 

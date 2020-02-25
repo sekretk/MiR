@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 
 namespace MiRAPI.DataModel
 {
-    public partial class IR2016DB : LinqToDB.Data.DataConnection    
+    public partial class MiRDB : LinqToDB.Data.DataConnection    
     {
-        public IR2016DB() : base("MiR")
+        public MiRDB() : base("MiR")
         {
 
         }
