@@ -1,5 +1,6 @@
 export default {
     operations: [],
-    status: null
+    status: null,
+    totalOperations: 0,
   }
   

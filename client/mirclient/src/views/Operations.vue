@@ -1,6 +1,13 @@
 <template>
 <div>
   <h2>Operations</h2>
+  <v-progress-linear
+        :active="loading"
+        :indeterminate="loading"
+        absolute
+        bottom
+        color="deep-purple accent-4"
+      ></v-progress-linear>
    <v-list three-line>
       <template v-for="(operation, index) in operations">       
 
@@ -20,13 +27,19 @@
         ></v-divider>
       </template>
     </v-list>
+    <v-row>
+      <v-spacer/>
+      <v-btn dark center :v-if='haveMore' @click="getOperations">Ещё</v-btn>
+      <v-spacer/>
+    </v-row>
+    
     </div>
 </template>
 
 <script>
 import { OPERATIONS_REQUEST } from "@/store/modules/operations/consts";
 
-import { mapActions, mapState } from "vuex";
+import { mapActions, mapState, mapGetters } from "vuex";
 
 export default {
   metaInfo: {
@@ -40,6 +53,7 @@ export default {
   },
    computed: {
     ...mapState('operations', ['operations']),
+    ...mapGetters('operations', {haveMore: "haveMoreOperations", loading: 'loading' }),
   },
 };
 </script>

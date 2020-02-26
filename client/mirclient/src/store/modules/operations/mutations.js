@@ -8,8 +8,11 @@ export default {
       [OPERATIONS_SUCCESS]: (state, resp) => {
         state.status = 'success'
         Vue.set(state, 'operations', resp.items)
+        state.totalOperations = resp.totalAmount
       },
       [OPERATIONS_ERROR]: (state) => {
         state.status = 'error'
+        Vue.set(state, 'operations', [])
+        state.totalOperations = 0
       },
 }
