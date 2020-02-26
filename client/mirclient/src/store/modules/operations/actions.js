@@ -2,9 +2,9 @@ import { OPERATIONS_REQUEST, OPERATIONS_SUCCESS, OPERATIONS_ERROR } from './cons
 import apiCall from '@/utils/api'
 
 export default {
-    [OPERATIONS_REQUEST]: ({ commit }) => {
+    [OPERATIONS_REQUEST]: ({ getters, commit }) => {
         commit(OPERATIONS_REQUEST)
-        apiCall({ url: 'operations/list', data: {skip: 0, size: 10}  })
+        apiCall({ url: 'operations/list', data: {skip: getters.amount, size: 10}  })
           .then(resp => {
             commit(OPERATIONS_SUCCESS, resp)
           })

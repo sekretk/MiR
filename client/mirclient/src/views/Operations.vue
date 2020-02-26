@@ -1,6 +1,6 @@
 <template>
 <div>
-  <h2>Operations</h2>
+  <h2>Операции</h2>
   <v-progress-linear
         :active="loading"
         :indeterminate="loading"

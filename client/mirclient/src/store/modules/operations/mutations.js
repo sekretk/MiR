@@ -7,6 +7,7 @@ export default {
       },
       [OPERATIONS_SUCCESS]: (state, resp) => {
         state.status = 'success'
+        resp.items.forEach(i => state.operations.push(i))
         Vue.set(state, 'operations', resp.items)
         state.totalOperations = resp.totalAmount
       },
