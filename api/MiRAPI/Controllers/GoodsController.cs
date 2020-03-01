@@ -24,38 +24,52 @@ namespace MiRAPI.Controllers
 
         [HttpGet()]
         [Route("list")]
-        public JsonResult List(int? groupid)
+        public JsonResult List([FromQuery] GoodsFilter filter)
         {
             using (var db = new MiRDB())
             {
-                if (groupid.HasValue)
+                IEnumerable<GoodResult> filterResult;
+
+                if (filter.GroupId.HasValue)
                 {
-                    var parentGroup = db.GoodsGroups.FirstOrDefault(gg => gg.ID == groupid);
+                    var parentGroup = db.GoodsGroups.FirstOrDefault(gg => gg.ID == filter.GroupId);
 
-                    var groupResults = db.GoodsGroups.Where(gg => gg.Code.StartsWith(parentGroup.Code)).Select(gg => new GoodResult(gg)).ToArray();
+                    var groupResults = db.GoodsGroups
+                                            .Where(gg => gg.Code.StartsWith(parentGroup.Code) && gg.ID != parentGroup.ID)
+                                            .Select(gg => new GoodResult(gg))
+                                            .ToArray();
 
-                    var result = db.Goods
-                        .Where(g => g.GroupID == groupid)
+                    filterResult = db.Goods
+                        .Where(g => g.GroupID == filter.GroupId)
                         .Select(g => new GoodResult(g))
-                        .Union(groupResults)
-                        .OrderBy(r => !r.IsGroup)
-                        .ThenBy(r => r.Name)
-                        .ToArray();
-
-                    return Json(result);
+                        .ToArray()
+                        .Union(groupResults);
                 }
+                else
+                    filterResult =
+                        db.GoodsGroups
+                            .Where(gg => gg.Code.Length == 3)
+                            .Select(gg => new GoodResult(gg))
+                            .ToArray()
+                            .Union(
+                                db.Goods
+                                    .Where(g => g.GroupID == -1 || g.GroupID == 1 /*служебная группа*/)
+                                    .Select(g => new GoodResult(g))
+                                    .ToArray()
+                                );
 
-                return Json(
-                    db.GoodsGroups
-                        .Where(gg => gg.Code.Length == 3)
-                        .Select(gg => new GoodResult(gg))
-                        .Union(
-                            db.Goods
-                                .Where(g => g.GroupID == 1 /*служебная группа*/)
-                                .Select(g => new GoodResult(g))
-                            )
-                        .ToArray());
-
+                return Json(new GoodsPageResult
+                {
+                    Items = filterResult
+                            .OrderBy(g => !g.IsGroup)
+                            .ThenBy(g => g.ID)
+                            .Skip(filter.Skip)
+                            .Take(filter.Size)
+                            .ToArray(),
+                    Skiped = filter.Skip,
+                    TotalAmount = filterResult.Count(),
+                    GroupId = filter.GroupId
+                });
             }
         }
     }

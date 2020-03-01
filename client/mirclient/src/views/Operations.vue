@@ -29,7 +29,7 @@
     </v-list>
     <v-row>
       <v-spacer/>
-      <v-btn dark center :v-if='haveMore' @click="getOperations">Ещё</v-btn>
+      <v-btn dark center :v-if='haveMore' @click="getMore">Ещё</v-btn>
       <v-spacer/>
     </v-row>
     
@@ -37,7 +37,7 @@
 </template>
 
 <script>
-import { OPERATIONS_REQUEST } from "@/store/modules/operations/consts";
+import { OPERATIONS_REQUEST, OPERATIONS_REQUEST_MORE } from "@/store/modules/operations/consts";
 
 import { mapActions, mapState, mapGetters } from "vuex";
 
@@ -46,7 +46,7 @@ export default {
     title: "Операции"
   },
    methods: {    
-  ...mapActions("operations", { getOperations: OPERATIONS_REQUEST }),
+  ...mapActions("operations", { getOperations: OPERATIONS_REQUEST, getMore: OPERATIONS_REQUEST_MORE }),
    },
     mounted() {
     this.getOperations();

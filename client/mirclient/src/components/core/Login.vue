@@ -69,7 +69,8 @@ export default {
       this.authRequest({ user, password })
         .then(() => {
           localStorage.setItem("lastuser", user);
-          this.$router.push(this.$route.params.apiAuth ? this.from : "/");
+
+          this.$router.push(this.$route.params.apiAuth ? (this.from?this.from:"/") : "/");
         })
         .catch(err => {
           this.error = err;

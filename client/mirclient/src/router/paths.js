@@ -10,8 +10,8 @@ export default [
     view: 'Operations'
   },
   {
-    path: '/store',
-    // name: 'Склад',
+    path: '/store/:groupId?',
+    name: 'store',
     view: 'Store'
   },
   {

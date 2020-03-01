@@ -22,7 +22,7 @@ axios.interceptors.response.use(response => {
     
     //todo: save current URL       
     store.commit(`auth/${AUTH_LOGOUT}`)
-    Router.push({name: "/login", params: { apiAuth: true }}); //push to login
+    Router.push({name: "login", params: { apiAuth: true }}); //push to login
   }
   else //on other
     throw error

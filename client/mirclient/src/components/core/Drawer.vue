@@ -14,7 +14,7 @@
       height="100%"
     >
       <v-list      >
-        <v-list-item avatar>
+        <v-list-item>
           <v-list-item-avatar
             color="white"
           >
