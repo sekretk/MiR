@@ -27,6 +27,12 @@ namespace MiRAPI.Extentions
                 return;
             }
 
+            if (context.Request.GetEncodedUrl().EndsWith("swagger.json"))
+            {
+                await _next.Invoke(context);
+                return;
+            }
+
             if (context.Request.GetEncodedUrl().EndsWith("startpage"))
             {
                 var response = context.Response;
