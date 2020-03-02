@@ -12,8 +12,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.OpenApi.Models;
 using MiRAPI.DataModel;
 using MiRAPI.Extentions;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace MiRAPI
 {
@@ -31,6 +33,18 @@ namespace MiRAPI
         {
             services.AddControllers();
 
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc(name: "v1", new OpenApiInfo { Title = "MiR API", Version = "v1" });
+                c.AddSecurityDefinition("Basic", new OpenApiSecurityScheme
+                {
+                    Description = "access token",
+                    In = ParameterLocation.Header,
+                    Name = MiRConsts.Authorization,
+                    Type = SecuritySchemeType.ApiKey
+                });
+            });
+
             DataConnection.DefaultSettings = new MiRDataSettings(Configuration.GetConnectionString("MiRDatabase"));
         }
 
@@ -43,6 +57,11 @@ namespace MiRAPI
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseSwagger();
+
+            app.UseSwaggerUI(c =>
+            c.SwaggerEndpoint(url: "/swagger/v1/swagger.json", name: "MiR API V1"));
 
             app.UseHttpsRedirection();
 
@@ -57,7 +76,7 @@ namespace MiRAPI
                 .AllowAnyMethod()
                 .AllowAnyHeader());
 
-            app.UseWhen(context => !context.Request.Path.StartsWithSegments("/auth/login"), appBuilder =>    
+            app.UseWhen(context => !context.Request.Path.StartsWithSegments("/auth/login"), appBuilder =>
                                                                     appBuilder.UseMiddleware<Extentions.AuthenticationMiRMiddleware>());
 
             app.UseEndpoints(endpoints =>
