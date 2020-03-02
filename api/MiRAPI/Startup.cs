@@ -36,13 +36,29 @@ namespace MiRAPI
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc(name: "v1", new OpenApiInfo { Title = "MiR API", Version = "v1" });
-                c.AddSecurityDefinition("Basic", new OpenApiSecurityScheme
+                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
-                    Description = "access token",
+                    Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
+                    Name = "Authorization",
                     In = ParameterLocation.Header,
-                    Name = MiRConsts.Authorization,
-                    Type = SecuritySchemeType.ApiKey
+                    Type = SecuritySchemeType.ApiKey,
+                    Scheme = "Bearer"
                 });
+
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement
+                        {
+                            {
+                                new OpenApiSecurityScheme
+                                {
+                                    Reference = new OpenApiReference()
+                                    {
+                                        Id = "Bearer",
+                                        Type = ReferenceType.SecurityScheme
+                                    }
+                                },
+                                Array.Empty<string>()
+                            }
+                        });
             });
 
             DataConnection.DefaultSettings = new MiRDataSettings(Configuration.GetConnectionString("MiRDatabase"));
