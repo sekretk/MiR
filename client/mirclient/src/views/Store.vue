@@ -16,11 +16,26 @@
             <v-list-item-subtitle v-html="good.name"></v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
-         <v-list-item :key="index" v-else >
+        <v-list-item :key="index" v-else>
           <v-list-item-content>
             <v-list-item-title v-html="good.id"></v-list-item-title>
             <v-list-item-subtitle v-html="good.name"></v-list-item-subtitle>
           </v-list-item-content>
+
+          <v-spacer></v-spacer>
+
+          <v-list-item-action>
+            <v-flex>
+              <v-tooltip bottom >
+                <template v-slot:activator="{ on }">
+                  <v-btn text icon color="teal darken-1" v-on="on" @click="addOrder(good)">
+                    <v-icon>mdi-plus-box</v-icon>
+                  </v-btn>
+                </template>
+                <span class="white--text">Заказать</span>
+              </v-tooltip>
+            </v-flex>
+          </v-list-item-action>
         </v-list-item>
 
         <v-divider :key="index+'_'" inset></v-divider>
@@ -40,7 +55,11 @@ import {
   GOODS_REQUEST_MORE
 } from "@/store/modules/goods/consts";
 
-import { mapActions, mapState, mapGetters } from "vuex";
+import {
+  ADD_ORDER
+} from "@/store/modules/app/consts";
+
+import { mapActions, mapState, mapGetters, mapMutations } from "vuex";
 
 export default {
   metaInfo: {
@@ -51,23 +70,30 @@ export default {
       getGoods: GOODS_REQUEST,
       getMore: GOODS_REQUEST_MORE
     }),
-    gotoGroup(good){
-      this.$router.push({ name: 'store', params: { groupId: good.id } })
-       this.getGoods(good.id);
+    ...mapMutations("app", {
+      addOrder: ADD_ORDER
+    }),
+    gotoGroup(good) {
+      this.$router.push({ name: "store", params: { groupId: good.id } });
     }
   },
   mounted() {
     this.getGoods(this.$route.params ? this.$route.params.groupId : null);
   },
-     computed: {
-    ...mapState('goods', ['goods']),
-    ...mapGetters('goods', {haveMore: "haveMoreGoods", loading: 'loading' }),
+  watch: {
+    $route(to) {
+      this.getGoods(to.params ? to.groupId : null);
+    }
   },
+  computed: {
+    ...mapState("goods", ["goods"]),
+    ...mapGetters("goods", { haveMore: "haveMoreGoods", loading: "loading" })
+  }
 };
 </script>
 
 <style scoped>
-.group{
+.group {
   background-color: lightblue;
 }
 </style>

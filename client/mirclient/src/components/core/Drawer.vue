@@ -34,7 +34,6 @@
           :key="i"
           :to="link.to"
           :active-class="color"
-          avatar
           class="v-list-item"
         >
           <v-list-item-action>

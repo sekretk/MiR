@@ -23,7 +23,7 @@
           <template v-slot:activator="{ on }">
              <v-btn icon text slot="activator" v-on="on">
               <v-badge color="red" overlap>
-                <span slot="badge">{{notifications.length}}</span>
+                <span slot="badge">{{orderAmount}}</span>
                 <v-icon color="rgba(0, 0, 0, 0.54)" medium>mdi-bell</v-icon>
               </v-badge>
             </v-btn>
@@ -152,7 +152,8 @@ export default {
     };
   },
   computed: {
-    ...mapGetters("user", ["profile"])
+    ...mapGetters("user", ["profile"]),
+    ...mapGetters("app", ["orderAmount"]),
   },
   watch: {
     $route(val) {
