@@ -16,7 +16,7 @@ echo %BUILD%
 echo export const BUILD_VERSION = '%BUILD%' > client\mirclient\src\version.js
 echo export const BUILD_DATE = '%date%' >> client\mirclient\src\version.js
 
-echo namespace ceapi { public static class Version { public const string BUILD_VERSION = "%BUILD%"; public const string BUILD_DATE = "%date%";}} > api\MiRAPI\version.cs
+echo namespace MiRAPI { public static class Version { public const string BUILD_VERSION = "%BUILD%"; public const string BUILD_DATE = "%date%";}} > api\MiRAPI\version.cs
 
 del api.7z /F
 del client.7z /F
@@ -44,5 +44,3 @@ echo %BUILDMAIN% > version.txt
 git add changes.txt version.txt api.7z client.7z client\mirclient\src\version.js api\MiRAPI\version.cs
 git commit -m "(i) deployment"
 git push
-REM hg commit changes.txt version.txt api.7z client.7z client\mirclient\src\version.js srv\ceapi\mirclient\version.cs -m "(i) deployment"
-REM hg push

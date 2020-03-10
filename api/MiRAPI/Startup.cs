@@ -31,22 +31,26 @@ namespace MiRAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
-
-            services.AddSwaggerGen(c =>
+            try
             {
-                c.SwaggerDoc(name: "v1", new OpenApiInfo { Title = "MiR API", Version = "v1" });
-                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-                {
-                    Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
-                    Name = "Authorization",
-                    In = ParameterLocation.Header,
-                    Type = SecuritySchemeType.ApiKey,
-                    Scheme = "Bearer"
-                });
+                services.AddControllers().AddNewtonsoftJson();
 
-                c.AddSecurityRequirement(new OpenApiSecurityRequirement
-                        {
+                services.AddOptions();
+
+                services.AddSwaggerGen(c =>
+                {
+                    c.SwaggerDoc(name: "v1", new OpenApiInfo { Title = "MiR API", Version = "v1" });
+                    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                    {
+                        Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
+                        Name = "Authorization",
+                        In = ParameterLocation.Header,
+                        Type = SecuritySchemeType.ApiKey,
+                        Scheme = "Bearer"
+                    });
+
+                    c.AddSecurityRequirement(new OpenApiSecurityRequirement
+                            {
                             {
                                 new OpenApiSecurityScheme
                                 {
@@ -58,15 +62,26 @@ namespace MiRAPI
                                 },
                                 Array.Empty<string>()
                             }
-                        });
-            });
+                            });
+                });
 
-            DataConnection.DefaultSettings = new MiRDataSettings(Configuration.GetConnectionString("MiRDatabase"));
+                System.IO.File.AppendAllText(@"log.txt", $"db connection start");
+
+                DataConnection.DefaultSettings = new MiRDataSettings(Configuration.GetConnectionString("MiRDatabase"));
+
+                System.IO.File.AppendAllText(@"log.txt", $"db connection {Configuration.GetConnectionString("MiRDatabase")}");
+            }
+            catch (Exception ex)
+            {
+                System.IO.File.AppendAllText(@"log.txt", $"Error on start {ex.Message} - {ex.StackTrace}");
+            }
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
         {
+            NLog.Web.NLogBuilder.ConfigureNLog("nlog.config").GetCurrentClassLogger().Info("Configure web api");
+
             var logger = loggerFactory.CreateLogger<Program>();
 
             if (env.IsDevelopment())

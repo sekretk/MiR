@@ -6,8 +6,13 @@ export default [
   },
   {
     path: '/operations',
-    // name: 'Продажи',
+    name: 'operations',
     view: 'Operations'
+  },
+  {
+    path: '/operationdetails/:id',
+    name: 'operationdetails',
+    view: 'OperationDetails'
   },
   {
     path: '/store/:groupId?',

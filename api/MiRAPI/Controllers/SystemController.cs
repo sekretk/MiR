@@ -29,7 +29,7 @@ namespace MiRAPI.Controllers
         {
             string[] changes = SystemVersion.Changes();
 
-            return Json(new { version = ceapi.Version.BUILD_VERSION, date = ceapi.Version.BUILD_DATE, changes });
+            return Json(new { version = MiRAPI.Version.BUILD_VERSION, date = MiRAPI.Version.BUILD_DATE, changes });
         }
 
     }
