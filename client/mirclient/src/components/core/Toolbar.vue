@@ -1,5 +1,5 @@
 <template>
-  <v-app-bar id="core-toolbar" flat prominent style="background: #eee;">
+  <v-app-bar id="core-toolbar" flat style="background: #eee;">
     <div class="v-toolbar-title">
       <v-toolbar-title class="tertiary--text font-weight-light">
         <v-btn v-if="responsive" class="default v-btn--simple" dark icon @click.stop="onClickBtn">
@@ -11,8 +11,7 @@
 
     <v-spacer></v-spacer>
     <v-toolbar-items>
-      <v-flex align-center layout py-2>
-        <v-text-field class="mr-4 purple-input" label="Поиск..." hide-details color="purple"></v-text-field>
+      <v-flex align-center layout py-2>        
         <router-link v-ripple class="toolbar-items" to="/">
           <v-icon color="tertiary">mdi-view-dashboard</v-icon>
         </router-link>
@@ -174,13 +173,5 @@ export default {
 <style scoped>
 #core-toolbar a {
   text-decoration: none;
-}
-
-.v-toolbar__content {
-  height: 60px;
-}
-
-header {
-  height: 60px;
 }
 </style>

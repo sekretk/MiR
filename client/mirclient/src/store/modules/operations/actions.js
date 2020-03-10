@@ -29,7 +29,7 @@ export default {
       })
   },
 
-  [OPERATION_DETAILS_REQUEST]: (operationId) =>
+  [OPERATION_DETAILS_REQUEST]: ({}, operationId) =>
     apiCall({ url: 'operations/positions', data: { operationAcct: operationId } })
   ,
 }

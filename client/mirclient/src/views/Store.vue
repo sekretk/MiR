@@ -74,7 +74,8 @@ export default {
       addOrder: ADD_ORDER
     }),
     gotoGroup(good) {
-      this.$router.push({ name: "store", params: { groupId: good.id } });
+      if (this.$route.params && good.id != this.$route.params.groupId)
+        this.$router.push({ name: "store", params: { groupId: good.id } });
     }
   },
   mounted() {
@@ -82,7 +83,7 @@ export default {
   },
   watch: {
     $route(to) {
-      this.getGoods(to.params ? to.groupId : null);
+      this.getGoods(to.params ? to.params.groupId : null);
     }
   },
   computed: {

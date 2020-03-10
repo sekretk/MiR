@@ -56,7 +56,7 @@ namespace MiRAPI.Controllers
             {
                 return Json(db.Operations
                     .Where(o => o.Acct == operationAcct)
-                    .Join(db.Goods, _ => _.GoodID, _ => _.ID, (o, g) => new { g.ID, g.Name, o.Qtty }));
+                    .Join(db.Goods, _ => _.GoodID, _ => _.ID, (o, g) => new { g.ID, g.Name, o.Qtty }).ToArray());
             }
         }
     }
