@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import { OPERATION_DETAILS_REQUEST } from "@/store/modules/operations/consts"
+import { OPERATION_DETAILS_REQUEST } from "@/store/modules/operations/consts";
 
 import { mapActions } from "vuex";
 
@@ -29,14 +29,17 @@ export default {
   metaInfo: {
     title: "Содержимое операции"
   },
+  data: () => ({
+    positions: []
+  }),
   methods: {
     ...mapActions("operations", {
-      getOperationDetails: OPERATION_DETAILS_REQUEST,
+      getOperationDetails: OPERATION_DETAILS_REQUEST
     })
   },
-    mounted() {
-    this.getOperationDetails();
-  },
+  mounted() {
+    this.getOperationDetails(this.$route.params.id).then(resp => (this.positions = resp));
+  }
 };
 </script>
 
