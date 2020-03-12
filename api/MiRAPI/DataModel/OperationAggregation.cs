@@ -9,7 +9,7 @@ namespace MiRAPI.DataModel
     {
         public int? Acct { get; set; }
 
-        public int? OperType { get; set; }
+        public DateTime? Date { get; set; }
 
         public int PositionsCount { get; set; }
     }

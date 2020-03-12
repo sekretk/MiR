@@ -12,8 +12,8 @@
         <template v-for="(operation, index) in operations">
           <v-list-item :key="index" @click="openDetails(operation.acct)">
             <v-list-item-content>
-              <v-list-item-title v-html="operation.userRealTime"></v-list-item-title>
-              <v-list-item-subtitle v-html="operation.operType"></v-list-item-subtitle>
+              <v-list-item-title>{{operation.acct}} - {{operation.date | shortDate}}</v-list-item-title>
+              <v-list-item-subtitle>Позиции: {{operation.positionsCount}}</v-list-item-subtitle>
             </v-list-item-content>
           </v-list-item>
 
@@ -22,7 +22,7 @@
       </v-list>
       <v-row>
         <v-spacer />
-        <v-btn dark center :v-if="haveMore" @click="getMore">Ещё</v-btn>
+        <v-btn dark center v-if="haveMore" @click="getMore">Ещё</v-btn>
         <v-spacer />
       </v-row>
     </div>

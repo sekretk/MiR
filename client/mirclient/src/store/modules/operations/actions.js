@@ -2,8 +2,7 @@ import {
   OPERATIONS_REQUEST,
   OPERATIONS_REQUEST_MORE, 
   OPERATIONS_SUCCESS, 
-  OPERATIONS_ERROR, 
-  OPERATION_DETAILS_REQUEST
+  OPERATIONS_ERROR
 } from './consts'
 import apiCall from '@/utils/api'
 
@@ -28,8 +27,4 @@ export default {
         commit(OPERATIONS_ERROR)
       })
   },
-
-  [OPERATION_DETAILS_REQUEST]: ({}, operationId) =>
-    apiCall({ url: 'operations/positions', data: { operationAcct: operationId } })
-  ,
 }

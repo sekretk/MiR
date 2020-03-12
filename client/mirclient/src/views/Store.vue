@@ -43,7 +43,7 @@
     </v-list>
     <v-row>
       <v-spacer />
-      <v-btn dark center :v-if="haveMore" @click="getMore">Ещё</v-btn>
+      <v-btn dark center v-if="haveMore" @click="getMore">Ещё</v-btn>
       <v-spacer />
     </v-row>
   </div>

@@ -1,6 +1,9 @@
 <template>
   <div>
     <h2>Содержимое продажи: {{$route.params.operationId}}</h2>
+    <v-btn class="black--text">
+      <v-icon>mdi-arrow-left-bold</v-icon>Обратно
+    </v-btn>
     <v-list three-line>
       <template v-for="(position, index) in positions">
         <v-list-item :key="index">
@@ -21,9 +24,7 @@
 </template>
 
 <script>
-import { OPERATION_DETAILS_REQUEST } from "@/store/modules/operations/consts";
-
-import { mapActions } from "vuex";
+import apiCall from '@/utils/api'
 
 export default {
   metaInfo: {
@@ -32,10 +33,8 @@ export default {
   data: () => ({
     positions: []
   }),
-  methods: {
-    ...mapActions("operations", {
-      getOperationDetails: OPERATION_DETAILS_REQUEST
-    })
+  methods: {   
+      getOperationDetails: (operationId) => apiCall({ url: 'operations/positions', data: { operationAcct: operationId } })      
   },
   mounted() {
     this.getOperationDetails(this.$route.params.id).then(resp => (this.positions = resp));

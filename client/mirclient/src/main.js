@@ -2,6 +2,7 @@ import Vue from 'vue'
 import App from './App.vue'
 import vuetify from './plugins/vuetify';
 import axios from 'axios'
+import moment from 'moment'
 
 import './components'
 
@@ -11,6 +12,18 @@ import './plugins'
 
 import router from '@/router'
 import store from '@/store'
+
+Vue.filter('formatDate', function(value) {
+  if (value) {
+    return moment(String(value)).format('DD.MM.YYYY hh:mm')
+  }
+})
+
+Vue.filter('shortDate', function(value) {
+  if (value) {
+    return moment(String(value)).format('DD.MM.YYYY')
+  }
+})
 
 Vue.config.productionTip = false
 

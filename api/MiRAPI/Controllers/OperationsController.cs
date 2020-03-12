@@ -31,12 +31,13 @@ namespace MiRAPI.Controllers
                 return Json(new PageResult<DataModel.OperationAggregation>
                 {
                     Items = db.Operations
+                                .Where(o => o.OperType == 2)
                                 .OrderBy(g => g.Acct)
                                 .GroupBy(g => g.Acct)
                                 .Select(_ => new DataModel.OperationAggregation()
                                     {
                                         Acct = _.Key,
-                                        OperType = _.Max(gg => gg.OperType),
+                                        Date = _.Max(gg => gg.Date),
                                         PositionsCount = _.Count()
                                     })
                                 .Skip(page.Skip)
@@ -55,6 +56,7 @@ namespace MiRAPI.Controllers
             using (var db = new MiRDB())
             {
                 return Json(db.Operations
+                    .Where(o => o.OperType == 2)
                     .Where(o => o.Acct == operationAcct)
                     .Join(db.Goods, _ => _.GoodID, _ => _.ID, (o, g) => new { g.ID, g.Name, o.Qtty }).ToArray());
             }
