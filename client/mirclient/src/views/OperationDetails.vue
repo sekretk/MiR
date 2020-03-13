@@ -1,7 +1,7 @@
 <template>
   <div>
     <h2>Содержимое продажи: {{$route.params.operationId}}</h2>
-    <v-btn class="black--text">
+    <v-btn class="black--text" @click="goBack">
       <v-icon>mdi-arrow-left-bold</v-icon>Обратно
     </v-btn>
     <v-list three-line>
@@ -9,7 +9,7 @@
         <v-list-item :key="index">
           <v-list-item-content>
             <v-list-item-title>{{position.id}}</v-list-item-title>
-            <v-list-item-subtitle>{{position.name}}</v-list-item-subtitle>
+            <v-list-item-subtitle>{{position.name}}, кол-во {{position.qtty}}</v-list-item-subtitle>
           </v-list-item-content>
 
           <v-spacer></v-spacer>
@@ -34,7 +34,10 @@ export default {
     positions: []
   }),
   methods: {   
-      getOperationDetails: (operationId) => apiCall({ url: 'operations/positions', data: { operationAcct: operationId } })      
+      getOperationDetails: (operationId) => apiCall({ url: 'operations/positions', data: { operationAcct: operationId } }),
+      goBack(){
+        this.$router.push("/operations")
+      }
   },
   mounted() {
     this.getOperationDetails(this.$route.params.id).then(resp => (this.positions = resp));
