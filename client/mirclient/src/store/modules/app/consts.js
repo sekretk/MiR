@@ -1,1 +1,4 @@
 export const ADD_ORDER = 'ADD_ORDER'
+export const CHANGE_ORDER = 'CHANGE_ORDER'
+export const OBJECTS_REQUEST = 'OBJECTS_REQUEST'
+export const SET_OBJECT = 'SET_OBJECT'

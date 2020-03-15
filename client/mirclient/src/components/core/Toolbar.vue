@@ -10,6 +10,7 @@
     </div>
 
     <v-spacer></v-spacer>
+    <v-select dense :items="objects" item-text="name" :value="currentObject" @change="changeObject"></v-select>
     <v-toolbar-items>
       <v-flex align-center layout py-2>        
         <router-link v-ripple class="toolbar-items" to="/">
@@ -86,14 +87,16 @@
 </template>
 
 <script>
-import { mapMutations, mapGetters, mapActions } from "vuex";
+import { mapMutations, mapGetters, mapActions, mapState } from "vuex";
 import vieUtils from "@/utils/viewUtils";
 import { AUTH_LOGOUT } from "@/store/modules/auth/consts";
+import { SET_OBJECT, OBJECTS_REQUEST } from "@/store/modules/app/consts";
 
 export default {
   methods: {
-    ...mapMutations("app", ["setDrawer", "toggleDrawer"]),
+    ...mapMutations("app", {setDrawer: "setDrawer", toggleDrawer: "toggleDrawer", changeObject: SET_OBJECT }),
     ...mapActions("auth", { logout: AUTH_LOGOUT }),
+    ...mapActions("app", { objectRequest: OBJECTS_REQUEST }),
     handleFullScreen() {
       vieUtils.toggleFullScreen();
     },
@@ -153,6 +156,7 @@ export default {
   computed: {
     ...mapGetters("user", ["profile"]),
     ...mapGetters("app", ["orderAmount"]),
+    ...mapState("app", ["objects", "currentObject"])
   },
   watch: {
     $route(val) {
@@ -163,6 +167,7 @@ export default {
   mounted() {
     this.onResponsiveInverted();
     window.addEventListener("resize", this.onResponsiveInverted);
+    this.objectRequest()
   },
   beforeDestroy() {
     window.removeEventListener("resize", this.onResponsiveInverted);

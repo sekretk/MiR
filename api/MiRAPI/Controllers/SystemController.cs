@@ -32,5 +32,15 @@ namespace MiRAPI.Controllers
             return Json(new { version = MiRAPI.Version.BUILD_VERSION, date = MiRAPI.Version.BUILD_DATE, changes });
         }
 
+        [HttpGet()]
+        [Route("objects")]
+        public JsonResult Objects()
+        {
+            using (var db = new MiRDB())
+            {
+                return Json(db.Objects.ToArray());
+            }
+        }
+
     }
 }

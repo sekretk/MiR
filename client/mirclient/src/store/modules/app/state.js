@@ -1,6 +1,8 @@
 export default {
     drawer: null,   
     color: 'success',
-    order: []
+    order: [],
+    objects: [],
+    currentObject: null
   }
   
