@@ -7,9 +7,9 @@ import {
 import apiCall from '@/utils/api'
 
 export default {
-  [OPERATIONS_REQUEST]: ({ commit }) => {
+  [OPERATIONS_REQUEST]: ({ commit, rootState  }) => {
     commit(OPERATIONS_REQUEST)
-    apiCall({ url: 'operations/list', data: { skip: 0, size: 10 } })
+    apiCall({ url: 'operations/list', data: { skip: 0, size: 10, objectId: rootState.app.currentObject.id } })
       .then(resp => {
         commit(OPERATIONS_SUCCESS, resp)
       })
@@ -17,9 +17,9 @@ export default {
         commit(OPERATIONS_ERROR)
       })
   },
-  [OPERATIONS_REQUEST_MORE]: ({ getters, commit }) => {
+  [OPERATIONS_REQUEST_MORE]: ({ getters, commit, rootState }) => {
     commit(OPERATIONS_REQUEST_MORE)
-    apiCall({ url: 'operations/list', data: { skip: getters.amount, size: 10 } })
+    apiCall({ url: 'operations/list', data: { skip: getters.amount, size: 10, objectId: rootState.app.currentObject.id } })
       .then(resp => {
         commit(OPERATIONS_SUCCESS, resp)
       })

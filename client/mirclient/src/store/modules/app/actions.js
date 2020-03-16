@@ -1,4 +1,4 @@
-import { OBJECTS_REQUEST } from './consts'
+import { OBJECTS_REQUEST, PING } from './consts'
 import apiCall from '@/utils/api'
 
 export default {
@@ -8,4 +8,9 @@ export default {
             commit(OBJECTS_REQUEST, resp)
           })
       },
+      [PING]: () => {
+        apiCall({ url: 'system/ping' }) .then(() => {
+          
+        })
+      }
   }

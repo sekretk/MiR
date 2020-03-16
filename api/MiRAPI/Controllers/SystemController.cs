@@ -42,5 +42,11 @@ namespace MiRAPI.Controllers
             }
         }
 
+        [HttpGet()]
+        [Route("ping")]
+        public ActionResult Ping()
+        {
+            return Ok();
+        }
     }
 }

@@ -1,46 +1,29 @@
 <template>
-  <v-app-bar id="core-toolbar" flat style="background: #eee;">
+  <v-app-bar app id="core-toolbar" flat style="background: #eee;">
     <div class="v-toolbar-title">
       <v-toolbar-title class="tertiary--text font-weight-light">
         <v-btn v-if="responsive" class="default v-btn--simple" dark icon @click.stop="onClickBtn">
           <v-icon>mdi-view-list</v-icon>
         </v-btn>
-        {{ title }}
       </v-toolbar-title>
     </div>
 
     <v-spacer></v-spacer>
     <v-select dense :items="objects" item-text="name" :value="currentObject" @change="changeObject"></v-select>
     <v-toolbar-items>
-      <v-flex align-center layout py-2>        
+      <v-flex align-center layout py-2>
         <router-link v-ripple class="toolbar-items" to="/">
           <v-icon color="tertiary">mdi-view-dashboard</v-icon>
         </router-link>
         <v-btn v-ripple light icon @click="handleFullScreen()">
           <v-icon color="rgba(0, 0, 0, 0.54)">mdi-fullscreen</v-icon>
         </v-btn>
-        <v-menu bottom left content-class="dropdown-menu" offset-y transition="slide-y-transition" :nudge-bottom="14">
-          <template v-slot:activator="{ on }">
-             <v-btn icon text slot="activator" v-on="on">
-              <v-badge color="red" overlap>
-                <span slot="badge">{{orderAmount}}</span>
-                <v-icon color="rgba(0, 0, 0, 0.54)" medium>mdi-bell</v-icon>
-              </v-badge>
-            </v-btn>
-          </template>
-
-          <v-card>
-            <v-list dense>
-              <v-list-item
-                v-for="notification in notifications"
-                :key="notification"
-                @click="onClick"
-              >
-                <v-list-item-title v-text="notification"></v-list-item-title>
-              </v-list-item>
-            </v-list>
-          </v-card>
-        </v-menu>
+        <v-btn icon text slot="activator" @click="$router.push('card')">
+          <v-badge color="red" overlap>
+            <span slot="badge">{{orderAmount}}</span>
+            <v-icon color="rgba(0, 0, 0, 0.54)" medium>mdi-bell</v-icon>
+          </v-badge>
+        </v-btn>
         <v-menu offset-y origin="center center" :nudge-bottom="10" transition="scale-transition">
           <template v-slot:activator="{ on }">
             <v-btn icon large text slot="activator" v-on="on">
@@ -94,7 +77,11 @@ import { SET_OBJECT, OBJECTS_REQUEST } from "@/store/modules/app/consts";
 
 export default {
   methods: {
-    ...mapMutations("app", {setDrawer: "setDrawer", toggleDrawer: "toggleDrawer", changeObject: SET_OBJECT }),
+    ...mapMutations("app", {
+      setDrawer: "setDrawer",
+      toggleDrawer: "toggleDrawer",
+      changeObject: SET_OBJECT
+    }),
     ...mapActions("auth", { logout: AUTH_LOGOUT }),
     ...mapActions("app", { objectRequest: OBJECTS_REQUEST }),
     handleFullScreen() {
@@ -114,7 +101,7 @@ export default {
       }
     },
     handleLogout() {
-      this.logout()
+      this.logout();
       this.$router.push({ name: "/login", params: { apiAuth: false } });
     },
     handleSetting() {},
@@ -122,14 +109,6 @@ export default {
   },
   data() {
     return {
-      notifications: [
-        "Mike, John responded to your email",
-        "You have 5 new tasks",
-        "You're now a friend with Andrew",
-        "Another Notification",
-        "Another One"
-      ],
-      title: null,
       responsive: false,
       profileItems: [
         {
@@ -158,16 +137,10 @@ export default {
     ...mapGetters("app", ["orderAmount"]),
     ...mapState("app", ["objects", "currentObject"])
   },
-  watch: {
-    $route(val) {
-      this.title = val.name;
-    }
-  },
-
   mounted() {
     this.onResponsiveInverted();
     window.addEventListener("resize", this.onResponsiveInverted);
-    this.objectRequest()
+    this.objectRequest();
   },
   beforeDestroy() {
     window.removeEventListener("resize", this.onResponsiveInverted);

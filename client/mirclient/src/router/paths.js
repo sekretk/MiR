@@ -21,7 +21,7 @@ export default [
   },
   {
     path: '/card',
-    // name: 'Заказ',
+    name: 'card',
     view: 'Card'
   },
 ]

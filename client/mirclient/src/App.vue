@@ -14,6 +14,9 @@
 </template>
 
 <script>
+import { mapActions} from "vuex";
+import {PING} from  '@/store/modules/app/consts'
+
 export default {
   metaInfo: {
     title: "Главная",
@@ -27,7 +30,13 @@ export default {
     isLogin: function() {
       return this.$route.name == "login";
     }
-  }
+  },
+  mounted() {
+    this.ping()
+  },
+   methods: {    
+    ...mapActions("app", { ping: PING }),
+   }
 };
 </script>
 
