@@ -1,5 +1,5 @@
 <template>
-  <v-app-bar app id="core-toolbar" flat style="background: #eee;" elevate-on-scroll>                
+  <v-app-bar app id="core-toolbar" flat style="background: #eee;" elevate-on-scroll>
     <v-toolbar-title class="tertiary--text font-weight-light">
       <v-btn v-if="responsive" class="default v-btn--simple" dark icon @click.stop="toggleDrawer">
         <v-icon>mdi-view-list</v-icon>
@@ -7,63 +7,62 @@
     </v-toolbar-title>
     <v-select
       dense
-      full-width="80"
+      full-width
       :items="objects"
       item-text="name"
       item-value="id"
       :value="currentObject"
       @change="changeObject"
-    ></v-select>     
-      <router-link v-ripple class="toolbar-items" to="/">
-          <v-icon color="tertiary">mdi-view-dashboard</v-icon>
-        </router-link>
-          <v-btn icon text slot="activator" @click="$router.push('card')">
-          <v-badge color="red" overlap>
-            <span slot="badge">{{orderAmount}}</span>
-            <v-icon color="rgba(0, 0, 0, 0.54)" medium>mdi-bell</v-icon>
-          </v-badge>
+    ></v-select>
+    <router-link v-ripple class="toolbar-items" to="/">
+      <v-icon color="tertiary">mdi-view-dashboard</v-icon>
+    </router-link>
+    <v-btn icon text slot="activator" @click="$router.push('card')">
+      <v-badge color="red" overlap>
+        <span slot="badge">{{orderAmount}}</span>
+        <v-icon color="rgba(0, 0, 0, 0.54)" medium>mdi-bell</v-icon>
+      </v-badge>
+    </v-btn>
+    <v-menu offset-y origin="center center" :nudge-bottom="10" transition="scale-transition">
+      <template v-slot:activator="{ on }">
+        <v-btn icon large text slot="activator" v-on="on">
+          <v-avatar size="30px">
+            <v-icon color="rgba(0, 0, 0, 0.54)">mdi-account</v-icon>
+          </v-avatar>
         </v-btn>
+      </template>
 
-        <v-menu offset-y origin="center center" :nudge-bottom="10" transition="scale-transition">
-          <template v-slot:activator="{ on }">
-            <v-btn icon large text slot="activator" v-on="on">
-              <v-avatar size="30px">
-                <v-icon color="rgba(0, 0, 0, 0.54)">mdi-account</v-icon>
-              </v-avatar>
-            </v-btn>
-          </template>
-
-          <v-list class="pa-0">
-            <v-list-item ripple="ripple" rel="noopener">
-              <v-list-item-content>
-                <v-list-item-title class="text-uppercase">{{ profile.role }}</v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
-            <v-list-item ripple="ripple" rel="noopener">
-              <v-list-item-content>
-                <v-list-item-title>{{ profile.name }}</v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
-            <v-list-item
-              v-for="(item, index) in profileItems"
-              :to="!item.href ? { name: item.name } : null"
-              :href="item.href"
-              @click="item.click"
-              ripple="ripple"
-              :disabled="item.disabled"
-              :target="item.target"
-              rel="noopener"
-              :key="index"
-            >
-              <v-list-item-action v-if="item.icon">
-                <v-icon>{{ item.icon }}</v-icon>
-              </v-list-item-action>
-              <v-list-item-content>
-                <v-list-item-title>{{ item.title }}</v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
-          </v-list>
-        </v-menu>
+      <v-list class="pa-0">
+        <v-list-item ripple="ripple" rel="noopener">
+          <v-list-item-content>
+            <v-list-item-title class="text-uppercase">{{ profile.role }}</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item ripple="ripple" rel="noopener">
+          <v-list-item-content>
+            <v-list-item-title>{{ profile.name }}</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item
+          v-for="(item, index) in profileItems"
+          :to="!item.href ? { name: item.name } : null"
+          :href="item.href"
+          @click="item.click"
+          ripple="ripple"
+          :disabled="item.disabled"
+          :target="item.target"
+          rel="noopener"
+          :key="index"
+        >
+          <v-list-item-action v-if="item.icon">
+            <v-icon>{{ item.icon }}</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>{{ item.title }}</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
+    </v-menu>
   </v-app-bar>
 </template>
 
@@ -143,8 +142,11 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
 #core-toolbar a {
   text-decoration: none;
+}
+.v-toolbar__content{
+  flex-direction: row;
 }
 </style>
