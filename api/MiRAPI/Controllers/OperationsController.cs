@@ -28,10 +28,15 @@ namespace MiRAPI.Controllers
         {
             using (var db = new MiRDB())
             {
+                Func<Operation, bool> opFilter = 
+                    o => o.OperType == 2 
+                            && o.ObjectID == page.ObjectId 
+                            && o.Date == page.Date.Date;
+
                 return Json(new PageResult<DataModel.OperationAggregation>
                 {
                     Items = db.Operations
-                                .Where(o => o.OperType == 2 && o.ObjectID == page.ObjectId)
+                                .Where(opFilter)
                                 .OrderBy(g => g.Acct)
                                 .GroupBy(g => g.Acct)
                                 .Select(_ => new DataModel.OperationAggregation()
@@ -44,7 +49,7 @@ namespace MiRAPI.Controllers
                                 .Take(page.Size)
                                 .ToArray(),
                     Skiped = page.Skip,
-                    TotalAmount = db.Operations.Where(o => o.OperType == 2 && o.ObjectID == page.ObjectId).GroupBy(g => g.Acct).Count()
+                    TotalAmount = db.Operations.Where(opFilter).GroupBy(g => g.Acct).Count()
                 });
             }
         }

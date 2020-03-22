@@ -47,18 +47,18 @@ export default {
     const idx = objects.indexOf(foundObject)
 
     if (idx < 0 && objects && objects.length > 0){
-      state.currentObject = objects[0]    
+      state.currentObject = objects[0].id    
     }
     else
     {     
-      state.currentObject = objects[idx]
+      state.currentObject = objects[idx].id
     }
 
     localStorage.setItem("objectId", state.currentObject.id)
   },
 
   [SET_OBJECT]: (state, object) => {
-    localStorage.setItem("objectId", object.id)
+    localStorage.setItem("objectId", object)
     state.currentObject = object
   },
 }

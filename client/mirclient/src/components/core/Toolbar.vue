@@ -9,7 +9,7 @@
     </div>
 
     <v-spacer></v-spacer>
-    <v-select dense :items="objects" item-text="name" :value="currentObject" @change="changeObject"></v-select>
+    <v-select dense :items="objects" item-text="name" item-value="id" :value="currentObject" @change="changeObject"></v-select>
     <v-toolbar-items>
       <v-flex align-center layout py-2>
         <router-link v-ripple class="toolbar-items" to="/">

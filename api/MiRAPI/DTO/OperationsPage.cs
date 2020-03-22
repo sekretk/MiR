@@ -8,5 +8,7 @@ namespace MiRAPI.DTO
     public class OperationsPage : Page
     {
         public int ObjectId { get; set; }
+
+        public DateTime Date { get; set; }
     }
 }

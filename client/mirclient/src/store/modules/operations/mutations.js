@@ -1,4 +1,4 @@
-import { OPERATIONS_REQUEST, OPERATIONS_REQUEST_MORE, OPERATIONS_SUCCESS, OPERATIONS_ERROR } from './consts'
+import { OPERATIONS_REQUEST, OPERATIONS_REQUEST_MORE, OPERATIONS_SUCCESS, OPERATIONS_ERROR, MOVE_SELECTED_DATE } from './consts'
 import Vue from 'vue'
 
 export default {
@@ -19,5 +19,8 @@ export default {
         state.status = 'error'
         Vue.set(state, 'operations', [])
         state.totalOperations = 0
+      },
+      [MOVE_SELECTED_DATE]: (state, shift) => {
+        state.selectedDate = state.selectedDate.addDays(shift)
       },
 }
