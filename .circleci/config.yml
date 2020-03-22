@@ -5,6 +5,6 @@ jobs:
       - image: circleci/node:latest # the primary container, where your job's commands are run
     steps:
       - checkout # check out the code in the project directory
-      - run: cd client/mirclient && npm install -g npm@latest
+      - run: cd client/mirclient && sudo npm install -g npm@latest
       - run: cd client/mirclient && npm install
       - run: cd client/mirclient && npm run build
