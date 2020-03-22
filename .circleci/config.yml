@@ -1,19 +1,10 @@
 version: 2.1
 jobs:
-  build:
-    working_directory: ~/client/mirclient
+  build:    
     docker: 
       - image: circleci/node:latest # the primary container, where your job's commands are run
     steps:
       - checkout # check out the code in the project directory
-      - run:
-          name: update-npm
-          command: 'sudo npm install -g npm@latest'      
-      - run:
-          name: install-npm-wee
-          command: npm install
-      - save_cache: # special step to save the dependency cache
-          key: dependency-cache-{{ checksum "package-lock.json" }}
-          paths:
-            - ./node_modules
-      - run: npm run build
+      - run: cd client/mirclient && 'sudo npm install -g npm@latest'      
+      - run: cd client/mirclient && npm install
+      - run: cd client/mirclient && npm run build
