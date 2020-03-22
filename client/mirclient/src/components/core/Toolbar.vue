@@ -1,32 +1,29 @@
 <template>
-  <v-app-bar app id="core-toolbar" flat style="background: #eee;" elevate-on-scroll>
+  <v-app-bar app id="core-toolbar" flat style="background: #eee;" elevate-on-scroll>                
     <v-toolbar-title class="tertiary--text font-weight-light">
-      <v-btn v-if="responsive" class="default v-btn--simple" dark icon @click.stop="onClickBtn">
+      <v-btn v-if="responsive" class="default v-btn--simple" dark icon @click.stop="toggleDrawer">
         <v-icon>mdi-view-list</v-icon>
       </v-btn>
     </v-toolbar-title>
     <v-select
       dense
+      full-width="80"
       :items="objects"
       item-text="name"
       item-value="id"
       :value="currentObject"
       @change="changeObject"
-    ></v-select>
-    <v-toolbar-items>
-      <v-flex align-center layout py-2>
-        <router-link v-ripple class="toolbar-items" to="/">
+    ></v-select>     
+      <router-link v-ripple class="toolbar-items" to="/">
           <v-icon color="tertiary">mdi-view-dashboard</v-icon>
         </router-link>
-        <!-- <v-btn v-ripple light icon @click="handleFullScreen()">
-          <v-icon color="rgba(0, 0, 0, 0.54)">mdi-fullscreen</v-icon>
-        </v-btn>-->
-        <v-btn icon text slot="activator" @click="$router.push('card')">
+          <v-btn icon text slot="activator" @click="$router.push('card')">
           <v-badge color="red" overlap>
             <span slot="badge">{{orderAmount}}</span>
             <v-icon color="rgba(0, 0, 0, 0.54)" medium>mdi-bell</v-icon>
           </v-badge>
         </v-btn>
+
         <v-menu offset-y origin="center center" :nudge-bottom="10" transition="scale-transition">
           <template v-slot:activator="{ on }">
             <v-btn icon large text slot="activator" v-on="on">
@@ -67,8 +64,6 @@
             </v-list-item>
           </v-list>
         </v-menu>
-      </v-flex>
-    </v-toolbar-items>
   </v-app-bar>
 </template>
 
@@ -89,9 +84,6 @@ export default {
     ...mapActions("app", { objectRequest: OBJECTS_REQUEST }),
     handleFullScreen() {
       vieUtils.toggleFullScreen();
-    },
-    onClickBtn() {
-      this.setDrawer(!this.$store.state.app.drawer);
     },
     onClick() {
       //
