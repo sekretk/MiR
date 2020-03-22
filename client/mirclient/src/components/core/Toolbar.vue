@@ -1,23 +1,26 @@
 <template>
-  <v-app-bar app id="core-toolbar" flat style="background: #eee;">
-    <div class="v-toolbar-title">
-      <v-toolbar-title class="tertiary--text font-weight-light">
-        <v-btn v-if="responsive" class="default v-btn--simple" dark icon @click.stop="onClickBtn">
-          <v-icon>mdi-view-list</v-icon>
-        </v-btn>
-      </v-toolbar-title>
-    </div>
-
-    <v-spacer></v-spacer>
-    <v-select dense :items="objects" item-text="name" item-value="id" :value="currentObject" @change="changeObject"></v-select>
+  <v-app-bar app id="core-toolbar" flat style="background: #eee;" elevate-on-scroll>
+    <v-toolbar-title class="tertiary--text font-weight-light">
+      <v-btn v-if="responsive" class="default v-btn--simple" dark icon @click.stop="onClickBtn">
+        <v-icon>mdi-view-list</v-icon>
+      </v-btn>
+    </v-toolbar-title>
+    <v-select
+      dense
+      :items="objects"
+      item-text="name"
+      item-value="id"
+      :value="currentObject"
+      @change="changeObject"
+    ></v-select>
     <v-toolbar-items>
       <v-flex align-center layout py-2>
         <router-link v-ripple class="toolbar-items" to="/">
           <v-icon color="tertiary">mdi-view-dashboard</v-icon>
         </router-link>
-        <v-btn v-ripple light icon @click="handleFullScreen()">
+        <!-- <v-btn v-ripple light icon @click="handleFullScreen()">
           <v-icon color="rgba(0, 0, 0, 0.54)">mdi-fullscreen</v-icon>
-        </v-btn>
+        </v-btn>-->
         <v-btn icon text slot="activator" @click="$router.push('card')">
           <v-badge color="red" overlap>
             <span slot="badge">{{orderAmount}}</span>
