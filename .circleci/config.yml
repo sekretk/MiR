@@ -8,10 +8,7 @@ jobs:
       - checkout # check out the code in the project directory
       - run:
           name: update-npm
-          command: 'sudo npm install -g npm@latest'
-      - restore_cache: # special step to restore the dependency cache
-          # Read about caching dependencies: https://circleci.com/docs/2.0/caching/
-          key: dependency-cache-{{ checksum "package-lock.json" }}
+          command: 'sudo npm install -g npm@latest'      
       - run:
           name: install-npm-wee
           command: npm install
