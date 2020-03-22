@@ -1,7 +1,7 @@
 version: 2.1
 jobs:
   build:
-     working_directory: ~/client/mirclient
+    working_directory: ~/client/mirclient
     docker: 
       - image: circleci/node:4.8.2 # the primary container, where your job's commands are run
     steps:
