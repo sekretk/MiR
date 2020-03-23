@@ -40,6 +40,9 @@ export default {
   [OBJECTS_REQUEST]: (state, objects) => {
     Vue.set(state, 'objects', objects)
 
+    if (!objects)
+      return
+
     const objectId = localStorage.getItem("objectId")
 
     const foundObject = objects.find(o => o.id == objectId)

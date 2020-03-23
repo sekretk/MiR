@@ -57,9 +57,12 @@ namespace MiRAPI.Controllers
                                 .Select(_ => new DataModel.OperationAggregation()
                                     {
                                         Acct = _.Key,
-                                        Date = _.Max(gg => gg.Date),
-                                        PositionsCount = _.Count()
-                                    })
+                                        Date = _.Max(gg => gg.UserRealTime),
+                                        PositionsCount = _.Count(),
+                                        GoodsAmount = (int)_.Sum(i => i.Qtty.GetValueOrDefault()),
+                                        Card = (decimal)db.Payments.Where(p => p.ObjectID == page.ObjectId && p.Acct == _.Key && p.OperType == 2 && p.Type == 3 && p.Mode == 1).Sum(_p => _p.Qtty.GetValueOrDefault()),
+                                        Cash = (decimal)db.Payments.Where(p => p.ObjectID == page.ObjectId && p.Acct == _.Key && p.OperType == 2 && p.Type == 1 && p.Mode == 1).Sum(_p => _p.Qtty.GetValueOrDefault()),
+                                })
                                 .Skip(page.Skip)
                                 .Take(page.Size)
                                 .ToArray(),

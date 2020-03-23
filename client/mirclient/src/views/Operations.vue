@@ -27,10 +27,12 @@
     <v-list three-line>
       <template v-for="(operation, index) in operations">
         <v-list-item :key="index" @click="openDetails(operation.acct)">
-          <v-list-item-content>
-            <v-list-item-title>{{operation.acct}} - {{operation.date | shortDate}}</v-list-item-title>
-            <v-list-item-subtitle>Позиции: {{operation.positionsCount}}</v-list-item-subtitle>
-          </v-list-item-content>
+          <span>{{operation.acct}}</span>          
+          <span>в {{operation.date | onlyTime}}</span>
+          <span>позиц. {{operation.positionsCount}}</span>
+          <span>кол-во. {{operation.goodsAmount}}</span>
+          <span>Нал. {{operation.cash}}</span>
+          <span>Безнал. {{operation.card}}</span>
         </v-list-item>
 
         <v-divider :key="index+'_'" inset></v-divider>

@@ -25,6 +25,12 @@ Vue.filter('shortDate', function(value) {
   }
 })
 
+Vue.filter('onlyTime', function(value) {
+  if (value) {
+    return moment(String(value)).format('hh.mm')
+  }
+})
+
 Date.prototype.addDays = function(days) {
   var date = new Date(this.valueOf());
   date.setDate(date.getDate() + days);
