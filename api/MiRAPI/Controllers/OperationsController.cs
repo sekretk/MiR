@@ -33,7 +33,22 @@ namespace MiRAPI.Controllers
                             && o.ObjectID == page.ObjectId 
                             && o.Date == page.Date.Date;
 
-                return Json(new PageResult<DataModel.OperationAggregation>
+                var payments =
+                    from o in db.Operations.Where(opFilter).ToArray()
+                    join p in db.Payments.Where(_ => _.Mode == 1)
+                    on new { o.Acct, o.ObjectID, o.OperType } equals new { p.Acct, p.ObjectID, p.OperType } 
+                    select new { p.Type, p.Mode, p.Qtty };
+
+
+                var cash = payments.Where(_ => _.Type == 1/*cash*/).Sum(_ => _.Qtty);
+                var card = payments.Where(_ => _.Type == 3/*card*/).Sum(_ => _.Qtty);
+
+                var operationsCount = db.Operations.Where(opFilter).GroupBy(g => g.Acct).ToArray().Count();
+
+                var averageWeight = operationsCount == 0 ? 0 :
+                    db.Operations.Where(opFilter).ToArray().Sum(_ => _.Qtty * _.PriceOut) / operationsCount;
+
+                return Json(new OperationsResult
                 {
                     Items = db.Operations
                                 .Where(opFilter)
@@ -49,7 +64,11 @@ namespace MiRAPI.Controllers
                                 .Take(page.Size)
                                 .ToArray(),
                     Skiped = page.Skip,
-                    TotalAmount = db.Operations.Where(opFilter).GroupBy(g => g.Acct).Count()
+                    Date = page.Date.Date,
+                    TotalAmount = operationsCount,
+                    Cash = (decimal)cash,
+                    Card = (decimal)cash,
+                    Average = (decimal)averageWeight
                 });
             }
         }

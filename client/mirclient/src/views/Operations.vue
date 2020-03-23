@@ -11,6 +11,12 @@
         <v-icon>mdi-arrow-right-box</v-icon>
       </v-btn>
     </v-row>
+    <v-row>
+      <span  class="ml-5">Всего операций: {{totalOperations}}</span>| 
+      <span>Нал: {{cash}}</span>|
+      <span>Безнал: {{card}}</span>|
+      <span>Средний чек: {{average}}</span>
+    </v-row>
     <v-progress-linear
       :active="loading"
       :indeterminate="loading"
@@ -71,7 +77,7 @@ export default {
     this.getOperations();
   },
   computed: {
-    ...mapState("operations", ["operations", "selectedDate"]),
+    ...mapState("operations", ["operations", "selectedDate", "totalOperations", "cash", "card", "average"]),
     ...mapGetters("operations", {
       haveMore: "haveMoreOperations",
       loading: "loading"
