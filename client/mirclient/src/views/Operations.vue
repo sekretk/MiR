@@ -15,7 +15,7 @@
       <span  class="ml-5">Всего операций: {{totalOperations}}</span>| 
       <span>Нал: {{cash}}</span>|
       <span>Безнал: {{card}}</span>|
-      <span>Средний чек: {{average}}</span>
+      <span>Средний чек: {{average.toFixed(2)}}</span>
     </v-row>
     <v-progress-linear
       :active="loading"

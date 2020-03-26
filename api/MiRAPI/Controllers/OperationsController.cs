@@ -70,7 +70,7 @@ namespace MiRAPI.Controllers
                     Date = page.Date.Date,
                     TotalAmount = operationsCount,
                     Cash = (decimal)cash,
-                    Card = (decimal)cash,
+                    Card = (decimal)card,
                     Average = (decimal)averageWeight
                 });
             }

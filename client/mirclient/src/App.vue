@@ -10,7 +10,7 @@
 
       <core-view />
     </template>
-    <p class="appversion">Версия: {{Version}}, Дата: {{VersionDate}}</p>
+    <span class="appversion">Версия: {{Version}}, Дата: {{VersionDate}}</span>
   </v-app>
 </template>
 
@@ -56,12 +56,12 @@ export default {
   vertical-align: unset;
 }
 
-p.appversion {
+span.appversion {
   margin-bottom: 0px;
   position: fixed;
   bottom: 3px;
   right: 10px;
-  font-size: 7px;
+  font-size: 9px;
   color: brown;
 }
 </style>
