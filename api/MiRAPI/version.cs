@@ -1,1 +1,1 @@
-namespace MiRAPI { public static class Version { public const string BUILD_VERSION = "d0.29"; public const string BUILD_DATE = "26.03.2020";}} 
+namespace MiRAPI { public static class Version { public const string BUILD_VERSION = "d0.30"; public const string BUILD_DATE = "27.03.2020";}} 
