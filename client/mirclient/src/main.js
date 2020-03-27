@@ -31,6 +31,15 @@ Vue.filter('onlyTime', function(value) {
   }
 })
 
+Vue.filter('numFormat', function (value) {
+  var formatter = new Intl.NumberFormat('ru-RU', {
+    style: 'currency',
+    currency: 'RUB',
+  });
+  
+  return formatter.format(value);
+  })
+
 Date.prototype.addDays = function(days) {
   var date = new Date(this.valueOf());
   date.setDate(date.getDate() + days);

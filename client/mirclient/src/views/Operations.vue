@@ -12,10 +12,11 @@
       </v-btn>
     </v-row>
     <v-row>
-      <span  class="ml-5">Всего операций: {{totalOperations}}</span>| 
-      <span>Нал: {{cash}}</span>|
-      <span>Безнал: {{card}}</span>|
-      <span>Средний чек: {{average.toFixed(2)}}</span>
+      <span class="ml-6">Всего операций: {{totalOperations}}</span>
+      <span class="ml-1">Выручка: {{cash+card | numFormat}}</span>
+      <span class="ml-1">Нал: {{cash | numFormat}}</span>
+      <span class="ml-1">Безнал: {{card | numFormat}}</span>
+      <span class="ml-1">Средний чек: {{average.toFixed(2)}}</span>
     </v-row>
     <v-progress-linear
       :active="loading"
@@ -27,12 +28,12 @@
     <v-list three-line>
       <template v-for="(operation, index) in operations">
         <v-list-item :key="index" @click="openDetails(operation.acct)">
-          <span>{{operation.acct}}</span>          
-          <span>в {{operation.date | onlyTime}}</span>
-          <span>позиц. {{operation.positionsCount}}</span>
-          <span>кол-во. {{operation.goodsAmount}}</span>
-          <span>Нал. {{operation.cash}}</span>
-          <span>Безнал. {{operation.card}}</span>
+          <span>{{operation.acct}}</span>
+          <span class="ml-1">в {{operation.date | onlyTime}}</span>
+          <span class="ml-1">позиц. {{operation.positionsCount}}</span>
+          <span class="ml-1">кол-во. {{operation.goodsAmount}}</span>
+          <span class="ml-1">Нал. {{operation.cash | numFormat}}</span>
+          <span class="ml-1">Безнал. {{operation.card | numFormat}}</span>
         </v-list-item>
 
         <v-divider :key="index+'_'" inset></v-divider>
@@ -79,14 +80,21 @@ export default {
     this.getOperations();
   },
   computed: {
-    ...mapState("operations", ["operations", "selectedDate", "totalOperations", "cash", "card", "average"]),
+    ...mapState("operations", [
+      "operations",
+      "selectedDate",
+      "totalOperations",
+      "cash",
+      "card",
+      "average"
+    ]),
     ...mapGetters("operations", {
       haveMore: "haveMoreOperations",
       loading: "loading"
     }),
     ...mapState("app", ["currentObject"]),
     canGoFurther: function() {
-      return this.selectedDate < (new Date()).addDays(-1);
+      return this.selectedDate < new Date().addDays(-1);
     }
   },
   watch: {

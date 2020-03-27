@@ -52,7 +52,7 @@ namespace MiRAPI.Controllers
                 {
                     Items = db.Operations
                                 .Where(opFilter)
-                                .OrderBy(g => g.Acct)
+                                .OrderByDescending(g => g.Acct)
                                 .GroupBy(g => g.Acct)
                                 .Select(_ => new DataModel.OperationAggregation()
                                     {
