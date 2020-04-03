@@ -8,5 +8,7 @@ namespace MiRAPI.DTO
     public class GoodsFilter : Page
     {
         public int? GroupId { get; set; }
+
+        public int? ObjectId { get; set; }
     }
 }

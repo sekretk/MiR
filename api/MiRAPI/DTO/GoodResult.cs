@@ -14,20 +14,17 @@ namespace MiRAPI.DTO
 
         public string Name { get; set; }
 
-        public GoodResult(Good good)
+        public double? Quantity { get; set; } 
+
+        public GoodResult(string name, int id, double? qtty, bool isGroup)
         {
-            Name = good.Name;
+            Name = name;
 
-            ID = good.ID;
-        }
+            ID = id;
 
-        public GoodResult(GoodsGroup goodGroup)
-        {
-            IsGroup = true;
+            Quantity = qtty;
 
-            Name = goodGroup.Name;
-
-            ID = goodGroup.ID;
+            IsGroup = isGroup;
         }
     }
 }

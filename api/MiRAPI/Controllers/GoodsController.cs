@@ -30,33 +30,37 @@ namespace MiRAPI.Controllers
             {
                 IEnumerable<GoodResult> filterResult;
 
+                IEnumerable<GoodResult> groupResults;
+                IEnumerable<Good> rawFilteredGoods;
+
                 if (filter.GroupId.HasValue)
                 {
                     var parentGroup = db.GoodsGroups.FirstOrDefault(gg => gg.ID == filter.GroupId);
 
-                    var groupResults = db.GoodsGroups
+                    groupResults = db.GoodsGroups
                                             .Where(gg => gg.Code.StartsWith(parentGroup.Code) && gg.ID != parentGroup.ID)
-                                            .Select(gg => new GoodResult(gg))
-                                            .ToArray();
+                                            .Select(gg => new GoodResult(gg.Name, gg.ID, null, true));
 
-                    filterResult = db.Goods
-                        .Where(g => g.GroupID == filter.GroupId)
-                        .Select(g => new GoodResult(g))
-                        .ToArray()
-                        .Union(groupResults);
+                    rawFilteredGoods = db.Goods.Where(g => g.GroupID == filter.GroupId);
                 }
                 else
-                    filterResult =
-                        db.GoodsGroups
-                            .Where(gg => gg.Code.Length == 3)
-                            .Select(gg => new GoodResult(gg))
-                            .ToArray()
-                            .Union(
-                                db.Goods
-                                    .Where(g => g.GroupID == -1 || g.GroupID == 1 /*служебная группа*/)
-                                    .Select(g => new GoodResult(g))
-                                    .ToArray()
-                                );
+                {
+                    rawFilteredGoods = db.Goods.Where(g => g.GroupID == -1 || g.GroupID == 1 /*служебная группа*/);
+
+
+                    groupResults = db.GoodsGroups
+                                           .Where(gg => gg.Code.Length == 3)
+                                           .Select(gg => new GoodResult(gg.Name, gg.ID, null, true));
+                }
+
+                IEnumerable<GoodResult> storeGoods =
+                        from good in db.Goods.Where(g => g.GroupID == filter.GroupId)
+                        join stores in db.Stores on good.ID equals stores.GoodID into goodsStore
+                        from gs in goodsStore
+                        where gs.ObjectID == filter.ObjectId
+                        select new GoodResult(good.Name, good.ID, gs.Qtty, false);
+
+                filterResult = storeGoods.ToArray().Union(groupResults.ToArray());
 
                 return Json(new GoodsPageResult
                 {

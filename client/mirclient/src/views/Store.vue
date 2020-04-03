@@ -26,6 +26,7 @@
 
           <v-list-item-action>
             <v-flex>
+              {{good.quantity}}
               <v-tooltip bottom >
                 <template v-slot:activator="{ on }">
                   <v-btn text icon color="teal darken-1" v-on="on" @click="addOrder(good)">
@@ -84,11 +85,15 @@ export default {
   watch: {
     $route(to) {
       this.getGoods(to.params ? to.params.groupId : null);
-    }
+    },
+    currentObject: function() {
+      this.getOperations();
+    },
   },
   computed: {
     ...mapState("goods", ["goods"]),
-    ...mapGetters("goods", { haveMore: "haveMoreGoods", loading: "loading" })
+    ...mapGetters("goods", { haveMore: "haveMoreGoods", loading: "loading" }),
+    ...mapState("app", ["currentObject"]),
   }
 };
 </script>
