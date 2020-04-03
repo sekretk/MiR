@@ -34,11 +34,10 @@ namespace MiRAPI.Controllers
                             && o.Date == page.Date.Date;
 
                 var payments =
-                    from o in db.Operations.Where(opFilter).ToArray()
+                    (from o in db.Operations.Where(opFilter).ToArray()
                     join p in db.Payments.Where(_ => _.Mode == 1)
                     on new { o.Acct, o.ObjectID, o.OperType } equals new { p.Acct, p.ObjectID, p.OperType } 
-                    select new { p.Type, p.Mode, p.Qtty };
-
+                    select new { p.Type, p.Mode, p.Qtty }).Distinct();
 
                 var cash = payments.Where(_ => _.Type == 1/*cash*/).Sum(_ => _.Qtty);
                 var card = payments.Where(_ => _.Type == 3/*card*/).Sum(_ => _.Qtty);
