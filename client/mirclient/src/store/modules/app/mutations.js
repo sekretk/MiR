@@ -20,7 +20,7 @@ export default {
     }
   },
   [CHANGE_ORDER]: (state, {good, delta}) => {
-    const foundgood = state.order.find(oi => oi.good == good.good)
+    const foundgood = state.order.find(oi => oi.good == good)
 
     const idx = state.order.indexOf(foundgood)
 

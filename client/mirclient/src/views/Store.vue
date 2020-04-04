@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="goods-container">
     <h2>Склад</h2>
     <v-progress-linear
       :active="loading"
@@ -8,38 +8,59 @@
       bottom
       color="deep-purple accent-4"
     ></v-progress-linear>
-    <v-list three-line>
+    <v-list>
       <template v-for="(good, index) in goods">
         <v-list-item :key="index" v-if="good.isGroup" class="group" @click="gotoGroup(good)">
-          <v-list-item-content>
-            <v-list-item-title v-html="good.id"></v-list-item-title>
-            <v-list-item-subtitle v-html="good.name"></v-list-item-subtitle>
+          <p class="store-id">{{good.id}}</p>
+          <v-list-item-content class="ml-4 pa-0">
+            <p>{{good.name}}</p>
           </v-list-item-content>
-        </v-list-item>
-        <v-list-item :key="index" v-else>
-          <v-list-item-content>
-            <v-list-item-title v-html="good.id"></v-list-item-title>
-            <v-list-item-subtitle v-html="good.name"></v-list-item-subtitle>
-          </v-list-item-content>
-
-          <v-spacer></v-spacer>
-
           <v-list-item-action>
-            <v-flex>
-              {{good.quantity}}
-              <v-tooltip bottom >
-                <template v-slot:activator="{ on }">
-                  <v-btn text icon color="teal darken-1" v-on="on" @click="addOrder(good)">
-                    <v-icon>mdi-plus-box</v-icon>
-                  </v-btn>
-                </template>
-                <span class="white--text">Заказать</span>
-              </v-tooltip>
-            </v-flex>
+            <v-icon large color="green darken-3">mdi-folder</v-icon>
           </v-list-item-action>
         </v-list-item>
+        <v-list-item :key="index" v-else>
+          <p class="store-id">{{good.id}}</p>
+          <v-list-item-content class="ml-4 pa-0">
+            <p>{{good.name}}</p>
+          </v-list-item-content>
+          <v-list-item-action>
+            <v-row class="pt-3">
+              <div v-if="goodsOrderCount(good) == 0">
+                <v-tooltip bottom>
+                  <template v-slot:activator="{ on }">
+                    <v-btn icon color="teal darken-1" v-on="on" @click="addOrder(good)">
+                      <v-icon large>mdi-folder-plus</v-icon>
+                    </v-btn>
+                  </template>
+                  <span class="white--text">Заказать</span>
+                </v-tooltip>
+              </div>
+              <div v-else>
+                <v-tooltip bottom>
+                  <template v-slot:activator="{ on }">
+                    <v-btn v-on="on" icon color="red darken-1" @click="changeCount({good, delta: -1})">
+                      <v-icon large>mdi-minus-box</v-icon>
+                    </v-btn>
+                  </template>
+                  <span class="white--text">Уменьшить</span>
+                </v-tooltip>
+                {{goodsOrderCount(good)}}
+                <v-tooltip bottom>
+                  <template v-slot:activator="{ on }">
+                    <v-btn v-on="on" icon color="teal darken-1" @click="changeCount({good, delta: 1})">
+                      <v-icon large>mdi-plus-box</v-icon>
+                    </v-btn>
+                  </template>
+                  <span class="white--text">Добавить</span>
+                </v-tooltip>
+              </div>
+            </v-row>
+          </v-list-item-action>
+          <p class="store-quantity">Кол-во: {{good.quantity}}</p>
+        </v-list-item>
 
-        <v-divider :key="index+'_'" inset></v-divider>
+        <v-divider :key="index+'_'"></v-divider>
       </template>
     </v-list>
     <v-row>
@@ -56,9 +77,7 @@ import {
   GOODS_REQUEST_MORE
 } from "@/store/modules/goods/consts";
 
-import {
-  ADD_ORDER
-} from "@/store/modules/app/consts";
+import { ADD_ORDER, CHANGE_ORDER } from "@/store/modules/app/consts";
 
 import { mapActions, mapState, mapGetters, mapMutations } from "vuex";
 
@@ -72,12 +91,13 @@ export default {
       getMore: GOODS_REQUEST_MORE
     }),
     ...mapMutations("app", {
-      addOrder: ADD_ORDER
+      addOrder: ADD_ORDER,
+      changeCount: CHANGE_ORDER
     }),
     gotoGroup(good) {
       if (this.$route.params && good.id != this.$route.params.groupId)
         this.$router.push({ name: "store", params: { groupId: good.id } });
-    }
+    },
   },
   mounted() {
     this.getGoods(this.$route.params ? this.$route.params.groupId : null);
@@ -88,18 +108,13 @@ export default {
     },
     currentObject: function() {
       this.getOperations();
-    },
+    }
   },
   computed: {
     ...mapState("goods", ["goods"]),
     ...mapGetters("goods", { haveMore: "haveMoreGoods", loading: "loading" }),
-    ...mapState("app", ["currentObject"]),
+    ...mapGetters("app", { goodsOrderCount: "goodInOrder" }),
+    ...mapState("app", ["currentObject"])
   }
 };
 </script>
-
-<style scoped>
-.group {
-  background-color: lightblue;
-}
-</style>

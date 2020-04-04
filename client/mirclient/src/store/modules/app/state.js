@@ -3,6 +3,6 @@ export default {
     color: 'success',
     order: [],
     objects: [],
-    currentObject: null
+    currentObject: null,
   }
   

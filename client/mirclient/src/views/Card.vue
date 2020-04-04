@@ -1,40 +1,52 @@
 <template>
-  <div>
-    <h2>Заказ</h2>
-    <v-list three-line>
+  <div class="goods-container">
+    <h2 class="ml-2">Заказ</h2>
+    <div class="ml-2 mr-2" v-if="goods.length == 0">
+      <p>Ещё не выбраны позиции</p>
+      <v-row align="center" justify="center">
+        <v-btn class="red--text"  color="tean darken-1" @click="gotoStore">Перейти к складу</v-btn>
+      </v-row>
+    </div>
+    <v-list v-else>
       <template v-for="(good, index) in goods">
         <v-list-item :key="index">
-          <v-list-item-content>
-            <v-list-item-title v-html="good.good.id"></v-list-item-title>
-            <v-list-item-subtitle v-html="good.good.name"></v-list-item-subtitle>
+          <p class="store-id">{{good.good.id}}</p>
+          <v-list-item-content class="ml-4 pa-0">
+            <p>{{good.good.name}}</p>
           </v-list-item-content>
-
-          <v-spacer></v-spacer>
-
           <v-list-item-action>
-            <v-flex>
-              <v-btn
-                text
-                icon
-                color="red darken-1"
-                @click="changeCount({good, delta: -1})"
-              >
-                <v-icon>mdi-minus-box</v-icon>
-              </v-btn>
+            <v-row align="center" justify="center">
+              <v-tooltip bottom>
+                <template v-slot:activator="{ on }">
+                  <v-btn
+                    v-on="on"
+                    icon
+                    color="red darken-1"
+                    @click="changeCount({good: good.good, delta: -1})"
+                  >
+                    <v-icon large>mdi-minus-box</v-icon>
+                  </v-btn>
+                </template>
+                <span class="white--text">Уменьшить</span>
+              </v-tooltip>
               {{good.count}}
-              <v-btn
-                text
-                icon
-                color="teal darken-1"
-                @click="changeCount({good, delta: 1})"
-              >
-                <v-icon>mdi-plus-box</v-icon>
-              </v-btn>
-            </v-flex>
+              <v-tooltip bottom>
+                <template v-slot:activator="{ on }">
+                  <v-btn
+                    v-on="on"
+                    icon
+                    color="teal darken-1"
+                    @click="changeCount({good: good.good, delta: 1})"
+                  >
+                    <v-icon large>mdi-plus-box</v-icon>
+                  </v-btn>
+                </template>
+                <span class="white--text">Добавить</span>
+              </v-tooltip>
+            </v-row>
           </v-list-item-action>
         </v-list-item>
-
-        <v-divider :key="index+'_'" inset></v-divider>
+        <v-divider :key="index+'_'"></v-divider>
       </template>
     </v-list>
   </div>
@@ -53,9 +65,8 @@ export default {
     ...mapMutations("app", {
       changeCount: CHANGE_ORDER
     }),
-    gotoGroup(good) {
-      if (this.$route.params && good.id != this.$route.params.groupId)
-        this.$router.push({ name: "store", params: { groupId: good.id } });
+    gotoStore() {
+      this.$router.push({ name: "store" });
     }
   },
   computed: {
