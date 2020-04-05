@@ -13,5 +13,7 @@ export default {
               return 0
             }
     }
-    }
+    },
+    topChanges: state => state.changes.slice(0,3),
+    topOrder: state => state.order.slice(0,5),
 }

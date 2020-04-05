@@ -24,4 +24,9 @@ export default [
     name: 'card',
     view: 'Card'
   },
+  {
+    path: '/about',
+    name: 'about',
+    view: 'About'
+  },
 ]

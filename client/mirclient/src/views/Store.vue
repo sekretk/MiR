@@ -1,13 +1,11 @@
 <template>
   <div class="goods-container">
-    <h2>Склад</h2>
-    <v-progress-linear
-      :active="loading"
-      :indeterminate="loading"
-      absolute
-      bottom
-      color="deep-purple accent-4"
-    ></v-progress-linear>
+    <v-row class="ml-3" align="center">
+      <v-btn center icon color="indigo" v-if="haveParent" @click="goToParent">
+        <v-icon large>mdi-arrow-left-bold</v-icon>
+      </v-btn>
+      <p class="header ma-2">Склад</p>
+    </v-row>
     <v-list>
       <template v-for="(good, index) in goods">
         <v-list-item :key="index" v-if="good.isGroup" class="group" @click="gotoGroup(good)">
@@ -39,7 +37,12 @@
               <div v-else>
                 <v-tooltip bottom>
                   <template v-slot:activator="{ on }">
-                    <v-btn v-on="on" icon color="red darken-1" @click="changeCount({good, delta: -1})">
+                    <v-btn
+                      v-on="on"
+                      icon
+                      color="red darken-1"
+                      @click="changeCount({good, delta: -1})"
+                    >
                       <v-icon large>mdi-minus-box</v-icon>
                     </v-btn>
                   </template>
@@ -48,7 +51,12 @@
                 {{goodsOrderCount(good)}}
                 <v-tooltip bottom>
                   <template v-slot:activator="{ on }">
-                    <v-btn v-on="on" icon color="teal darken-1" @click="changeCount({good, delta: 1})">
+                    <v-btn
+                      v-on="on"
+                      icon
+                      color="teal darken-1"
+                      @click="changeCount({good, delta: 1})"
+                    >
                       <v-icon large>mdi-plus-box</v-icon>
                     </v-btn>
                   </template>
@@ -63,9 +71,15 @@
         <v-divider :key="index+'_'"></v-divider>
       </template>
     </v-list>
+    <v-progress-linear
+      :active="loading"
+      absolute
+      top
+      color="deep-purple accent-4"
+    ></v-progress-linear>
     <v-row>
       <v-spacer />
-      <v-btn dark center v-if="haveMore" @click="getMore">Ещё</v-btn>
+      <v-btn dark center v-if="haveMore" @click="getMore">Ещё ({{totalGoods}})</v-btn>
       <v-spacer />
     </v-row>
   </div>
@@ -98,6 +112,9 @@ export default {
       if (this.$route.params && good.id != this.$route.params.groupId)
         this.$router.push({ name: "store", params: { groupId: good.id } });
     },
+    goToParent() {
+      this.$router.push({ name: "store", params: { groupId: this.parentGroupId } });
+    }
   },
   mounted() {
     this.getGoods(this.$route.params ? this.$route.params.groupId : null);
@@ -107,14 +124,14 @@ export default {
       this.getGoods(to.params ? to.params.groupId : null);
     },
     currentObject: function() {
-      this.getOperations();
+      this.getGoods(this.$route.params ? this.$route.params.groupId : null);
     }
   },
   computed: {
-    ...mapState("goods", ["goods"]),
-    ...mapGetters("goods", { haveMore: "haveMoreGoods", loading: "loading" }),
+    ...mapState("goods", ["goods", "totalGoods", "parentGroupId"]),
+    ...mapGetters("goods", { haveMore: "haveMoreGoods", loading: "loading", haveParent: "haveParent" }),
     ...mapGetters("app", { goodsOrderCount: "goodInOrder" }),
-    ...mapState("app", ["currentObject"])
+    ...mapState("app", ["currentObject"]),
   }
 };
 </script>

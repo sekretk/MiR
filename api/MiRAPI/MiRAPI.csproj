@@ -29,6 +29,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="changes.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="DataModel\MiRDataModel.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>MiRDataModel.generated.cs</LastGenOutput>

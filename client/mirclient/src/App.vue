@@ -9,21 +9,17 @@
       <core-drawer />
 
       <core-view />
-    </template>
-    <span class="appversion">Версия: {{Version}}, Дата: {{VersionDate}}</span>
+    </template>  
   </v-app>
 </template>
 
 <script>
 import { mapActions } from "vuex";
-import { PING } from "@/store/modules/app/consts";
-import { BUILD_VERSION, BUILD_DATE } from "@/version";
+import { PING, REQUEST_CHANGES } from "@/store/modules/app/consts";
 
 export default {
   data() {
     return {
-      Version: BUILD_VERSION,
-      VersionDate: BUILD_DATE
     };
   },
   metaInfo: {
@@ -41,15 +37,23 @@ export default {
   },
   mounted() {
     this.ping();
+    this.getChanges();
   },
   methods: {
-    ...mapActions("app", { ping: PING })
+    ...mapActions("app", { ping: PING, getChanges: REQUEST_CHANGES }),
   }
 };
 </script>
 
 <style lang="scss">
 @import "@/styles/index.scss";
+
+p.header{
+  font-size: 30px !important;
+  margin: 0px;
+  display: table-cell;
+  vertical-align: middle;
+}
 
 /* Remove in 1.2 */
 .v-datatable thead th.column.sortable i {

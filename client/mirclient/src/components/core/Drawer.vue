@@ -85,6 +85,11 @@ export default {
         icon: 'mdi-cart',
         text: 'Заказ'
       },
+      {
+        to: '/about',
+        icon: 'mdi-bacteria',
+        text: 'О приложении'
+      },
     ]
   }),
   computed: {

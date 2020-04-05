@@ -1,5 +1,5 @@
 import { set, toggle } from '@/utils/vuex'
-import { ADD_ORDER, CHANGE_ORDER, OBJECTS_REQUEST, SET_OBJECT } from './consts'
+import { ADD_ORDER, CHANGE_ORDER, OBJECTS_REQUEST, SET_OBJECT, REQUEST_CHANGES, CHANGES_RESPONSE } from './consts'
 import Vue from 'vue'
 
 export default {
@@ -64,4 +64,13 @@ export default {
     localStorage.setItem("objectId", object)
     state.currentObject = object
   },
+  [REQUEST_CHANGES]: (state) => {
+    state.changesLoading = true
+  },
+  [CHANGES_RESPONSE]: (state, response) => {
+    state.changesLoading = false
+    state.changes = response.changes
+    state.serverVersion = `Версия: ${response.version}, Дата: ${response.date}`
+  }
+
 }

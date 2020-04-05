@@ -8,5 +8,7 @@ namespace MiRAPI.DTO
     public class GoodsPageResult : PageResult<GoodResult>
     {
         public int? GroupId { get; set; }
+
+        public int? ParentGroupId { get; set; }
     }   
 }

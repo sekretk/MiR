@@ -31,10 +31,9 @@
 export default {
   data: () => ({
     links: [
-      { name: 'Home', Link: '/#' },
-      { name: 'IvTx', Link: '/#' },
-      { name: 'About Us', Link: '/#' },
-      { name: 'Blog', Link: '/#' }
+      { name: 'Home', Link: '/' },
+      { name: 'IvTx', Link: 'http://www.ivtex.net' },
+      { name: 'About Us', Link: '/about' },
     ]
   })
 }

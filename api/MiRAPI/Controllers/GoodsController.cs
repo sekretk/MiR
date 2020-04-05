@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace MiRAPI.Controllers
@@ -26,22 +27,29 @@ namespace MiRAPI.Controllers
         [Route("list")]
         public JsonResult List([FromQuery] GoodsFilter filter)
         {
+            Thread.Sleep(10000);
+
             using (var db = new MiRDB())
             {
                 IEnumerable<GoodResult> filterResult;
 
                 IEnumerable<GoodResult> groupResults;
                 IEnumerable<Good> rawFilteredGoods;
+                int? parentGroupId = null;
 
                 if (filter.GroupId.HasValue)
                 {
-                    var parentGroup = db.GoodsGroups.FirstOrDefault(gg => gg.ID == filter.GroupId);
+                    var group = db.GoodsGroups.FirstOrDefault(gg => gg.ID == filter.GroupId);
 
                     groupResults = db.GoodsGroups
-                                            .Where(gg => gg.Code.StartsWith(parentGroup.Code) && gg.ID != parentGroup.ID)
+                                            .Where(gg => gg.Code.StartsWith(group.Code) && gg.ID != group.ID)
                                             .Select(gg => new GoodResult(gg.Name, gg.ID, null, true));
 
                     rawFilteredGoods = db.Goods.Where(g => g.GroupID == filter.GroupId);
+
+                    string parentGroupCode = group.Code.Substring(0, group.Code.Length-3);
+
+                    parentGroupId = db.GoodsGroups.FirstOrDefault(gg => gg.Code == parentGroupCode)?.ID;
                 }
                 else
                 {
@@ -72,7 +80,8 @@ namespace MiRAPI.Controllers
                             .ToArray(),
                     Skiped = filter.Skip,
                     TotalAmount = filterResult.Count(),
-                    GroupId = filter.GroupId
+                    GroupId = filter.GroupId,
+                    ParentGroupId = parentGroupId,
                 });
             }
         }

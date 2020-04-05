@@ -4,5 +4,8 @@ export default {
     order: [],
     objects: [],
     currentObject: null,
+    changes: [],
+    serverVersion: null,
+    changesLoading: false
   }
   
