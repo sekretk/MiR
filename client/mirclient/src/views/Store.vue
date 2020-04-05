@@ -71,10 +71,11 @@
         <v-divider :key="index+'_'"></v-divider>
       </template>
     </v-list>
-    <v-progress-linear
+   <v-progress-linear
       :active="loading"
+      :indeterminate="loading"
       absolute
-      top
+      bottom
       color="deep-purple accent-4"
     ></v-progress-linear>
     <v-row>

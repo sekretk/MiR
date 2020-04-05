@@ -7,7 +7,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace MiRAPI.Controllers
@@ -27,8 +26,6 @@ namespace MiRAPI.Controllers
         [Route("list")]
         public JsonResult List([FromQuery] GoodsFilter filter)
         {
-            Thread.Sleep(10000);
-
             using (var db = new MiRDB())
             {
                 IEnumerable<GoodResult> filterResult;

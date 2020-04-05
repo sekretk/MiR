@@ -1,13 +1,11 @@
 <template>
-  <v-app-bar app id="core-toolbar" flat style="background: #eee;" elevate-on-scroll>
+  <v-app-bar app id="core-toolbar" clipped-left style="background: #eee;">
     <v-toolbar-title class="tertiary--text font-weight-light">
       <v-btn v-if="responsive" class="default v-btn--simple" dark icon @click.stop="toggleDrawer">
         <v-icon>mdi-view-list</v-icon>
       </v-btn>
     </v-toolbar-title>
-    <v-select
-      dense
-      full-width
+    <v-select class="ml-3 mr-3" style="width: 80px;"
       :items="objects"
       item-text="name"
       item-value="id"
@@ -17,7 +15,7 @@
     <router-link v-ripple class="toolbar-items" to="/">
       <v-icon color="tertiary">mdi-view-dashboard</v-icon>
     </router-link>
-     <router-link v-ripple class="toolbar-items" to="/card">
+    <router-link v-ripple class="toolbar-items" to="/card">
       <v-badge color="red" overlap>
         <span slot="badge">{{orderAmount}}</span>
         <v-icon color="rgba(0, 0, 0, 0.54)" medium>mdi-bell</v-icon>
@@ -146,7 +144,7 @@ export default {
 #core-toolbar a {
   text-decoration: none;
 }
-.v-toolbar__content{
+.v-toolbar__content {
   flex-direction: row;
 }
 </style>

@@ -2,8 +2,6 @@
   <v-app>
     <core-login v-if="isLogin" />
     <template v-else>
-      <core-filter />
-
       <core-toolbar />
 
       <core-drawer />

@@ -3,29 +3,9 @@
     <v-row dense>
       <p class="ml-3 header">Главная</p>
     </v-row>
-    <v-layout wrap>
-      <v-flex xs12 sm6>
-        <v-card class="ma-1 green darken-4 black--text">
-          <v-card-title class="headline">Заказ</v-card-title>
-
-          <v-card-subtitle class="black--text">Позиции в заказе</v-card-subtitle>
-
-          <v-card-text class="pa-0">
-            <v-list class="ma-0 pa-0">
-              <template v-for="(good, index) in topOrder">
-                <v-list-item :key="index">{{good.good.name}} - {{good.count}}</v-list-item>
-                <v-divider class="ma-0" :key="index+'_'"></v-divider>
-              </template>
-            </v-list>
-          </v-card-text>
-
-          <v-card-actions>
-            <v-btn class="black--text" @click="goToCard">К заказу</v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-flex>
-      <v-flex xs12 sm6>
-        <v-card dark class="ma-1 amber darken-4">
+    <v-row no-gutters>
+      <v-col sm="12" md="6">
+        <v-card dark class="ma-1 amber darken-4" :loading="operationsLoading">
           <v-card-title class="headline">Продажи</v-card-title>
 
           <v-card-subtitle>Продажи за сегодня</v-card-subtitle>
@@ -33,7 +13,10 @@
           <v-card-text>
             <v-flex>
               <v-chip light class="ma-1">Всего: {{operationsResponse.totalAmount}}</v-chip>
-              <v-chip light class="ma-1">Выручка: {{operationsResponse.cash+operationsResponse.card | numFormat}}</v-chip>
+              <v-chip
+                light
+                class="ma-1"
+              >Выручка: {{operationsResponse.cash+operationsResponse.card | numFormat}}</v-chip>
               <v-chip light class="ma-1">Нал: {{operationsResponse.cash | numFormat}}</v-chip>
               <v-chip light class="ma-1">Безнал: {{operationsResponse.card | numFormat}}</v-chip>
               <v-chip light class="ma-1">Средний чек: {{operationsResponse.average.toFixed(2)}}</v-chip>
@@ -58,8 +41,27 @@
             <v-btn @click="goToOperations">К продажам</v-btn>
           </v-card-actions>
         </v-card>
-      </v-flex>
-      <v-flex xs12 sm6>
+      </v-col>
+
+      <v-col sm="12" md="6">
+        <v-card class="ma-1 green d8rken-4 black--text">
+          <v-card-title class="headline">Заказ</v-card-title>
+
+          <v-card-subtitle class="black--text">Позиции в заказе</v-card-subtitle>
+
+          <v-card-text class="pa-0">
+            <v-list class="ma-0 pa-0">
+              <template v-for="(good, index) in topOrder">
+                <v-list-item :key="index">{{good.good.name}} - {{good.count}}</v-list-item>
+                <v-divider class="ma-0" :key="index+'_'"></v-divider>
+              </template>
+            </v-list>
+          </v-card-text>
+
+          <v-card-actions>
+            <v-btn class="black--text" @click="goToCard">К заказу</v-btn>
+          </v-card-actions>
+        </v-card>
         <v-card class="ma-1" color="#385F73" dark :loading="changesLoading">
           <v-card-title class="headline">О приложении</v-card-title>
 
@@ -75,11 +77,11 @@
           </v-card-text>
 
           <v-card-actions>
-            <v-btn @click="goToChanges">Перейти к изменениям</v-btn>
+            <v-btn @click="goToChanges">К изменениям</v-btn>
           </v-card-actions>
         </v-card>
-      </v-flex>
-    </v-layout>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 
@@ -101,7 +103,8 @@ export default {
     return {
       Version: BUILD_VERSION,
       VersionDate: BUILD_DATE,
-      operationsResponse: emptyOperationsResponse
+      operationsResponse: emptyOperationsResponse,
+      operationsLoading: false
     };
   },
   metaInfo: {
@@ -121,9 +124,15 @@ export default {
       this.$router.push("/operations");
     },
     getOperations4Today() {
-      this.getOperations(new Date().addDays(-30)).then(resp => {
-        this.operationsResponse = resp;
-      });
+      this.operationsLoading = true;
+      this.getOperations(new Date())
+        .then(resp => {
+          this.operationsResponse = resp;
+        })
+        .finally(() => {
+          this.operationsLoading = false;
+          this.operationsResponse = emptyOperationsResponse;
+        });
     }
   },
   computed: {

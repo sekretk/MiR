@@ -1,42 +1,54 @@
 <template>
   <div>
-    <v-row align="center" class="mx-auto">
-      <h2 class="ml-5">Операции</h2>
-      <v-spacer />
-      <v-btn text icon color="red darken-1" @click="shiftDate(-1)">
-        <v-icon>mdi-arrow-left-box</v-icon>
-      </v-btn>
-      <v-card class="mx-auto">{{selectedDate | shortDate}}</v-card>
-      <v-btn text icon color="green darken-1" @click="shiftDate(1)" :disabled="!canGoFurther">
-        <v-icon>mdi-arrow-right-box</v-icon>
-      </v-btn>
-    </v-row>
-    <v-row>
-      <span class="ml-6">Всего операций: {{totalOperations}}</span>
-      <span class="ml-1">Выручка: {{cash+card | numFormat}}</span>
-      <span class="ml-1">Нал: {{cash | numFormat}}</span>
-      <span class="ml-1">Безнал: {{card | numFormat}}</span>
-      <span class="ml-1">Средний чек: {{average.toFixed(2)}}</span>
-    </v-row>
     <v-progress-linear
       :active="loading"
       :indeterminate="loading"
       absolute
-      bottom
+      top
       color="deep-purple accent-4"
     ></v-progress-linear>
-    <v-list three-line>
+    <v-row align="center" class="mx-auto">
+      <p class="header ma-0 ml-3">Операции</p>
+      <v-spacer />
+      <v-btn icon color="red darken-1" @click="shiftDate(-1)">
+        <v-icon large>mdi-arrow-left-box</v-icon>
+      </v-btn>
+      <v-card class="ml-2 mr-2 pa-1">{{selectedDate | shortDate}}</v-card>
+      <v-btn icon color="green darken-1" @click="shiftDate(1)" :disabled="!canGoFurther">
+        <v-icon large>mdi-arrow-right-box</v-icon>
+      </v-btn>
+    </v-row>
+    <v-flex class="ml-2">
+      <v-chip light class="ma-1">Всего: {{totalOperations}}</v-chip>
+      <v-chip light class="ma-1">Выручка: {{cash+card | numFormat}}</v-chip>
+      <v-chip light class="ma-1">Нал: {{cash | numFormat}}</v-chip>
+      <v-chip light class="ma-1">Безнал: {{card | numFormat}}</v-chip>
+      <v-chip light class="ma-1">Средний чек: {{average.toFixed(2)}}</v-chip>
+    </v-flex>
+    <v-list class="ml-2">
+      <v-row no-gutters>
+        <v-col cols="2">Время</v-col>
+        <v-col cols="2">Позиц</v-col>
+        <v-col cols="2">Кол-во</v-col>
+        <v-col cols="2">Нал</v-col>
+        <v-col cols="2">Безнал</v-col>
+        <v-col cols="2"></v-col>
+      </v-row>
       <template v-for="(operation, index) in operations">
-        <v-list-item :key="index" @click="openDetails(operation.acct)">
-          <span>{{operation.acct}}</span>
-          <span class="ml-1">в {{operation.date | onlyTime}}</span>
-          <span class="ml-1">позиц. {{operation.positionsCount}}</span>
-          <span class="ml-1">кол-во. {{operation.goodsAmount}}</span>
-          <span class="ml-1">Нал. {{operation.cash | numFormat}}</span>
-          <span class="ml-1">Безнал. {{operation.card | numFormat}}</span>
-        </v-list-item>
-
-        <v-divider :key="index+'_'" inset></v-divider>
+        <v-row :key="index">
+          <p class="operation-id">{{operation.acct}}</p>
+          <v-col cols="2">{{operation.date | onlyTime}}</v-col>
+          <v-col cols="2">{{operation.positionsCount}}</v-col>
+          <v-col cols="2">{{operation.goodsAmount}}</v-col>
+          <v-col cols="2">{{operation.cash | numFormat}}</v-col>
+          <v-col cols="2">{{operation.card | numFormat}}</v-col>
+          <v-col cols="2">
+            <v-btn icon @click="openDetails(operation.acct)">
+              <v-icon large>mdi-arrow-right</v-icon>
+            </v-btn>
+          </v-col>
+          <v-divider :key="index+'_'" inset></v-divider>
+        </v-row>
       </template>
     </v-list>
     <v-row>
@@ -109,4 +121,10 @@ export default {
 </script>
 
 <style>
+.operation-id {
+  left: 15px;
+  top: 3px;
+  font-size: 8px;
+  font-weight: 600;
+}
 </style>
