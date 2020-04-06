@@ -25,35 +25,49 @@
       <v-chip light class="ma-1">Безнал: {{card | numFormat}}</v-chip>
       <v-chip light class="ma-1">Средний чек: {{average.toFixed(2)}}</v-chip>
     </v-flex>
-    <v-list class="ml-2">
-      <v-row no-gutters>
-        <v-col cols="2">Время</v-col>
-        <v-col cols="2">Позиц</v-col>
-        <v-col cols="2">Кол-во</v-col>
-        <v-col cols="2">Нал</v-col>
-        <v-col cols="2">Безнал</v-col>
-        <v-col cols="2"></v-col>
-      </v-row>
+    <v-divider></v-divider>
+    <v-list class="ml-2 pa-0">
       <template v-for="(operation, index) in operations">
-        <v-row :key="index">
-          <p class="operation-id">{{operation.acct}}</p>
-          <v-col cols="2">{{operation.date | onlyTime}}</v-col>
-          <v-col cols="2">{{operation.positionsCount}}</v-col>
-          <v-col cols="2">{{operation.goodsAmount}}</v-col>
-          <v-col cols="2">{{operation.cash | numFormat}}</v-col>
-          <v-col cols="2">{{operation.card | numFormat}}</v-col>
-          <v-col cols="2">
-            <v-btn icon @click="openDetails(operation.acct)">
-              <v-icon large>mdi-arrow-right</v-icon>
+        <v-list-item class="pa-0" :key="index">
+          <v-list-item-content>
+            <v-row align="center" no-gutters class="ml-2">
+              <v-col>
+                <v-row no-gutters>
+                  <p class="operation-id">{{operation.acct}}</p>
+                </v-row>
+                <v-row no-gutters>{{operation.date | onlyTime}}</v-row>
+              </v-col>
+              <v-spacer></v-spacer>
+              <span class="ma-1">Кол-во</span>
+              <v-col class="ml-2 mr-2">
+                <v-row class="ma-1" no-gutters>{{operation.positionsCount}}</v-row>
+                <v-divider></v-divider>
+                <v-row class="ma-1" no-gutters>{{operation.goodsAmount}}</v-row>
+              </v-col>
+              <v-spacer></v-spacer>
+              <span class="ma-1">Оплата</span>
+              <v-col>
+                <v-row class="ma-1" no-gutters>{{operation.cash | numFormat}}</v-row>
+                <v-divider></v-divider>
+                <v-row class="ma-1" no-gutters>{{operation.card | numFormat}}</v-row>
+              </v-col>
+            </v-row>
+          </v-list-item-content>
+          <v-list-item-action>
+            <v-btn class="mr-2" icon color="black" @click="openDetails(operation.acct)">
+              <v-icon large>mdi-dots-horizontal</v-icon>
             </v-btn>
-          </v-col>
-          <v-divider :key="index+'_'" inset></v-divider>
-        </v-row>
+          </v-list-item-action>
+        </v-list-item>
+        <v-divider :key="index+'_'"></v-divider>
       </template>
     </v-list>
     <v-row>
       <v-spacer />
-      <v-btn dark center v-if="haveMore" @click="getMore">Ещё</v-btn>
+      <v-btn dark center :disabled="loading" v-if="haveMore" @click="getMore">
+        <v-progress-circular indeterminate v-if="loading" color="primary"></v-progress-circular>
+        <span v-else>Ещё ({{totalOperations - operations.length}})</span>
+      </v-btn>
       <v-spacer />
     </v-row>
   </div>
@@ -122,8 +136,7 @@ export default {
 
 <style>
 .operation-id {
-  left: 15px;
-  top: 3px;
+  color: red;
   font-size: 8px;
   font-weight: 600;
 }

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2>Содержимое продажи: {{$route.params.operationId}}</h2>
+    <h2>Продажа: {{$route.params.operationId}}</h2>
     <v-btn class="black--text" @click="goBack">
       <v-icon>mdi-arrow-left-bold</v-icon>Обратно
     </v-btn>

@@ -1,7 +1,7 @@
 <template>
   <div class="goods-container">
     <v-row class="ml-3" align="center">
-      <v-btn center icon color="indigo" v-if="haveParent" @click="goToParent">
+      <v-btn center icon color="indigo" v-if="haveParent || $route.params.groupId != null" @click="goToParent">
         <v-icon large>mdi-arrow-left-bold</v-icon>
       </v-btn>
       <p class="header ma-2">Склад</p>
@@ -80,7 +80,7 @@
     ></v-progress-linear>
     <v-row>
       <v-spacer />
-      <v-btn dark center v-if="haveMore" @click="getMore">Ещё ({{totalGoods}})</v-btn>
+      <v-btn dark center v-if="haveMore" @click="getMore">Ещё ({{totalGoods - goods.length}})</v-btn>
       <v-spacer />
     </v-row>
   </div>
