@@ -24,13 +24,31 @@
             <v-divider></v-divider>
             <v-list>
               <template v-for="(operation, index) in operationsResponse.items.slice(0,5)">
-                <v-list-item :key="index">
-                  <span>{{operation.acct}}</span>
-                  <span class="ml-1">{{operation.date | onlyTime}}</span>
-                  <span class="ml-1">позиц. {{operation.positionsCount}}</span>
-                  <span class="ml-1">кол-во. {{operation.goodsAmount}}</span>
-                  <span class="ml-1">Нал. {{operation.cash | numFormat}}</span>
-                  <span class="ml-1">Безнал. {{operation.card | numFormat}}</span>
+                <v-list-item class="pa-0" :key="index">
+                  <v-list-item-content>
+                    <v-row align="center" no-gutters class="ml-2">
+                      <v-col>
+                        <v-row no-gutters>
+                          <p class="operation-id">{{operation.acct}}</p>
+                        </v-row>
+                        <v-row no-gutters>{{operation.date | onlyTime}}</v-row>
+                      </v-col>
+                      <v-spacer></v-spacer>
+                      <span class="ma-1">Кол-во</span>
+                      <v-col class="ml-2 mr-2">
+                        <v-row class="ma-1" no-gutters>{{operation.positionsCount}}</v-row>
+                        <v-divider></v-divider>
+                        <v-row class="ma-1" no-gutters>{{operation.goodsAmount}}</v-row>
+                      </v-col>
+                      <v-spacer></v-spacer>
+                      <span class="ma-1">Оплата</span>
+                      <v-col>
+                        <v-row class="ma-1" no-gutters>{{operation.cash | numFormat}}</v-row>
+                        <v-divider></v-divider>
+                        <v-row class="ma-1" no-gutters>{{operation.card | numFormat}}</v-row>
+                      </v-col>
+                    </v-row>
+                  </v-list-item-content>
                 </v-list-item>
                 <v-divider :key="index+'_'"></v-divider>
               </template>
@@ -125,13 +143,15 @@ export default {
     },
     getOperations4Today() {
       this.operationsLoading = true;
-      this.getOperations(new Date())
+      this.getOperations(new Date().addDays(-2))
         .then(resp => {
           this.operationsResponse = resp;
         })
+        .catch(() => {
+          this.operationsResponse = emptyOperationsResponse;
+        })
         .finally(() => {
           this.operationsLoading = false;
-          this.operationsResponse = emptyOperationsResponse;
         });
     }
   },
