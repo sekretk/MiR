@@ -105,6 +105,6 @@ span.appversion {
 }
 
 .v-content{
-  padding-top: 65px !important;
+  padding-top: 70px !important;
 }
 </style>
