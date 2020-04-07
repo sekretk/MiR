@@ -69,6 +69,6 @@ copy repo\client.7z client.7z
 echo %date%_%time::=.% client updated >> deploy.log
 
 :exit
-IF NOT "%oldclientdata%" == "%newclientdata%" IF NOT "%oldapidata%" == "%newapidata%") SendSMTP_v2.19.0.1\SendSMTP.exe /Host smtp.gmail.com /Port 587 /Auth 2 /UserID boyko.constantine@gmail.com /PASS3 4v1i/NE61SQbgAtbMNDhWSlcFMsN/WneUe7/1gZ5dYEKOMEjvEj57lAoWUcJqhKd /From boyko.constantine@gmail.com /To boykokv@yandex.ru;account@ivtex.net /subject "MIR Volga Выложена новая версия от %date%" /body "Залита новая версия. Необходимо проверить" /log
+IF NOT "%oldclientdata%" == "%newclientdata%" IF NOT "%oldapidata%" == "%newapidata%") SendSMTP_v2.19.0.1\SendSMTP.exe /Host smtp.gmail.com /Port 587 /Auth 2 /UserID boyko.constantine@gmail.com /PASS3 4v1i/NE61SQbgAtbMNDhWSlcFMsN/WneUe7/1gZ5dYEKOMEjvEj57lAoWUcJqhKd /From boyko.constantine@gmail.com /To boykokv@yandex.ru;account@ivtex.net;Lotos.17@mail.ru /subject "MIR Volga Выложена новая версия от %date%" /body "Залита новая версия. Необходимо проверить" /log
 
 echo %date%_%time::=.% - All done >> deploy.log
