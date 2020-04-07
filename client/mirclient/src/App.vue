@@ -103,4 +103,8 @@ span.appversion {
 .goods-container .v-list-item__action {
   height: 60px;
 }
+
+.v-content{
+  padding-top: 65px !important;
+}
 </style>

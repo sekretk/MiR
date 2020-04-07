@@ -10,7 +10,7 @@
 
           <v-card-subtitle>Продажи за сегодня</v-card-subtitle>
 
-          <v-card-text>
+          <v-card-text class="pa-0">
             <v-flex>
               <v-chip light class="ma-1">Всего: {{operationsResponse.totalAmount}}</v-chip>
               <v-chip
@@ -143,7 +143,7 @@ export default {
     },
     getOperations4Today() {
       this.operationsLoading = true;
-      this.getOperations(new Date().addDays(-2))
+      this.getOperations(new Date())
         .then(resp => {
           this.operationsResponse = resp;
         })

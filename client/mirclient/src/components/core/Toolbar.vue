@@ -1,5 +1,5 @@
 <template>
-  <v-app-bar app id="core-toolbar" clipped-left style="background: #eee;">
+  <v-app-bar flat app id="core-toolbar" clipped-left style="background: #eee;">
     <v-toolbar-title class="tertiary--text font-weight-light">
       <v-btn v-if="responsive" class="default v-btn--simple" dark icon @click.stop="toggleDrawer">
         <v-icon>mdi-view-list</v-icon>

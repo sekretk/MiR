@@ -1,23 +1,26 @@
 <template>
   <div>
-    <h2>Продажа: {{$route.params.operationId}}</h2>
-    <v-btn class="black--text" @click="goBack">
-      <v-icon>mdi-arrow-left-bold</v-icon>Обратно
-    </v-btn>
-    <v-list three-line>
+    <v-row class="ml-3" align="center">
+      <v-btn center icon color="indigo" @click="goBack">
+        <v-icon large>mdi-arrow-left-bold</v-icon>
+      </v-btn>
+      <p class="header ma-2">Продажа: {{$route.params.operationId}}</p>
+    </v-row>
+     <v-divider></v-divider>
+    <v-list>
       <template v-for="(position, index) in positions">
         <v-list-item :key="index">
           <v-list-item-content>
             <v-list-item-title>{{position.id}}</v-list-item-title>
-            <v-list-item-subtitle>{{position.name}}, кол-во {{position.qtty}}</v-list-item-subtitle>
+            <v-list-item-subtitle>{{position.name}}</v-list-item-subtitle>
           </v-list-item-content>
 
           <v-spacer></v-spacer>
 
-          <v-list-item-action>{{position.count}}</v-list-item-action>
+          <v-list-item-action>{{position.qtty}}</v-list-item-action>
         </v-list-item>
 
-        <v-divider :key="index+'_'" inset></v-divider>
+        <v-divider :key="index+'_'"></v-divider>
       </template>
     </v-list>
   </div>
