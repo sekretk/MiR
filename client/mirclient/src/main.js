@@ -12,6 +12,7 @@ import './plugins'
 
 import router from '@/router'
 import store from '@/store'
+import './registerServiceWorker'
 
 Vue.filter('formatDate', function(value) {
   if (value) {
