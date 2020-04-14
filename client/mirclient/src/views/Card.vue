@@ -1,10 +1,14 @@
 <template>
   <div class="goods-container">
-    <h2 class="ml-2">Заказ</h2>
+    <v-row align="center">
+      <h2 class="ml-2">Заказ</h2>
+      <v-spacer></v-spacer>
+      <v-btn center color="indigo" class="mr-5" @click="createOrder">Создать заказ</v-btn>
+    </v-row>
     <div class="ml-2 mr-2" v-if="goods.length == 0">
       <p>Ещё не выбраны позиции</p>
       <v-row align="center" justify="center">
-        <v-btn class="red--text"  color="tean darken-1" @click="gotoStore">Перейти к складу</v-btn>
+        <v-btn class="red--text" color="tean darken-1" @click="gotoStore">Перейти к складу</v-btn>
       </v-row>
     </div>
     <v-list v-else>
@@ -53,9 +57,9 @@
 </template>
 
 <script>
-import { CHANGE_ORDER } from "@/store/modules/app/consts";
+import { CHANGE_ORDER, CREATE_ORDER } from "@/store/modules/app/consts";
 
-import { mapState, mapMutations } from "vuex";
+import { mapState, mapMutations, mapActions } from "vuex";
 
 export default {
   metaInfo: {
@@ -65,6 +69,7 @@ export default {
     ...mapMutations("app", {
       changeCount: CHANGE_ORDER
     }),
+    ...mapActions("app", { createOrder: CREATE_ORDER }),
     gotoStore() {
       this.$router.push({ name: "store" });
     }
