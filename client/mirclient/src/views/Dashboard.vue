@@ -174,4 +174,8 @@ export default {
 .v-list {
   background-color: rgba(0, 0, 0, 0.1) !important;
 }
+
+.operation-id{
+   color: black;
+}
 </style>
