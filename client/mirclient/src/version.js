@@ -1,2 +1,2 @@
-export const BUILD_VERSION = 'd0.40' 
-export const BUILD_DATE = '14.04.2020' 
+export const BUILD_VERSION = 'd0.41' 
+export const BUILD_DATE = '21.04.2020' 
