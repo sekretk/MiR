@@ -1,17 +1,18 @@
 ﻿using ClosedXML.Excel;
 using DataModels;
 using LinqToDB;
+using MailKit.Net.Smtp;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using MimeKit;
 using MiRAPI.DTO;
 using MiRAPI.Extentions;
 using MiRAPI.utils;
 using System;
 using System.Collections.Generic;
-using System.IO;
+using io = System.IO;
 using System.Linq;
 using System.Net;
-using System.Net.Mail;
 using System.Threading.Tasks;
 
 namespace MiRAPI.Controllers
@@ -65,7 +66,7 @@ namespace MiRAPI.Controllers
 
                 var name = "order_" + RandomName.RandomString(5) + ".xlsx";
 
-                using (var workbook = new XLWorkbook(Path.Combine(PathExtentions.GetApplicationRoot, "templates", "kolos.xlsx")))
+                using (var workbook = new XLWorkbook(io.Path.Combine(PathExtentions.GetApplicationRoot, "templates", "kolos.xlsx")))
                 {
                     var worksheet = workbook.Worksheets.First();
 
@@ -89,19 +90,50 @@ namespace MiRAPI.Controllers
                         rowIdx++;
                     }
 
-                    workbook.SaveAs(Path.Combine(PathExtentions.GetApplicationRoot, "temp", name));
+                    workbook.SaveAs(io.Path.Combine(PathExtentions.GetApplicationRoot, "temp", name));
 
-                    SmtpClient client = new SmtpClient("mysmtpserver");
-                    client.UseDefaultCredentials = false;
-                    client.Credentials = new NetworkCredential("zkolosvolgodonsk@mail.ru", "Aa061280");
+                    MimeMessage message = new MimeMessage();
 
-                    MailMessage mailMessage = new MailMessage();
-                    mailMessage.From = new MailAddress("zkolosvolgodonsk@mail.ru");
-                    mailMessage.To.Add("boykokv@yandex.ru");
-                    mailMessage.Body = "body";
-                    mailMessage.Subject = "Тестовый заказ от МИР";
-                    mailMessage.Attachments.Add(new Attachment(Path.Combine(PathExtentions.GetApplicationRoot, "temp", name)));
-                    client.Send(mailMessage);
+                    MailboxAddress from = new MailboxAddress("zkolosvolgodonsk",
+                    "zkolosvolgodonsk@mail.ru");
+                    message.From.Add(from);
+
+                    MailboxAddress to = new MailboxAddress("User",
+                    "boykokv@yandex.ru");
+                    message.To.Add(to);
+
+                    message.Subject = "Тестовый заказ от МИР";
+
+                    var body = new TextPart("plain")
+                    {
+                        Text = @"Заказ во вложении"
+                    };
+
+                    // create an image attachment for the file located at path
+                    var attachment = new MimePart("image", "gif")
+                    {
+                        Content = new MimeContent(io.File.OpenRead(io.Path.Combine(PathExtentions.GetApplicationRoot, "temp", name))),
+                        ContentDisposition = new ContentDisposition(ContentDisposition.Attachment),
+                        ContentTransferEncoding = ContentEncoding.Base64,
+                        FileName = name
+                    };
+
+                    // now create the multipart/mixed container to hold the message text and the
+                    // image attachment
+                    var multipart = new Multipart("mixed");
+                    multipart.Add(body);
+                    multipart.Add(attachment);
+
+                    // now set the multipart/mixed as the message body
+                    message.Body = multipart;
+
+                    SmtpClient client = new SmtpClient();
+                    client.Connect("smtp.mail.ru", 465, true);
+                    client.Authenticate("zkolosvolgodonsk@mail.ru", "Aa061280");
+
+                    client.Send(message);
+                    client.Disconnect(true);
+                    client.Dispose();
                 }
 
                 return Json(null);
