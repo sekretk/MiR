@@ -1,4 +1,5 @@
-﻿using DataModels;
+﻿using ClosedXML.Excel;
+using DataModels;
 using LinqToDB;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -7,8 +8,10 @@ using MiRAPI.Extentions;
 using MiRAPI.utils;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Mail;
 using System.Threading.Tasks;
 
 namespace MiRAPI.Controllers
@@ -59,7 +62,48 @@ namespace MiRAPI.Controllers
                         .Value(o => o.Acct, nexAcct++)
                         .InsertWithInt32Identity();
                 }
-               
+
+                var name = "order_" + RandomName.RandomString(5) + ".xlsx";
+
+                using (var workbook = new XLWorkbook(Path.Combine(PathExtentions.GetApplicationRoot, "templates", "kolos.xlsx")))
+                {
+                    var worksheet = workbook.Worksheets.First();
+
+                    var rowIdx = 7;
+
+                    foreach (var item in order.Items)
+                    {
+                        var good = db.Goods.First(g => g.ID == item.GoodId);
+
+                        worksheet.Cell(rowIdx, 2).Value = rowIdx - 6;
+                        worksheet.Cell(rowIdx, 3).Value = good.Code;
+                        worksheet.Cell(rowIdx, 4).Value = good.Name;
+                        worksheet.Cell(rowIdx, 6).Value = good.BarCode1;
+                        //worksheet.Cell(rowIndex, columnIndex).Style.NumberFormat.Format = "$0.00";
+                        worksheet.Cell(rowIdx, 6).DataType = XLDataType.Text;
+                        worksheet.Cell(rowIdx, 8).Value = "штука";
+                        worksheet.Cell(rowIdx, 10).Value = item.Qtty;
+                        worksheet.Cell(rowIdx, 11).Value = good.PriceIn;
+                        worksheet.Cell(rowIdx, 13).Value = good.PriceIn * item.Qtty;
+
+                        rowIdx++;
+                    }
+
+                    workbook.SaveAs(Path.Combine(PathExtentions.GetApplicationRoot, "temp", name));
+
+                    SmtpClient client = new SmtpClient("mysmtpserver");
+                    client.UseDefaultCredentials = false;
+                    client.Credentials = new NetworkCredential("zkolosvolgodonsk@mail.ru", "Aa061280");
+
+                    MailMessage mailMessage = new MailMessage();
+                    mailMessage.From = new MailAddress("zkolosvolgodonsk@mail.ru");
+                    mailMessage.To.Add("boykokv@yandex.ru");
+                    mailMessage.Body = "body";
+                    mailMessage.Subject = "Тестовый заказ от МИР";
+                    mailMessage.Attachments.Add(new Attachment(Path.Combine(PathExtentions.GetApplicationRoot, "temp", name)));
+                    client.Send(mailMessage);
+                }
+
                 return Json(null);
             }
         }

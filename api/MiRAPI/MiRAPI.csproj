@@ -8,6 +8,8 @@
 
   <ItemGroup>
 
+    <PackageReference Include="ClosedXML" Version="0.95.3" />
+
     <PackageReference Include="Microsoft.AspNetCore.Hosting.WindowsServices" Version="3.1.1" />
 
 
@@ -35,6 +37,9 @@
     <None Update="DataModel\MiRDataModel.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>MiRDataModel.generated.cs</LastGenOutput>
+    </None>
+    <None Update="templates\kolos.xlsx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
 
