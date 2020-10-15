@@ -79,9 +79,9 @@ namespace MiRAPI.Controllers
                         worksheet.Cell(rowIdx, 2).Value = rowIdx - 6;
                         worksheet.Cell(rowIdx, 3).Value = good.Code;
                         worksheet.Cell(rowIdx, 4).Value = good.Name;
-                        worksheet.Cell(rowIdx, 6).Value = good.BarCode1;
+                        worksheet.Cell(rowIdx, 7).Value = good.BarCode1;
                         //worksheet.Cell(rowIndex, columnIndex).Style.NumberFormat.Format = "$0.00";
-                        worksheet.Cell(rowIdx, 6).DataType = XLDataType.Text;
+                        worksheet.Cell(rowIdx, 7).DataType = XLDataType.Text;
                         worksheet.Cell(rowIdx, 8).Value = "штука";
                         worksheet.Cell(rowIdx, 10).Value = item.Qtty;
                         worksheet.Cell(rowIdx, 11).Value = good.PriceIn;
@@ -101,6 +101,7 @@ namespace MiRAPI.Controllers
                     MailboxAddress to = new MailboxAddress("User",
                     "boykokv@yandex.ru");
                     message.To.Add(to);
+                    message.To.Add(new MailboxAddress("sambuk", "sambuk@ivtex.net"));                    
 
                     message.Subject = "Тестовый заказ от МИР";
 
