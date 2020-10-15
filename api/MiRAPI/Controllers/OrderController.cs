@@ -72,6 +72,8 @@ namespace MiRAPI.Controllers
 
                     var rowIdx = 7;
 
+                    var total = 0d;
+
                     foreach (var item in order.Items)
                     {
                         var good = db.Goods.First(g => g.ID == item.GoodId);
@@ -87,8 +89,12 @@ namespace MiRAPI.Controllers
                         worksheet.Cell(rowIdx, 11).Value = good.PriceIn;
                         worksheet.Cell(rowIdx, 13).Value = good.PriceIn * item.Qtty;
 
+                        total += (good.PriceIn??0) * item.Qtty;
+
                         rowIdx++;
                     }
+
+                    worksheet.Cell(rowIdx, 13).Value = total;
 
                     workbook.SaveAs(io.Path.Combine(PathExtentions.GetApplicationRoot, "temp", name));
 
