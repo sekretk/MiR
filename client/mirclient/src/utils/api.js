@@ -5,10 +5,7 @@ import store from '@/store'
 import Router from '@/router'; 
 import { AUTH_LOGOUT } from '@/store/modules/auth/consts'
 
-if (process.env.NODE_ENV == 'production')
-  axios.defaults.baseURL = 'http://mir.ivtex.net:5000'
-else
-  axios.defaults.baseURL = 'https://localhost:6001'
+axios.defaults.baseURL = `http://${process.env.VUE_APP_MIR_API_URL}`
 
 axios.interceptors.response.use(response => {
   return response;

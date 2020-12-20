@@ -5,6 +5,9 @@
   "scripts": {
     "serve": "vue-cli-service serve --port 8666",
     "build": "vue-cli-service build",
+    "build.volgakondi": "vue-cli-service build --mode volgakondi",
+    "build.zkzelen": "vue-cli-service build --mode zkzelen",
+    "build.zolkolud": "vue-cli-service build --mode zolkolud",
     "lint": "vue-cli-service lint",
     "buildwp": "webpack --config build/webpack.config.dev.js",
     "debug": "vue-cli-service inspect",
