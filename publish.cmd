@@ -20,7 +20,7 @@ rem git pull >> deploy.log
 REM get new version
 IF EXIST "version.txt" (SET /p REPO_VERSION=<version.txt) ELSE (SET REPO_VERSION=0)
 
-if "%REPO_VERSION%" == "%REPO_VERSION%" GOTO:end
+if "%CURRENT_VERSION%" == "%REPO_VERSION%" GOTO:end
 
 SET BUILD_PREFIX=d0.
 REM set /A BUILDMAIN+=1 TODO move to deploy script
@@ -37,6 +37,8 @@ call npm run build.%1
 
 cd ..\..\api\MiRAPI\
 
+sc stop mirapi
+
 dotnet publish -o ..\..\..\api -c Release -r win-x64 -f netcoreapp3.1 /p:PublishSingleFile=true --self-contained false
 
 cd ..\..\..
@@ -46,6 +48,8 @@ echo %REPO_VERSION%>version.txt
 xcopy repo\client\mirclient\dist\* client\ /O /X /E /H /K /F /Y
 
 xcopy appsettings.json api\appsettings.json /Y
+
+sc start mirapi
 
 echo [%date%_%time::=.%] deploy version %REPO_VERSION% >> deploy.log
 
