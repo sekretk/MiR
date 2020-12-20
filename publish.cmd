@@ -53,6 +53,8 @@ sc start mirapi
 
 echo [%date%_%time::=.%] deploy version %REPO_VERSION% >> deploy.log
 
+repo\cmail\cmail.exe -host:zkolosvolgodonsk@mail.ru:Aa061280@smtp.mail.ru -to:boykokv@yandex.ru; -to:sambuk@ivtex.net -from:zkolosvolgodonsk@mail.ru -subject:"Выложена версия %BUILD%" -body:"В инсталяции %1, Выложена версия %BUILD%" -starttls
+
 :end
 
 
