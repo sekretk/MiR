@@ -1,74 +1,54 @@
+REM Folders structure:
+REM publish.cmd
+REM repo
+REM api
+REM client
+REM appsettings.json
+
 chcp 1251
+cd /d %~dp0
 
-echo off
+echo [%date%_%time::=.%] deploy started >> deploy.log
 
-echo %date%_%time::=.% - publish started >> deploy.log
+REM get current version
+IF EXIST "version.txt" (SET /p CURRENT_VERSION=<version.txt) ELSE (SET CURRENT_VERSION=0)
 
 cd repo
-git pull >> deploy.log
 
-REM sc create ceapi binPath= "g:\Projects\Private\competencyevaluation\publish\api\ceapi.exe" type= share start= auto
+rem git pull >> deploy.log
 
-cd %~dp0
+REM get new version
+IF EXIST "version.txt" (SET /p REPO_VERSION=<version.txt) ELSE (SET REPO_VERSION=0)
 
-IF NOT EXIST "bkp" mkdir bkp
+if "%REPO_VERSION%" == "%REPO_VERSION%" GOTO:end
 
-IF NOT EXIST "api.7z" GOTO:api
+SET BUILD_PREFIX=d0.
+REM set /A BUILDMAIN+=1 TODO move to deploy script
 
-for %%a in (api.7z) do set oldapidata=%%~ta
-for %%a in (repo\api.7z) do set newapidata=%%~ta
+set BUILD=%BUILD_PREFIX%%BUILDMAIN%
 
-echo Old API data: %oldapidata% >> deploy.log
-echo New API data %newapidata% >> deploy.log
+echo [%date%_%time::=.%] Start building version %BUILD%  >> deploy.log
 
-if "%oldapidata%" == "%newapidata%" GOTO:clientstart
+cd client\mirclient
 
-:api
+REM usage: volgakondi/zkzelen/zolkolud
+call npm i
+call npm run build.%1
 
-echo %date%_%time::=.% api is ready to update >> deploy.log
+cd ..\..\api\MiRAPI\
 
-"c:\Program Files\7-Zip\7z.exe" a bkp\api_%date%_%time::=.%.7z .\api\* -r
+dotnet publish -o ..\..\..\api -c Release -r win-x64 -f netcoreapp3.1 /p:PublishSingleFile=true --self-contained false
 
-REM sqlcmd -S AERO5\SQLEXPRESS14 -U sa -P open -d ce -Q "BACKUP DATABASE [CompetencyEvaluation] TO  DISK = N'%~dp0bkp\CompetencyEvaluation_%date%_%time::=.%.bak' WITH NOFORMAT, NOINIT,  NAME = N'CompetencyEvaluation-Полная База данных Резервное копирование', SKIP, NOREWIND, NOUNLOAD,  STATS = 10" >> deploy.log
+cd ..\..\..
 
-del api.7z /F /Q
-copy repo\api.7z api.7z
-sc stop mirapi
+echo %REPO_VERSION%>version.txt
 
-TIMEOUT 10
+xcopy repo\client\mirclient\dist\* client\ /O /X /E /H /K /F /Y
 
-"c:\Program Files\7-Zip\7z.exe" x api.7z -oapi -y
+xcopy appsettings.json api\appsettings.json /Y
 
-sc start mirapi
+echo [%date%_%time::=.%] deploy version %REPO_VERSION% >> deploy.log
 
-echo %date%_%time::=.% api updated >> deploy.log
+:end
 
-:clientstart
 
-IF NOT EXIST "client.7z" GOTO:client
-
-for %%a in (client.7z) do set oldclientdata=%%~ta
-for %%a in (repo\client.7z) do set newclientdata=%%~ta
-
-echo Old API data: %oldclientdata% >> deploy.log
-echo New API data %newclientdata% >> deploy.log
-
-if "%oldclientdata%" == "%newclientdata%" GOTO:exit
-
-:client
-
-echo %date%_%time::=.% client is ready to update >> deploy.log
-
-"c:\Program Files\7-Zip\7z.exe" a bkp\client_%date%_%time::=.%.7z .\client\* -r
-del client\* /F /Q
-
-copy repo\client.7z client.7z
-
-"c:\Program Files\7-Zip\7z.exe" x client.7z -oclient -y
-
-echo %date%_%time::=.% client updated >> deploy.log
-
-:exit
-IF NOT "%oldclientdata%" == "%newclientdata%" IF NOT "%oldapidata%" == "%newapidata%") SendSMTP_v2.19.0.1\SendSMTP.exe /Host smtp.gmail.com /Port 587 /Auth 2 /UserID boyko.constantine@gmail.com /PASS3 4v1i/NE61SQbgAtbMNDhWSlcFMsN/WneUe7/1gZ5dYEKOMEjvEj57lAoWUcJqhKd /From boyko.constantine@gmail.com /To boykokv@yandex.ru;account@ivtex.net;Lotos.17@mail.ru /subject "MIR Volga Выложена новая версия от %date%" /body "Залита новая версия. Необходимо проверить" /log
-
-echo %date%_%time::=.% - All done >> deploy.log
