@@ -1,91 +1,92 @@
-2020-12-20 [MIR-104] - env varibles for cleint app
-2020-12-12 Bump ini from 1.3.5 to 1.3.8 in /client/mirclient
-2020-11-26 Bump acorn from 6.4.0 to 6.4.2 in /client/mirclient
-2020-11-26 Bump dot-prop from 4.2.0 to 4.2.1 in /client/mirclient
-2020-11-26 Merge pull request #26 from sekretk/dependabot/npm_and_yarn/client/mirclient/node-sass-4.13.1
-2020-11-26 Merge pull request #23 from sekretk/dependabot/npm_and_yarn/client/mirclient/websocket-extensions-0.1.4
-2020-11-26 Merge pull request #24 from sekretk/dependabot/npm_and_yarn/client/mirclient/lodash-4.17.19
-2020-11-26 Merge pull request #27 from sekretk/dependabot/npm_and_yarn/client/mirclient/hapi/hoek-8.5.1
-2020-11-26 Merge pull request #28 from sekretk/dependabot/npm_and_yarn/client/mirclient/http-proxy-1.18.1
-2020-11-26 Merge pull request #25 from sekretk/dependabot/npm_and_yarn/client/mirclient/elliptic-6.5.3
-2020-11-25 Bump highlight.js from 9.17.1 to 9.18.5 in /client/mirclient
-2020-10-15 total sum
-2020-10-15 bar column shirt
-2020-10-13 отправка сообщений
-2020-10-13 excel report
-2020-09-11 Bump http-proxy from 1.18.0 to 1.18.1 in /client/mirclient
-2020-09-05 Bump @hapi/hoek from 8.5.0 to 8.5.1 in /client/mirclient
-2020-09-04 Bump node-sass from 4.13.0 to 4.13.1 in /client/mirclient
-2020-08-01 Bump elliptic from 6.5.2 to 6.5.3 in /client/mirclient
-2020-07-19 Bump lodash from 4.17.15 to 4.17.19 in /client/mirclient
-2020-06-07 Bump websocket-extensions from 0.1.3 to 0.1.4 in /client/mirclient
-2020-04-21 пересчет сумм дня
-2020-04-14 создание заказа
-2020-04-14 Создание заказа
-2020-04-07 добавлена почта заказчика
-2020-04-07 #17 - поддержка установки на мобильное устройство
-2020-04-07 отображение загрузки операций
-2020-04-07 стилизация
-2020-04-06 операции в главном окне
-2020-04-06 стилизация списка операций
-2020-04-05 Стилизация списка операций
-2020-04-05 Стилизация главное страницы
-2020-04-04 стилизаций склада и корзины
-2020-04-03 Merge branch 'master' of https://github.com/sekretk/MiR
-2020-04-03 #14 - получение количества товаров по складу
-2020-04-03 фикс ошибки подсчтёов аггрегационных данных
-2020-04-03 Create README.md
-2020-03-27 форматирование цен и сортировка
-2020-03-26 ошибка в отображени суммарной информации
-2020-03-26 отображение версии
-2020-03-23 #13 суммарная информация в продажах
-2020-03-23 агрегация операций
-2020-03-22 заголово приложения для мобильного экрана
-2020-03-22 заголово приложения для мобильного экрана
-2020-03-22 build setup
-2020-03-22 build setup
-2020-03-22 build setup
-2020-03-22 build setup
-2020-03-22 build setup
-2020-03-22 build setup
-2020-03-22 build setup
-2020-03-22 build setup
-2020-03-22 build setup
-2020-03-22 build setup
-2020-03-22 build setup
-2020-03-22 build setup
-2020-03-22 фильтрация продаж по дате
-2020-03-16 Использование выбранного объекта в опрециях
-2020-03-15 Bump acorn from 6.4.0 to 6.4.1 in /client/mirclient
-2020-03-15 выбор объекта
-2020-03-13 Навигация обратно от деталей продажи
-2020-03-12 фильтрация операции по продажам
-2020-03-11 использование доменного имени
-2020-03-11 релизная конфигурация
-2020-03-10 детали продажи
-2020-03-10 настройки продакшена
-2020-03-10 детали опреации
-2020-03-02 Merge branch 'master' of https://github.com/sekretk/MiR
-2020-03-02 добавление позиции в заказ
-2020-03-02 авториация в swagger
-2020-03-02 добавлен Swagger
-2020-02-26 opertions paging population
-2020-02-26 operations paging
-2020-02-25 Operations list on client
-2020-02-16 скрипт автоматической сборки и доставки приложения
-2020-02-16 получение списка опрераций
-2020-02-16 получение списка товаров на API
-2020-02-16 исправление скрипта создания базы данных
-2020-02-16 Создание конфигурации и раьоты как сервиса
-2020-01-20 footer + api interceptor
-2020-01-20 meta info
-2020-01-20 login iron out
-2020-01-19 login routing fix
-2020-01-19 login logic
-2020-01-17 login call
-2020-01-13 auth info
-2020-01-10 views scaffold
-2020-01-09 client start project
-2020-01-09 MiR db initials
-2019-12-25 scaffold api and client
-2019-12-25 Initial commit
+s
+s
+s
+s
+s
+s
+s
+s
+s
+s
+s
+s
+s
+s
+s
+s
+s
+s
+s
+s
+s
+s
+s
+s
+s
+s
+s
+s
+s
+s
+s
+s
+s
+s
+s
+s
+s
+s
+s
+s
+s
+s
+s
+s
+s
+s
+s
+s
+s
+s
+s
+s
+s
+s
+s
+s
+s
+s
+s
+s
+s
+s
+s
+s
+s
+s
+s
+s
+s
+s
+s
+s
+s
+s
+s
+s
+s
+s
+s
+s
+s
+s
+s
+s
+s
+s
+s
+s
+s
+s
+s
+s
