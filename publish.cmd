@@ -15,7 +15,7 @@ IF EXIST "version.txt" (SET /p CURRENT_VERSION=<version.txt) ELSE (SET CURRENT_V
 
 cd repo
 
-rem git pull >> deploy.log
+git pull >> deploy.log
 
 REM get new version
 IF EXIST "version.txt" (SET /p REPO_VERSION=<version.txt) ELSE (SET REPO_VERSION=0)
