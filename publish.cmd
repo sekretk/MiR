@@ -22,10 +22,9 @@ IF EXIST "version.txt" (SET /p REPO_VERSION=<version.txt) ELSE (SET REPO_VERSION
 
 if "%CURRENT_VERSION%" == "%REPO_VERSION%" GOTO:end
 
-SET BUILD_PREFIX=d0.
-REM set /A BUILDMAIN+=1 TODO move to deploy script
+SET BUILD_PREFIX=d1.
 
-set BUILD=%BUILD_PREFIX%%BUILDMAIN%
+set BUILD=%BUILD_PREFIX%%REPO_VERSION%
 
 echo [%date%_%time::=.%] Start building version %BUILD%  >> deploy.log
 
