@@ -86,6 +86,11 @@ export default {
         text: 'Заказ'
       },
       {
+        to: '/orders',
+        icon: 'mdi-arrange-send-backward',
+        text: 'Заказы'
+      },
+      {
         to: '/about',
         icon: 'mdi-bacteria',
         text: 'О приложении'

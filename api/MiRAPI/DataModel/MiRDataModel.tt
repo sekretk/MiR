@@ -51,7 +51,7 @@
 		Custom tool must be set to TextTemplatingFileGenerator, not TextTemplatingFilePreprocessor or any other value.
 	*/
 
-	NamespaceName = "DataModels";
+	NamespaceName = "MiRAPI.DataModels";
 
 	LoadSqlServerMetadata(".", "MiR", "sa", "open");
 //	LoadSqlServerMetadata(".", "MyDatabase"); // Integrated Security

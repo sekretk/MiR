@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using LinqToDB.Data;
@@ -15,6 +17,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using MiRAPI.DataModel;
 using MiRAPI.Extentions;
+using MiRAPI.utils;
 using Swashbuckle.AspNetCore.Swagger;
 
 namespace MiRAPI
@@ -108,7 +111,7 @@ namespace MiRAPI
                 .AllowAnyHeader());
 
             app.UseWhen(context => !context.Request.Path.StartsWithSegments("/auth/login"), appBuilder =>
-                                                                    appBuilder.UseMiddleware<Extentions.AuthenticationMiRMiddleware>());
+                                                                                                appBuilder.UseMiddleware<Extentions.AuthenticationMiRMiddleware>());
 
             app.UseEndpoints(endpoints =>
             {

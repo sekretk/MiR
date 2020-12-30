@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MiRAPI.DataModel
+namespace MiRAPI.DataModels
 {
-    public partial class MiRDB : LinqToDB.Data.DataConnection    
+    public partial class MiRDB : LinqToDB.Data.DataConnection
     {
         public MiRDB() : base("MiR")
         {
-
+            InitDataContext();
+            InitMappingSchema();
         }
     }
 }

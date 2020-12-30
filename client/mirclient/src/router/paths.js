@@ -25,6 +25,11 @@ export default [
     view: 'Card'
   },
   {
+    path: '/orders',
+    name: 'orders',
+    view: 'Orders'
+  },
+  {
     path: '/about',
     name: 'about',
     view: 'About'

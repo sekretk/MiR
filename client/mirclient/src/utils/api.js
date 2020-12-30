@@ -5,7 +5,7 @@ import store from '@/store'
 import Router from '@/router'; 
 import { AUTH_LOGOUT } from '@/store/modules/auth/consts'
 
-axios.defaults.baseURL = `http://${process.env.VUE_APP_MIR_API_URL}`
+axios.defaults.baseURL = process.env.VUE_APP_MIR_API_URL;
 
 axios.interceptors.response.use(response => {
   return response;

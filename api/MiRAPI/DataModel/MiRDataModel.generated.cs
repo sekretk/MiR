@@ -8,12 +8,16 @@
 #pragma warning disable 1591
 
 using System;
+using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 
 using LinqToDB;
+using LinqToDB.Common;
+using LinqToDB.Data;
 using LinqToDB.Mapping;
 
-namespace DataModels
+namespace MiRAPI.DataModels
 {
 	/// <summary>
 	/// Database       : MiR
@@ -29,7 +33,6 @@ namespace DataModels
 		public ITable<Currency>          Currencies          { get { return this.GetTable<Currency>(); } }
 		public ITable<Document>          Documents           { get { return this.GetTable<Document>(); } }
 		public ITable<ECRReceipt>        ECRReceipts         { get { return this.GetTable<ECRReceipt>(); } }
-		public ITable<EnfortaTraffic>    EnfortaTraffic      { get { return this.GetTable<EnfortaTraffic>(); } }
 		public ITable<Good>              Goods               { get { return this.GetTable<Good>(); } }
 		public ITable<GoodsGroup>        GoodsGroups         { get { return this.GetTable<GoodsGroup>(); } }
 		public ITable<InternalLog>       InternalLogs        { get { return this.GetTable<InternalLog>(); } }
@@ -46,21 +49,13 @@ namespace DataModels
 		public ITable<PaymentType>       PaymentTypes        { get { return this.GetTable<PaymentType>(); } }
 		public ITable<PriceRule>         PriceRules          { get { return this.GetTable<PriceRule>(); } }
 		public ITable<Registration>      Registrations       { get { return this.GetTable<Registration>(); } }
-		public ITable<SecurityEvent>     SecurityEvents      { get { return this.GetTable<SecurityEvent>(); } }
 		public ITable<Store>             Stores              { get { return this.GetTable<Store>(); } }
 		public ITable<System>            Systems             { get { return this.GetTable<System>(); } }
-		public ITable<TrafficEn>         TrafficEns          { get { return this.GetTable<TrafficEn>(); } }
 		public ITable<Transformation>    Transformations     { get { return this.GetTable<Transformation>(); } }
 		public ITable<User>              Users               { get { return this.GetTable<User>(); } }
 		public ITable<UsersGroup>        UsersGroups         { get { return this.GetTable<UsersGroup>(); } }
 		public ITable<UsersSecurity>     UsersSecurities     { get { return this.GetTable<UsersSecurity>(); } }
 		public ITable<VATGroup>          VATGroups           { get { return this.GetTable<VATGroup>(); } }
-
-		public MiRDB()
-		{
-			InitDataContext();
-			InitMappingSchema();
-		}
 
 		public MiRDB(string configuration)
 			: base(configuration)
@@ -76,169 +71,173 @@ namespace DataModels
 	[Table(Schema="dbo", Name="ApplicationLog")]
 	public partial class ApplicationLog
 	{
-		[PrimaryKey, Identity] public int       ID            { get; set; } // int
-		[Column,     Nullable] public string    Message       { get; set; } // nvarchar(255)
-		[Column,     Nullable] public int?      UserID        { get; set; } // int
-		[Column,     Nullable] public DateTime? UserRealtime  { get; set; } // datetime
-		[Column,     Nullable] public string    MessageSource { get; set; } // nvarchar(50)
+		[Column(),          PrimaryKey,  Identity] public int       ID            { get; set; } // int
+		[Column(),             Nullable          ] public string    Message       { get; set; } // nvarchar(255)
+		[Column(),             Nullable          ] public int?      UserID        { get; set; } // int
+		[Column(),             Nullable          ] public DateTime? UserRealtime  { get; set; } // datetime
+		[Column(),             Nullable          ] public string    MessageSource { get; set; } // nvarchar(50)
+		[Column("rowguid"), NotNull              ] public Guid      Rowguid       { get; set; } // uniqueidentifier
 	}
 
 	[Table(Schema="dbo", Name="CashBook")]
 	public partial class CashBook
 	{
-		[PrimaryKey, Identity] public int       ID           { get; set; } // int
-		[Column,     Nullable] public DateTime? Date         { get; set; } // smalldatetime
-		[Column,     Nullable] public string    Desc         { get; set; } // nvarchar(255)
-		[Column,     Nullable] public int?      OperType     { get; set; } // int
-		[Column,     Nullable] public int?      Sign         { get; set; } // int
-		[Column,     Nullable] public double?   Profit       { get; set; } // float
-		[Column,     Nullable] public int?      UserID       { get; set; } // int
-		[Column,     Nullable] public DateTime? UserRealtime { get; set; } // datetime
-		[Column,     Nullable] public int?      ObjectID     { get; set; } // int
+		[Column(),          PrimaryKey,  Identity] public int       ID           { get; set; } // int
+		[Column(),             Nullable          ] public DateTime? Date         { get; set; } // smalldatetime
+		[Column(),             Nullable          ] public string    Desc         { get; set; } // nvarchar(255)
+		[Column(),             Nullable          ] public int?      OperType     { get; set; } // int
+		[Column(),             Nullable          ] public int?      Sign         { get; set; } // int
+		[Column(),             Nullable          ] public double?   Profit       { get; set; } // float
+		[Column(),             Nullable          ] public int?      UserID       { get; set; } // int
+		[Column(),             Nullable          ] public DateTime? UserRealtime { get; set; } // datetime
+		[Column(),             Nullable          ] public int?      ObjectID     { get; set; } // int
+		[Column("rowguid"), NotNull              ] public Guid      Rowguid      { get; set; } // uniqueidentifier
 	}
 
 	[Table(Schema="dbo", Name="Configuration")]
 	public partial class Configuration
 	{
-		[PrimaryKey, Identity] public int    ID     { get; set; } // int
-		[Column,     Nullable] public string Key    { get; set; } // nvarchar(50)
-		[Column,     Nullable] public string Value  { get; set; } // nvarchar(50)
-		[Column,     Nullable] public int?   UserID { get; set; } // int
+		[Column(),          PrimaryKey,  Identity] public int    ID      { get; set; } // int
+		[Column(),             Nullable          ] public string Key     { get; set; } // nvarchar(50)
+		[Column(),             Nullable          ] public string Value   { get; set; } // nvarchar(50)
+		[Column(),             Nullable          ] public int?   UserID  { get; set; } // int
+		[Column("rowguid"), NotNull              ] public Guid   Rowguid { get; set; } // uniqueidentifier
 	}
 
 	[Table(Schema="dbo", Name="CurrenciesHistory")]
 	public partial class CurrenciesHistory
 	{
-		[PrimaryKey, Identity] public int       ID           { get; set; } // int
-		[Column,     Nullable] public int?      CurrencyID   { get; set; } // int
-		[Column,     Nullable] public double?   ExchangeRate { get; set; } // float
-		[Column,     Nullable] public DateTime? Date         { get; set; } // smalldatetime
-		[Column,     Nullable] public int?      UserID       { get; set; } // int
+		[Column(),          PrimaryKey,  Identity] public int       ID           { get; set; } // int
+		[Column(),             Nullable          ] public int?      CurrencyID   { get; set; } // int
+		[Column(),             Nullable          ] public double?   ExchangeRate { get; set; } // float
+		[Column(),             Nullable          ] public DateTime? Date         { get; set; } // smalldatetime
+		[Column(),             Nullable          ] public int?      UserID       { get; set; } // int
+		[Column("rowguid"), NotNull              ] public Guid      Rowguid      { get; set; } // uniqueidentifier
 	}
 
 	[Table(Schema="dbo", Name="Currencies")]
 	public partial class Currency
 	{
-		[Column(),           PrimaryKey, Identity] public int     ID             { get; set; } // int
-		[Column("Currency"), Nullable            ] public string  CurrencyColumn { get; set; } // nvarchar(3)
-		[Column(),           Nullable            ] public string  Description    { get; set; } // nvarchar(255)
-		[Column(),           Nullable            ] public double? ExchangeRate   { get; set; } // float
-		[Column(),           Nullable            ] public int?    Deleted        { get; set; } // int
+		[Column(),           PrimaryKey,  Identity] public int     ID             { get; set; } // int
+		[Column("Currency"),    Nullable          ] public string  CurrencyColumn { get; set; } // nvarchar(3)
+		[Column(),              Nullable          ] public string  Description    { get; set; } // nvarchar(255)
+		[Column(),              Nullable          ] public double? ExchangeRate   { get; set; } // float
+		[Column(),              Nullable          ] public int?    Deleted        { get; set; } // int
+		[Column("rowguid"),  NotNull              ] public Guid    Rowguid        { get; set; } // uniqueidentifier
 	}
 
 	[Table(Schema="dbo", Name="Documents")]
 	public partial class Document
 	{
-		[PrimaryKey, Identity] public int       ID                    { get; set; } // int
-		[Column,     Nullable] public int?      Acct                  { get; set; } // int
-		[Column,     Nullable] public string    InvoiceNumber         { get; set; } // nvarchar(255)
-		[Column,     Nullable] public short?    OperType              { get; set; } // smallint
-		[Column,     Nullable] public DateTime? InvoiceDate           { get; set; } // smalldatetime
-		[Column,     Nullable] public short?    DocumentType          { get; set; } // smallint
-		[Column,     Nullable] public DateTime? ExternalInvoiceDate   { get; set; } // smalldatetime
-		[Column,     Nullable] public string    ExternalInvoiceNumber { get; set; } // nvarchar(255)
-		[Column,     Nullable] public short?    PaymentType           { get; set; } // smallint
-		[Column,     Nullable] public string    Recipient             { get; set; } // nvarchar(255)
-		[Column,     Nullable] public string    EGN                   { get; set; } // nvarchar(50)
-		[Column,     Nullable] public string    Provider              { get; set; } // nvarchar(255)
-		[Column,     Nullable] public DateTime? TaxDate               { get; set; } // smalldatetime
-		[Column,     Nullable] public string    Reason                { get; set; } // nvarchar(255)
-		[Column,     Nullable] public string    Description           { get; set; } // nvarchar(255)
-		[Column,     Nullable] public string    Place                 { get; set; } // nvarchar(255)
+		[Column(),          PrimaryKey,  Identity] public int       ID                    { get; set; } // int
+		[Column(),             Nullable          ] public int?      Acct                  { get; set; } // int
+		[Column(),             Nullable          ] public string    InvoiceNumber         { get; set; } // nvarchar(255)
+		[Column(),             Nullable          ] public short?    OperType              { get; set; } // smallint
+		[Column(),             Nullable          ] public DateTime? InvoiceDate           { get; set; } // smalldatetime
+		[Column(),             Nullable          ] public short?    DocumentType          { get; set; } // smallint
+		[Column(),             Nullable          ] public DateTime? ExternalInvoiceDate   { get; set; } // smalldatetime
+		[Column(),             Nullable          ] public string    ExternalInvoiceNumber { get; set; } // nvarchar(255)
+		[Column(),             Nullable          ] public short?    PaymentType           { get; set; } // smallint
+		[Column(),             Nullable          ] public string    Recipient             { get; set; } // nvarchar(255)
+		[Column(),             Nullable          ] public string    EGN                   { get; set; } // nvarchar(50)
+		[Column(),             Nullable          ] public string    Provider              { get; set; } // nvarchar(255)
+		[Column(),             Nullable          ] public DateTime? TaxDate               { get; set; } // smalldatetime
+		[Column(),             Nullable          ] public string    Reason                { get; set; } // nvarchar(255)
+		[Column(),             Nullable          ] public string    Description           { get; set; } // nvarchar(255)
+		[Column(),             Nullable          ] public string    Place                 { get; set; } // nvarchar(255)
+		[Column("rowguid"), NotNull              ] public Guid      Rowguid               { get; set; } // uniqueidentifier
 	}
 
 	[Table(Schema="dbo", Name="ECRReceipts")]
 	public partial class ECRReceipt
 	{
-		[PrimaryKey, Identity   ] public int       ID           { get; set; } // int
-		[Column,     NotNull    ] public int       OperType     { get; set; } // int
-		[Column,     NotNull    ] public int       Acct         { get; set; } // int
-		[Column,     NotNull    ] public int       ReceiptID    { get; set; } // int
-		[Column,        Nullable] public DateTime? ReceiptDate  { get; set; } // datetime
-		[Column,     NotNull    ] public int       ReceiptType  { get; set; } // int
-		[Column,        Nullable] public string    ECRID        { get; set; } // nvarchar(255)
-		[Column,        Nullable] public string    Description  { get; set; } // nvarchar(255)
-		[Column,        Nullable] public double?   Total        { get; set; } // float
-		[Column,     NotNull    ] public int       UserID       { get; set; } // int
-		[Column,        Nullable] public DateTime? UserRealTime { get; set; } // datetime
-	}
-
-	[Table(Schema="dbo", Name="EnfortaTraffic")]
-	public partial class EnfortaTraffic
-	{
-		[Column, Nullable] public DateTime? Time  { get; set; } // datetime
-		[Column, Nullable] public string    IP    { get; set; } // nvarchar(50)
-		[Column, Nullable] public long?     Bytes { get; set; } // bigint
+		[Column(),          PrimaryKey,  Identity] public int       ID           { get; set; } // int
+		[Column(),          NotNull              ] public int       OperType     { get; set; } // int
+		[Column(),          NotNull              ] public int       Acct         { get; set; } // int
+		[Column(),          NotNull              ] public int       ReceiptID    { get; set; } // int
+		[Column(),             Nullable          ] public DateTime? ReceiptDate  { get; set; } // datetime
+		[Column(),          NotNull              ] public int       ReceiptType  { get; set; } // int
+		[Column(),             Nullable          ] public string    ECRID        { get; set; } // nvarchar(255)
+		[Column(),             Nullable          ] public string    Description  { get; set; } // nvarchar(255)
+		[Column(),             Nullable          ] public double?   Total        { get; set; } // float
+		[Column(),          NotNull              ] public int       UserID       { get; set; } // int
+		[Column(),             Nullable          ] public DateTime? UserRealTime { get; set; } // datetime
+		[Column("rowguid"), NotNull              ] public Guid      Rowguid      { get; set; } // uniqueidentifier
 	}
 
 	[Table(Schema="dbo", Name="Goods")]
 	public partial class Good
 	{
-		[PrimaryKey, Identity] public int     ID          { get; set; } // int
-		[Column,     Nullable] public string  Code        { get; set; } // nvarchar(255)
-		[Column,     Nullable] public string  BarCode1    { get; set; } // nvarchar(255)
-		[Column,     Nullable] public string  BarCode2    { get; set; } // nvarchar(255)
-		[Column,     Nullable] public string  BarCode3    { get; set; } // nvarchar(255)
-		[Column,     Nullable] public string  Catalog1    { get; set; } // nvarchar(255)
-		[Column,     Nullable] public string  Catalog2    { get; set; } // nvarchar(255)
-		[Column,     Nullable] public string  Catalog3    { get; set; } // nvarchar(255)
-		[Column,     Nullable] public string  Name        { get; set; } // nvarchar(255)
-		[Column,     Nullable] public string  Name2       { get; set; } // nvarchar(255)
-		[Column,     Nullable] public string  Measure1    { get; set; } // nvarchar(255)
-		[Column,     Nullable] public string  Measure2    { get; set; } // nvarchar(255)
-		[Column,     Nullable] public double? Ratio       { get; set; } // float
-		[Column,     Nullable] public double? PriceIn     { get; set; } // float
-		[Column,     Nullable] public double? PriceOut1   { get; set; } // float
-		[Column,     Nullable] public double? PriceOut2   { get; set; } // float
-		[Column,     Nullable] public double? PriceOut3   { get; set; } // float
-		[Column,     Nullable] public double? PriceOut4   { get; set; } // float
-		[Column,     Nullable] public double? PriceOut5   { get; set; } // float
-		[Column,     Nullable] public double? PriceOut6   { get; set; } // float
-		[Column,     Nullable] public double? PriceOut7   { get; set; } // float
-		[Column,     Nullable] public double? PriceOut8   { get; set; } // float
-		[Column,     Nullable] public double? PriceOut9   { get; set; } // float
-		[Column,     Nullable] public double? PriceOut10  { get; set; } // float
-		[Column,     Nullable] public double? MinQtty     { get; set; } // float
-		[Column,     Nullable] public double? NormalQtty  { get; set; } // float
-		[Column,     Nullable] public string  Description { get; set; } // nvarchar(255)
-		[Column,     Nullable] public int?    Type        { get; set; } // int
-		[Column,     Nullable] public int?    IsRecipe    { get; set; } // int
-		[Column,     Nullable] public int?    TaxGroup    { get; set; } // int
-		[Column,     Nullable] public int?    IsVeryUsed  { get; set; } // int
-		[Column,     Nullable] public int?    GroupID     { get; set; } // int
-		[Column,     Nullable] public int?    Deleted     { get; set; } // int
+		[Column(),          PrimaryKey,  Identity] public int     ID          { get; set; } // int
+		[Column(),             Nullable          ] public string  Code        { get; set; } // nvarchar(255)
+		[Column(),             Nullable          ] public string  BarCode1    { get; set; } // nvarchar(255)
+		[Column(),             Nullable          ] public string  BarCode2    { get; set; } // nvarchar(255)
+		[Column(),             Nullable          ] public string  BarCode3    { get; set; } // nvarchar(255)
+		[Column(),             Nullable          ] public string  Catalog1    { get; set; } // nvarchar(255)
+		[Column(),             Nullable          ] public string  Catalog2    { get; set; } // nvarchar(255)
+		[Column(),             Nullable          ] public string  Catalog3    { get; set; } // nvarchar(255)
+		[Column(),             Nullable          ] public string  Name        { get; set; } // nvarchar(255)
+		[Column(),             Nullable          ] public string  Name2       { get; set; } // nvarchar(255)
+		[Column(),             Nullable          ] public string  Measure1    { get; set; } // nvarchar(255)
+		[Column(),             Nullable          ] public string  Measure2    { get; set; } // nvarchar(255)
+		[Column(),             Nullable          ] public double? Ratio       { get; set; } // float
+		[Column(),             Nullable          ] public double? PriceIn     { get; set; } // float
+		[Column(),             Nullable          ] public double? PriceOut1   { get; set; } // float
+		[Column(),             Nullable          ] public double? PriceOut2   { get; set; } // float
+		[Column(),             Nullable          ] public double? PriceOut3   { get; set; } // float
+		[Column(),             Nullable          ] public double? PriceOut4   { get; set; } // float
+		[Column(),             Nullable          ] public double? PriceOut5   { get; set; } // float
+		[Column(),             Nullable          ] public double? PriceOut6   { get; set; } // float
+		[Column(),             Nullable          ] public double? PriceOut7   { get; set; } // float
+		[Column(),             Nullable          ] public double? PriceOut8   { get; set; } // float
+		[Column(),             Nullable          ] public double? PriceOut9   { get; set; } // float
+		[Column(),             Nullable          ] public double? PriceOut10  { get; set; } // float
+		[Column(),             Nullable          ] public double? MinQtty     { get; set; } // float
+		[Column(),             Nullable          ] public double? NormalQtty  { get; set; } // float
+		[Column(),             Nullable          ] public string  Description { get; set; } // nvarchar(255)
+		[Column(),             Nullable          ] public int?    Type        { get; set; } // int
+		[Column(),             Nullable          ] public int?    IsRecipe    { get; set; } // int
+		[Column(),             Nullable          ] public int?    TaxGroup    { get; set; } // int
+		[Column(),             Nullable          ] public int?    IsVeryUsed  { get; set; } // int
+		[Column(),             Nullable          ] public int?    GroupID     { get; set; } // int
+		[Column(),             Nullable          ] public int?    Deleted     { get; set; } // int
+		[Column("rowguid"), NotNull              ] public Guid    Rowguid     { get; set; } // uniqueidentifier
 	}
 
 	[Table(Schema="dbo", Name="GoodsGroups")]
 	public partial class GoodsGroup
 	{
-		[PrimaryKey, Identity] public int    ID   { get; set; } // int
-		[Column,     Nullable] public string Name { get; set; } // nvarchar(255)
-		[Column,     Nullable] public string Code { get; set; } // nvarchar(255)
+		[Column(),          PrimaryKey,  Identity] public int    ID      { get; set; } // int
+		[Column(),             Nullable          ] public string Name    { get; set; } // nvarchar(255)
+		[Column(),             Nullable          ] public string Code    { get; set; } // nvarchar(255)
+		[Column("rowguid"), NotNull              ] public Guid   Rowguid { get; set; } // uniqueidentifier
 	}
 
 	[Table(Schema="dbo", Name="InternalLog")]
 	public partial class InternalLog
 	{
-		[PrimaryKey, Identity] public int    ID      { get; set; } // int
-		[Column,     Nullable] public string Message { get; set; } // nvarchar(3000)
+		[Column(),          PrimaryKey,  Identity] public int    ID      { get; set; } // int
+		[Column(),             Nullable          ] public string Message { get; set; } // nvarchar(3000)
+		[Column("rowguid"), NotNull              ] public Guid   Rowguid { get; set; } // uniqueidentifier
 	}
 
 	[Table(Schema="dbo", Name="Lots")]
 	public partial class Lot
 	{
-		[PrimaryKey, Identity] public int       ID             { get; set; } // int
-		[Column,     Nullable] public string    SerialNo       { get; set; } // nvarchar(255)
-		[Column,     Nullable] public DateTime? EndDate        { get; set; } // smalldatetime
-		[Column,     Nullable] public DateTime? ProductionDate { get; set; } // smalldatetime
-		[Column,     Nullable] public string    Location       { get; set; } // nvarchar(255)
+		[Column(),          PrimaryKey,  Identity] public int       ID             { get; set; } // int
+		[Column(),             Nullable          ] public string    SerialNo       { get; set; } // nvarchar(255)
+		[Column(),             Nullable          ] public DateTime? EndDate        { get; set; } // smalldatetime
+		[Column(),             Nullable          ] public DateTime? ProductionDate { get; set; } // smalldatetime
+		[Column(),             Nullable          ] public string    Location       { get; set; } // nvarchar(255)
+		[Column("rowguid"), NotNull              ] public Guid      Rowguid        { get; set; } // uniqueidentifier
 	}
 
 	[Table(Schema="dbo", Name="Network")]
 	public partial class Network
 	{
-		[PrimaryKey, NotNull] public int Num     { get; set; } // int
-		[Column,     NotNull] public int Counter { get; set; } // int
+		[Column(),          PrimaryKey, NotNull] public int  Num     { get; set; } // int
+		[Column(),                      NotNull] public int  Counter { get; set; } // int
+		[Column("rowguid"),             NotNull] public Guid Rowguid { get; set; } // uniqueidentifier
 	}
 
 	[Table(Schema="dbo", Name="NextAcct")]
@@ -246,295 +245,387 @@ namespace DataModels
 	{
 		[Column(),           Identity           ] public int    ID             { get; set; } // int
 		[Column("NextAcct"), PrimaryKey, NotNull] public string NextAcctColumn { get; set; } // nvarchar(50)
+		[Column("rowguid"),              NotNull] public Guid   Rowguid        { get; set; } // uniqueidentifier
 	}
 
 	[Table(Schema="dbo", Name="Objects")]
 	public partial class Object
 	{
-		[PrimaryKey, Identity] public int    ID         { get; set; } // int
-		[Column,     Nullable] public string Code       { get; set; } // nvarchar(255)
-		[Column,     Nullable] public string Name       { get; set; } // nvarchar(255)
-		[Column,     Nullable] public string Name2      { get; set; } // nvarchar(255)
-		[Column,     Nullable] public int?   PriceGroup { get; set; } // int
-		[Column,     Nullable] public int?   IsVeryUsed { get; set; } // int
-		[Column,     Nullable] public int?   GroupID    { get; set; } // int
-		[Column,     Nullable] public int?   Deleted    { get; set; } // int
+		[Column(),          PrimaryKey,  Identity] public int    ID         { get; set; } // int
+		[Column(),             Nullable          ] public string Code       { get; set; } // nvarchar(255)
+		[Column(),             Nullable          ] public string Name       { get; set; } // nvarchar(255)
+		[Column(),             Nullable          ] public string Name2      { get; set; } // nvarchar(255)
+		[Column(),             Nullable          ] public int?   PriceGroup { get; set; } // int
+		[Column(),             Nullable          ] public int?   IsVeryUsed { get; set; } // int
+		[Column(),             Nullable          ] public int?   GroupID    { get; set; } // int
+		[Column(),             Nullable          ] public int?   Deleted    { get; set; } // int
+		[Column("rowguid"), NotNull              ] public Guid   Rowguid    { get; set; } // uniqueidentifier
 	}
 
 	[Table(Schema="dbo", Name="ObjectsGroups")]
 	public partial class ObjectsGroup
 	{
-		[PrimaryKey, Identity] public int    ID   { get; set; } // int
-		[Column,     Nullable] public string Code { get; set; } // nvarchar(255)
-		[Column,     Nullable] public string Name { get; set; } // nvarchar(255)
+		[Column(),          PrimaryKey,  Identity] public int    ID      { get; set; } // int
+		[Column(),             Nullable          ] public string Code    { get; set; } // nvarchar(255)
+		[Column(),             Nullable          ] public string Name    { get; set; } // nvarchar(255)
+		[Column("rowguid"), NotNull              ] public Guid   Rowguid { get; set; } // uniqueidentifier
 	}
 
 	[Table(Schema="dbo", Name="Operations")]
 	public partial class Operation
 	{
-		[PrimaryKey, Identity] public int       ID           { get; set; } // int
-		[Column,     Nullable] public int?      OperType     { get; set; } // int
-		[Column,     Nullable] public int?      Acct         { get; set; } // int
-		[Column,     Nullable] public int?      GoodID       { get; set; } // int
-		[Column,     Nullable] public int?      PartnerID    { get; set; } // int
-		[Column,     Nullable] public int?      ObjectID     { get; set; } // int
-		[Column,     Nullable] public int?      OperatorID   { get; set; } // int
-		[Column,     Nullable] public double?   Qtty         { get; set; } // float
-		[Column,     Nullable] public int?      Sign         { get; set; } // int
-		[Column,     Nullable] public double?   PriceIn      { get; set; } // float
-		[Column,     Nullable] public double?   PriceOut     { get; set; } // float
-		[Column,     Nullable] public double?   VATIn        { get; set; } // float
-		[Column,     Nullable] public double?   VATOut       { get; set; } // float
-		[Column,     Nullable] public double?   Discount     { get; set; } // float
-		[Column,     Nullable] public int?      CurrencyID   { get; set; } // int
-		[Column,     Nullable] public double?   CurrencyRate { get; set; } // float
-		[Column,     Nullable] public DateTime? Date         { get; set; } // smalldatetime
-		[Column,     Nullable] public string    Lot          { get; set; } // nvarchar(50)
-		[Column,     Nullable] public int?      LotID        { get; set; } // int
-		[Column,     Nullable] public string    Note         { get; set; } // nvarchar(255)
-		[Column,     Nullable] public int?      SrcDocID     { get; set; } // int
-		[Column,     Nullable] public int?      UserID       { get; set; } // int
-		[Column,     Nullable] public DateTime? UserRealTime { get; set; } // datetime
+		[Column(),          PrimaryKey,  Identity] public int       ID           { get; set; } // int
+		[Column(),             Nullable          ] public int?      OperType     { get; set; } // int
+		[Column(),             Nullable          ] public int?      Acct         { get; set; } // int
+		[Column(),             Nullable          ] public int?      GoodID       { get; set; } // int
+		[Column(),             Nullable          ] public int?      PartnerID    { get; set; } // int
+		[Column(),             Nullable          ] public int?      ObjectID     { get; set; } // int
+		[Column(),             Nullable          ] public int?      OperatorID   { get; set; } // int
+		[Column(),             Nullable          ] public double?   Qtty         { get; set; } // float
+		[Column(),             Nullable          ] public int?      Sign         { get; set; } // int
+		[Column(),             Nullable          ] public double?   PriceIn      { get; set; } // float
+		[Column(),             Nullable          ] public double?   PriceOut     { get; set; } // float
+		[Column(),             Nullable          ] public double?   VATIn        { get; set; } // float
+		[Column(),             Nullable          ] public double?   VATOut       { get; set; } // float
+		[Column(),             Nullable          ] public double?   Discount     { get; set; } // float
+		[Column(),             Nullable          ] public int?      CurrencyID   { get; set; } // int
+		[Column(),             Nullable          ] public double?   CurrencyRate { get; set; } // float
+		[Column(),             Nullable          ] public DateTime? Date         { get; set; } // smalldatetime
+		[Column(),             Nullable          ] public string    Lot          { get; set; } // nvarchar(50)
+		[Column(),             Nullable          ] public int?      LotID        { get; set; } // int
+		[Column(),             Nullable          ] public string    Note         { get; set; } // nvarchar(255)
+		[Column(),             Nullable          ] public int?      SrcDocID     { get; set; } // int
+		[Column(),             Nullable          ] public int?      UserID       { get; set; } // int
+		[Column(),             Nullable          ] public DateTime? UserRealTime { get; set; } // datetime
+		[Column("rowguid"), NotNull              ] public Guid      Rowguid      { get; set; } // uniqueidentifier
 	}
 
 	[Table(Schema="dbo", Name="OperationType")]
 	public partial class OperationType
 	{
-		[PrimaryKey, Identity] public int    ID { get; set; } // int
-		[Column,     Nullable] public string BG { get; set; } // nvarchar(255)
-		[Column,     Nullable] public string EN { get; set; } // nvarchar(255)
-		[Column,     Nullable] public string DE { get; set; } // nvarchar(255)
-		[Column,     Nullable] public string RU { get; set; } // nvarchar(255)
-		[Column,     Nullable] public string TR { get; set; } // nvarchar(255)
-		[Column,     Nullable] public string SQ { get; set; } // nvarchar(255)
-		[Column,     Nullable] public string SR { get; set; } // nvarchar(255)
-		[Column,     Nullable] public string RO { get; set; } // nvarchar(255)
-		[Column,     Nullable] public string GR { get; set; } // nvarchar(255)
-		[Column,     Nullable] public string EL { get; set; } // nvarchar(255)
-		[Column,     Nullable] public string ES { get; set; } // nvarchar(255)
-		[Column,     Nullable] public string HY { get; set; } // nvarchar(255)
-		[Column,     Nullable] public string KA { get; set; } // nvarchar(255)
-		[Column,     Nullable] public string PL { get; set; } // nvarchar(255)
-		[Column,     Nullable] public string UK { get; set; } // nvarchar(255)
-		[Column,     Nullable] public string ZU { get; set; } // nvarchar(255)
-		[Column,     Nullable] public string LV { get; set; } // nvarchar(255)
-		[Column,     Nullable] public string FI { get; set; } // nvarchar(255)
-		[Column,     Nullable] public string AR { get; set; } // nvarchar(255)
+		[Column(),          PrimaryKey,  Identity] public int    ID      { get; set; } // int
+		[Column(),             Nullable          ] public string BG      { get; set; } // nvarchar(255)
+		[Column(),             Nullable          ] public string EN      { get; set; } // nvarchar(255)
+		[Column(),             Nullable          ] public string DE      { get; set; } // nvarchar(255)
+		[Column(),             Nullable          ] public string RU      { get; set; } // nvarchar(255)
+		[Column(),             Nullable          ] public string TR      { get; set; } // nvarchar(255)
+		[Column(),             Nullable          ] public string SQ      { get; set; } // nvarchar(255)
+		[Column(),             Nullable          ] public string SR      { get; set; } // nvarchar(255)
+		[Column(),             Nullable          ] public string RO      { get; set; } // nvarchar(255)
+		[Column(),             Nullable          ] public string GR      { get; set; } // nvarchar(255)
+		[Column(),             Nullable          ] public string EL      { get; set; } // nvarchar(255)
+		[Column(),             Nullable          ] public string ES      { get; set; } // nvarchar(255)
+		[Column(),             Nullable          ] public string HY      { get; set; } // nvarchar(255)
+		[Column(),             Nullable          ] public string KA      { get; set; } // nvarchar(255)
+		[Column(),             Nullable          ] public string PL      { get; set; } // nvarchar(255)
+		[Column(),             Nullable          ] public string UK      { get; set; } // nvarchar(255)
+		[Column(),             Nullable          ] public string ZU      { get; set; } // nvarchar(255)
+		[Column(),             Nullable          ] public string LV      { get; set; } // nvarchar(255)
+		[Column(),             Nullable          ] public string FI      { get; set; } // nvarchar(255)
+		[Column(),             Nullable          ] public string AR      { get; set; } // nvarchar(255)
+		[Column(),             Nullable          ] public string TK      { get; set; } // nvarchar(255)
+		[Column("rowguid"), NotNull              ] public Guid   Rowguid { get; set; } // uniqueidentifier
 	}
 
 	[Table(Schema="dbo", Name="Partners")]
 	public partial class Partner
 	{
-		[Column(),        PrimaryKey, Identity] public int       ID           { get; set; } // int
-		[Column(),        Nullable            ] public string    Code         { get; set; } // nvarchar(255)
-		[Column(),        Nullable            ] public string    Company      { get; set; } // nvarchar(255)
-		[Column(),        Nullable            ] public string    Company2     { get; set; } // nvarchar(255)
-		[Column(),        Nullable            ] public string    MOL          { get; set; } // nvarchar(255)
-		[Column(),        Nullable            ] public string    MOL2         { get; set; } // nvarchar(255)
-		[Column(),        Nullable            ] public string    City         { get; set; } // nvarchar(255)
-		[Column(),        Nullable            ] public string    City2        { get; set; } // nvarchar(255)
-		[Column(),        Nullable            ] public string    Address      { get; set; } // nvarchar(255)
-		[Column(),        Nullable            ] public string    Address2     { get; set; } // nvarchar(255)
-		[Column(),        Nullable            ] public string    Phone        { get; set; } // nvarchar(255)
-		[Column(),        Nullable            ] public string    Phone2       { get; set; } // nvarchar(255)
-		[Column(),        Nullable            ] public string    Fax          { get; set; } // nvarchar(255)
-		[Column("eMail"), Nullable            ] public string    EMail        { get; set; } // nvarchar(255)
-		[Column(),        Nullable            ] public string    TaxNo        { get; set; } // nvarchar(255)
-		[Column(),        Nullable            ] public string    Bulstat      { get; set; } // nvarchar(255)
-		[Column(),        Nullable            ] public string    BankName     { get; set; } // nvarchar(255)
-		[Column(),        Nullable            ] public string    BankCode     { get; set; } // nvarchar(255)
-		[Column(),        Nullable            ] public string    BankAcct     { get; set; } // nvarchar(255)
-		[Column(),        Nullable            ] public string    BankVATName  { get; set; } // nvarchar(255)
-		[Column(),        Nullable            ] public string    BankVATCode  { get; set; } // nvarchar(255)
-		[Column(),        Nullable            ] public string    BankVATAcct  { get; set; } // nvarchar(255)
-		[Column(),        Nullable            ] public int?      PriceGroup   { get; set; } // int
-		[Column(),        Nullable            ] public double?   Discount     { get; set; } // float
-		[Column(),        Nullable            ] public short?    Type         { get; set; } // smallint
-		[Column(),        Nullable            ] public short?    IsVeryUsed   { get; set; } // smallint
-		[Column(),        Nullable            ] public int?      UserID       { get; set; } // int
-		[Column(),        Nullable            ] public int?      GroupID      { get; set; } // int
-		[Column(),        Nullable            ] public DateTime? UserRealTime { get; set; } // datetime
-		[Column(),        Nullable            ] public int?      Deleted      { get; set; } // int
-		[Column(),        Nullable            ] public string    CardNumber   { get; set; } // nvarchar(255)
-		[Column(),        Nullable            ] public string    Note1        { get; set; } // nvarchar(255)
-		[Column(),        Nullable            ] public string    Note2        { get; set; } // nvarchar(255)
-		[Column(),        Nullable            ] public int?      PaymentDays  { get; set; } // int
-		[Column(),        Nullable            ] public DateTime? GoodTill2    { get; set; } // datetime
-		[Column(),        Nullable            ] public DateTime? GoodTill     { get; set; } // datetime
-		[Column(),        Nullable            ] public int?      SecurityType { get; set; } // int
+		[Column(),          PrimaryKey,  Identity] public int       ID           { get; set; } // int
+		[Column(),             Nullable          ] public string    Code         { get; set; } // nvarchar(255)
+		[Column(),             Nullable          ] public string    Company      { get; set; } // nvarchar(255)
+		[Column(),             Nullable          ] public string    Company2     { get; set; } // nvarchar(255)
+		[Column(),             Nullable          ] public string    MOL          { get; set; } // nvarchar(255)
+		[Column(),             Nullable          ] public string    MOL2         { get; set; } // nvarchar(255)
+		[Column(),             Nullable          ] public string    City         { get; set; } // nvarchar(255)
+		[Column(),             Nullable          ] public string    City2        { get; set; } // nvarchar(255)
+		[Column(),             Nullable          ] public string    Address      { get; set; } // nvarchar(255)
+		[Column(),             Nullable          ] public string    Address2     { get; set; } // nvarchar(255)
+		[Column(),             Nullable          ] public string    Phone        { get; set; } // nvarchar(255)
+		[Column(),             Nullable          ] public string    Phone2       { get; set; } // nvarchar(255)
+		[Column(),             Nullable          ] public string    Fax          { get; set; } // nvarchar(255)
+		[Column("eMail"),      Nullable          ] public string    EMail        { get; set; } // nvarchar(255)
+		[Column(),             Nullable          ] public string    TaxNo        { get; set; } // nvarchar(255)
+		[Column(),             Nullable          ] public string    Bulstat      { get; set; } // nvarchar(255)
+		[Column(),             Nullable          ] public string    BankName     { get; set; } // nvarchar(255)
+		[Column(),             Nullable          ] public string    BankCode     { get; set; } // nvarchar(255)
+		[Column(),             Nullable          ] public string    BankAcct     { get; set; } // nvarchar(255)
+		[Column(),             Nullable          ] public string    BankVATName  { get; set; } // nvarchar(255)
+		[Column(),             Nullable          ] public string    BankVATCode  { get; set; } // nvarchar(255)
+		[Column(),             Nullable          ] public string    BankVATAcct  { get; set; } // nvarchar(255)
+		[Column(),             Nullable          ] public int?      PriceGroup   { get; set; } // int
+		[Column(),             Nullable          ] public double?   Discount     { get; set; } // float
+		[Column(),             Nullable          ] public short?    Type         { get; set; } // smallint
+		[Column(),             Nullable          ] public short?    IsVeryUsed   { get; set; } // smallint
+		[Column(),             Nullable          ] public int?      UserID       { get; set; } // int
+		[Column(),             Nullable          ] public int?      GroupID      { get; set; } // int
+		[Column(),             Nullable          ] public DateTime? UserRealTime { get; set; } // datetime
+		[Column(),             Nullable          ] public int?      Deleted      { get; set; } // int
+		[Column(),             Nullable          ] public string    CardNumber   { get; set; } // nvarchar(255)
+		[Column(),             Nullable          ] public string    Note1        { get; set; } // nvarchar(255)
+		[Column(),             Nullable          ] public string    Note2        { get; set; } // nvarchar(255)
+		[Column(),             Nullable          ] public int?      PaymentDays  { get; set; } // int
+		[Column("rowguid"), NotNull              ] public Guid      Rowguid      { get; set; } // uniqueidentifier
 	}
 
 	[Table(Schema="dbo", Name="PartnersGroups")]
 	public partial class PartnersGroup
 	{
-		[PrimaryKey, Identity] public int    ID   { get; set; } // int
-		[Column,     Nullable] public string Code { get; set; } // nvarchar(255)
-		[Column,     Nullable] public string Name { get; set; } // nvarchar(255)
+		[Column(),          PrimaryKey,  Identity] public int    ID      { get; set; } // int
+		[Column(),             Nullable          ] public string Code    { get; set; } // nvarchar(255)
+		[Column(),             Nullable          ] public string Name    { get; set; } // nvarchar(255)
+		[Column("rowguid"), NotNull              ] public Guid   Rowguid { get; set; } // uniqueidentifier
 	}
 
 	[Table(Schema="dbo", Name="Payments")]
 	public partial class Payment
 	{
-		[PrimaryKey, Identity] public int       ID                { get; set; } // int
-		[Column,     Nullable] public int?      Acct              { get; set; } // int
-		[Column,     Nullable] public int?      OperType          { get; set; } // int
-		[Column,     Nullable] public int?      PartnerID         { get; set; } // int
-		[Column,     Nullable] public double?   Qtty              { get; set; } // float
-		[Column,     Nullable] public int?      Mode              { get; set; } // int
-		[Column,     Nullable] public int?      Sign              { get; set; } // int
-		[Column,     Nullable] public DateTime? Date              { get; set; } // smalldatetime
-		[Column,     Nullable] public int?      UserID            { get; set; } // int
-		[Column,     Nullable] public int?      ObjectID          { get; set; } // int
-		[Column,     Nullable] public DateTime? UserRealTime      { get; set; } // datetime
-		[Column,     Nullable] public int?      Type              { get; set; } // int
-		[Column,     Nullable] public string    TransactionNumber { get; set; } // nvarchar(255)
-		[Column,     Nullable] public DateTime? EndDate           { get; set; } // smalldatetime
+		[Column(),          PrimaryKey,  Identity] public int       ID                { get; set; } // int
+		[Column(),             Nullable          ] public int?      Acct              { get; set; } // int
+		[Column(),             Nullable          ] public int?      OperType          { get; set; } // int
+		[Column(),             Nullable          ] public int?      PartnerID         { get; set; } // int
+		[Column(),             Nullable          ] public double?   Qtty              { get; set; } // float
+		[Column(),             Nullable          ] public int?      Mode              { get; set; } // int
+		[Column(),             Nullable          ] public int?      Sign              { get; set; } // int
+		[Column(),             Nullable          ] public DateTime? Date              { get; set; } // smalldatetime
+		[Column(),             Nullable          ] public int?      UserID            { get; set; } // int
+		[Column(),             Nullable          ] public int?      ObjectID          { get; set; } // int
+		[Column(),             Nullable          ] public DateTime? UserRealTime      { get; set; } // datetime
+		[Column(),             Nullable          ] public int?      Type              { get; set; } // int
+		[Column(),             Nullable          ] public string    TransactionNumber { get; set; } // nvarchar(255)
+		[Column(),             Nullable          ] public DateTime? EndDate           { get; set; } // smalldatetime
+		[Column("rowguid"), NotNull              ] public Guid      Rowguid           { get; set; } // uniqueidentifier
 	}
 
 	[Table(Schema="dbo", Name="PaymentTypes")]
 	public partial class PaymentType
 	{
-		[PrimaryKey, Identity] public int    ID            { get; set; } // int
-		[Column,     Nullable] public string Name          { get; set; } // nvarchar(255)
-		[Column,     Nullable] public int?   PaymentMethod { get; set; } // int
+		[Column(),          PrimaryKey,  Identity] public int    ID            { get; set; } // int
+		[Column(),             Nullable          ] public string Name          { get; set; } // nvarchar(255)
+		[Column(),             Nullable          ] public int?   PaymentMethod { get; set; } // int
+		[Column("rowguid"), NotNull              ] public Guid   Rowguid       { get; set; } // uniqueidentifier
 	}
 
 	[Table(Schema="dbo", Name="PriceRules")]
 	public partial class PriceRule
 	{
-		[PrimaryKey, Identity] public int    ID       { get; set; } // int
-		[Column,     Nullable] public string Name     { get; set; } // nvarchar(255)
-		[Column,     Nullable] public string Formula  { get; set; } // nvarchar(1000)
-		[Column,     Nullable] public int?   Enabled  { get; set; } // int
-		[Column,     Nullable] public int?   Priority { get; set; } // int
+		[Column(),          PrimaryKey,  Identity] public int    ID       { get; set; } // int
+		[Column(),             Nullable          ] public string Name     { get; set; } // nvarchar(255)
+		[Column(),             Nullable          ] public string Formula  { get; set; } // nvarchar(1000)
+		[Column(),             Nullable          ] public int?   Enabled  { get; set; } // int
+		[Column(),             Nullable          ] public int?   Priority { get; set; } // int
+		[Column("rowguid"), NotNull              ] public Guid   Rowguid  { get; set; } // uniqueidentifier
 	}
 
 	[Table(Schema="dbo", Name="Registration")]
 	public partial class Registration
 	{
-		[Column(),        PrimaryKey, Identity] public int       ID           { get; set; } // int
-		[Column(),        Nullable            ] public string    Code         { get; set; } // nvarchar(255)
-		[Column(),        Nullable            ] public string    Company      { get; set; } // nvarchar(255)
-		[Column(),        Nullable            ] public string    MOL          { get; set; } // nvarchar(255)
-		[Column(),        Nullable            ] public string    City         { get; set; } // nvarchar(255)
-		[Column(),        Nullable            ] public string    Address      { get; set; } // nvarchar(255)
-		[Column(),        Nullable            ] public string    Phone        { get; set; } // nvarchar(255)
-		[Column(),        Nullable            ] public string    Fax          { get; set; } // nvarchar(255)
-		[Column("eMail"), Nullable            ] public string    EMail        { get; set; } // nvarchar(255)
-		[Column(),        Nullable            ] public string    TaxNo        { get; set; } // nvarchar(255)
-		[Column(),        Nullable            ] public string    Bulstat      { get; set; } // nvarchar(255)
-		[Column(),        Nullable            ] public string    BankName     { get; set; } // nvarchar(255)
-		[Column(),        Nullable            ] public string    BankCode     { get; set; } // nvarchar(255)
-		[Column(),        Nullable            ] public string    BankAcct     { get; set; } // nvarchar(255)
-		[Column(),        Nullable            ] public string    BankVATAcct  { get; set; } // nvarchar(255)
-		[Column(),        Nullable            ] public int?      UserID       { get; set; } // int
-		[Column(),        Nullable            ] public DateTime? UserRealTime { get; set; } // datetime
-		[Column(),        Nullable            ] public int?      IsDefault    { get; set; } // int
-		[Column(),        Nullable            ] public string    Note1        { get; set; } // nvarchar(255)
-		[Column(),        Nullable            ] public string    Note2        { get; set; } // nvarchar(255)
-		[Column(),        Nullable            ] public int?      Deleted      { get; set; } // int
-	}
-
-	[Table(Schema="dbo", Name="SecurityEvents")]
-	public partial class SecurityEvent
-	{
-		[PrimaryKey, Identity   ] public int      ID           { get; set; } // int
-		[Column,     NotNull    ] public string   CardNumber   { get; set; } // nvarchar(255)
-		[Column,     NotNull    ] public int      Event        { get; set; } // int
-		[Column,        Nullable] public string   Comment      { get; set; } // nvarchar(255)
-		[Column,        Nullable] public string   ControllerID { get; set; } // nvarchar(50)
-		[Column,     NotNull    ] public DateTime Time         { get; set; } // datetime
+		[Column(),          PrimaryKey,  Identity] public int       ID           { get; set; } // int
+		[Column(),             Nullable          ] public string    Code         { get; set; } // nvarchar(255)
+		[Column(),             Nullable          ] public string    Company      { get; set; } // nvarchar(255)
+		[Column(),             Nullable          ] public string    MOL          { get; set; } // nvarchar(255)
+		[Column(),             Nullable          ] public string    City         { get; set; } // nvarchar(255)
+		[Column(),             Nullable          ] public string    Address      { get; set; } // nvarchar(255)
+		[Column(),             Nullable          ] public string    Phone        { get; set; } // nvarchar(255)
+		[Column(),             Nullable          ] public string    Fax          { get; set; } // nvarchar(255)
+		[Column("eMail"),      Nullable          ] public string    EMail        { get; set; } // nvarchar(255)
+		[Column(),             Nullable          ] public string    TaxNo        { get; set; } // nvarchar(255)
+		[Column(),             Nullable          ] public string    Bulstat      { get; set; } // nvarchar(255)
+		[Column(),             Nullable          ] public string    BankName     { get; set; } // nvarchar(255)
+		[Column(),             Nullable          ] public string    BankCode     { get; set; } // nvarchar(255)
+		[Column(),             Nullable          ] public string    BankAcct     { get; set; } // nvarchar(255)
+		[Column(),             Nullable          ] public string    BankVATAcct  { get; set; } // nvarchar(255)
+		[Column(),             Nullable          ] public int?      UserID       { get; set; } // int
+		[Column(),             Nullable          ] public DateTime? UserRealTime { get; set; } // datetime
+		[Column(),             Nullable          ] public int?      IsDefault    { get; set; } // int
+		[Column(),             Nullable          ] public string    Note1        { get; set; } // nvarchar(255)
+		[Column(),             Nullable          ] public string    Note2        { get; set; } // nvarchar(255)
+		[Column(),             Nullable          ] public int?      Deleted      { get; set; } // int
+		[Column("rowguid"), NotNull              ] public Guid      Rowguid      { get; set; } // uniqueidentifier
 	}
 
 	[Table(Schema="dbo", Name="Store")]
 	public partial class Store
 	{
-		[PrimaryKey, Identity] public int     ID       { get; set; } // int
-		[Column,     Nullable] public int?    ObjectID { get; set; } // int
-		[Column,     Nullable] public int?    GoodID   { get; set; } // int
-		[Column,     Nullable] public double? Qtty     { get; set; } // float
-		[Column,     Nullable] public double? Price    { get; set; } // float
-		[Column,     Nullable] public string  Lot      { get; set; } // nvarchar(250)
-		[Column,     Nullable] public int?    LotID    { get; set; } // int
-		[Column,     Nullable] public int?    LotOrder { get; set; } // int
+		[Column(),          PrimaryKey,  Identity] public int     ID       { get; set; } // int
+		[Column(),             Nullable          ] public int?    ObjectID { get; set; } // int
+		[Column(),             Nullable          ] public int?    GoodID   { get; set; } // int
+		[Column(),             Nullable          ] public double? Qtty     { get; set; } // float
+		[Column(),             Nullable          ] public double? Price    { get; set; } // float
+		[Column(),             Nullable          ] public string  Lot      { get; set; } // nvarchar(250)
+		[Column(),             Nullable          ] public int?    LotID    { get; set; } // int
+		[Column(),             Nullable          ] public int?    LotOrder { get; set; } // int
+		[Column("rowguid"), NotNull              ] public Guid    Rowguid  { get; set; } // uniqueidentifier
 	}
 
 	[Table(Schema="dbo", Name="System")]
 	public partial class System
 	{
-		[PrimaryKey, NotNull    ] public string    Version    { get; set; } // nvarchar(20)
-		[Column,        Nullable] public short?    ProductID  { get; set; } // smallint
-		[Column,        Nullable] public DateTime? LastBackup { get; set; } // smalldatetime
-	}
-
-	[Table(Schema="dbo", Name="TrafficEn")]
-	public partial class TrafficEn
-	{
-		[Column("datetime"),                   Nullable] public DateTime? Datetime             { get; set; } // datetime
-		[Column("src_IP_addr"),                Nullable] public string    SrcIpAddr            { get; set; } // nvarchar(50)
-		[Column("src_port"),                   Nullable] public int?      SrcPort              { get; set; } // int
-		[Column("input_ifidx\r\ninput_ifidx"), Nullable] public int?      InputIfidxInputIfidx { get; set; } // int
-		[Column("dst_IP_addr"),                Nullable] public string    DstIpAddr            { get; set; } // nvarchar(50)
-		[Column("dst_port"),                   Nullable] public int?      DstPort              { get; set; } // int
-		[Column("output_if_idx"),              Nullable] public int?      OutputIfIdx          { get; set; } // int
-		[Column("protocol"),                   Nullable] public string    Protocol             { get; set; } // nvarchar(50)
-		[Column("packets"),                    Nullable] public int?      Packets              { get; set; } // int
-		[Column("bytes"),                      Nullable] public long?     Bytes                { get; set; } // bigint
+		[Column(),          PrimaryKey,  NotNull] public string    Version    { get; set; } // nvarchar(20)
+		[Column(),             Nullable         ] public short?    ProductID  { get; set; } // smallint
+		[Column(),             Nullable         ] public DateTime? LastBackup { get; set; } // smalldatetime
+		[Column("rowguid"),              NotNull] public Guid      Rowguid    { get; set; } // uniqueidentifier
 	}
 
 	[Table(Schema="dbo", Name="Transformations")]
 	public partial class Transformation
 	{
-		[PrimaryKey, Identity   ] public int       ID           { get; set; } // int
-		[Column,     NotNull    ] public int       RootOperType { get; set; } // int
-		[Column,     NotNull    ] public int       RootAcct     { get; set; } // int
-		[Column,     NotNull    ] public int       FromOperType { get; set; } // int
-		[Column,     NotNull    ] public int       FromAcct     { get; set; } // int
-		[Column,     NotNull    ] public int       ToOperType   { get; set; } // int
-		[Column,     NotNull    ] public int       ToAcct       { get; set; } // int
-		[Column,     NotNull    ] public int       UserID       { get; set; } // int
-		[Column,        Nullable] public DateTime? UserRealTime { get; set; } // datetime
+		[Column(),          PrimaryKey,  Identity] public int       ID           { get; set; } // int
+		[Column(),          NotNull              ] public int       RootOperType { get; set; } // int
+		[Column(),          NotNull              ] public int       RootAcct     { get; set; } // int
+		[Column(),          NotNull              ] public int       FromOperType { get; set; } // int
+		[Column(),          NotNull              ] public int       FromAcct     { get; set; } // int
+		[Column(),          NotNull              ] public int       ToOperType   { get; set; } // int
+		[Column(),          NotNull              ] public int       ToAcct       { get; set; } // int
+		[Column(),          NotNull              ] public int       UserID       { get; set; } // int
+		[Column(),             Nullable          ] public DateTime? UserRealTime { get; set; } // datetime
+		[Column("rowguid"), NotNull              ] public Guid      Rowguid      { get; set; } // uniqueidentifier
 	}
 
 	[Table(Schema="dbo", Name="Users")]
 	public partial class User
 	{
-		[PrimaryKey, Identity] public int    ID         { get; set; } // int
-		[Column,     Nullable] public string Code       { get; set; } // nvarchar(255)
-		[Column,     Nullable] public string Name       { get; set; } // nvarchar(255)
-		[Column,     Nullable] public string Name2      { get; set; } // nvarchar(255)
-		[Column,     Nullable] public int?   IsVeryUsed { get; set; } // int
-		[Column,     Nullable] public int?   GroupID    { get; set; } // int
-		[Column,     Nullable] public string Password   { get; set; } // nvarchar(50)
-		[Column,     Nullable] public int?   UserLevel  { get; set; } // int
-		[Column,     Nullable] public int?   Deleted    { get; set; } // int
-		[Column,     Nullable] public string CardNumber { get; set; } // nvarchar(255)
+		[Column(),          PrimaryKey,  Identity] public int    ID         { get; set; } // int
+		[Column(),             Nullable          ] public string Code       { get; set; } // nvarchar(255)
+		[Column(),             Nullable          ] public string Name       { get; set; } // nvarchar(255)
+		[Column(),             Nullable          ] public string Name2      { get; set; } // nvarchar(255)
+		[Column(),             Nullable          ] public int?   IsVeryUsed { get; set; } // int
+		[Column(),             Nullable          ] public int?   GroupID    { get; set; } // int
+		[Column(),             Nullable          ] public string Password   { get; set; } // nvarchar(50)
+		[Column(),             Nullable          ] public int?   UserLevel  { get; set; } // int
+		[Column(),             Nullable          ] public int?   Deleted    { get; set; } // int
+		[Column(),             Nullable          ] public string CardNumber { get; set; } // nvarchar(255)
+		[Column("rowguid"), NotNull              ] public Guid   Rowguid    { get; set; } // uniqueidentifier
 	}
 
 	[Table(Schema="dbo", Name="UsersGroups")]
 	public partial class UsersGroup
 	{
-		[PrimaryKey, Identity] public int    ID   { get; set; } // int
-		[Column,     Nullable] public string Code { get; set; } // nvarchar(255)
-		[Column,     Nullable] public string Name { get; set; } // nvarchar(255)
+		[Column(),          PrimaryKey,  Identity] public int    ID      { get; set; } // int
+		[Column(),             Nullable          ] public string Code    { get; set; } // nvarchar(255)
+		[Column(),             Nullable          ] public string Name    { get; set; } // nvarchar(255)
+		[Column("rowguid"), NotNull              ] public Guid   Rowguid { get; set; } // uniqueidentifier
 	}
 
 	[Table(Schema="dbo", Name="UsersSecurity")]
 	public partial class UsersSecurity
 	{
-		[PrimaryKey, Identity] public int    ID          { get; set; } // int
-		[Column,     Nullable] public int?   UserID      { get; set; } // int
-		[Column,     Nullable] public string ControlName { get; set; } // nvarchar(100)
-		[Column,     Nullable] public int?   State       { get; set; } // int
+		[Column(),          PrimaryKey,  Identity] public int    ID          { get; set; } // int
+		[Column(),             Nullable          ] public int?   UserID      { get; set; } // int
+		[Column(),             Nullable          ] public string ControlName { get; set; } // nvarchar(100)
+		[Column(),             Nullable          ] public int?   State       { get; set; } // int
+		[Column("rowguid"), NotNull              ] public Guid   Rowguid     { get; set; } // uniqueidentifier
 	}
 
 	[Table(Schema="dbo", Name="VATGroups")]
 	public partial class VATGroup
 	{
-		[PrimaryKey, Identity] public int     ID       { get; set; } // int
-		[Column,     Nullable] public string  Code     { get; set; } // nvarchar(255)
-		[Column,     Nullable] public string  Name     { get; set; } // nvarchar(255)
-		[Column,     Nullable] public double? VATValue { get; set; } // float
+		[Column(),          PrimaryKey,  Identity] public int     ID       { get; set; } // int
+		[Column(),             Nullable          ] public string  Code     { get; set; } // nvarchar(255)
+		[Column(),             Nullable          ] public string  Name     { get; set; } // nvarchar(255)
+		[Column(),             Nullable          ] public double? VATValue { get; set; } // float
+		[Column("rowguid"), NotNull              ] public Guid    Rowguid  { get; set; } // uniqueidentifier
+	}
+
+	public static partial class MiRDBStoredProcedures
+	{
+		#region SpAlterdiagram
+
+		public static int SpAlterdiagram(this MiRDB dataConnection, string @diagramname, int? @owner_id, int? @version, byte[] @definition)
+		{
+			return dataConnection.ExecuteProc("[dbo].[sp_alterdiagram]",
+				new DataParameter("@diagramname", @diagramname, DataType.NVarChar),
+				new DataParameter("@owner_id",    @owner_id,    DataType.Int32),
+				new DataParameter("@version",     @version,     DataType.Int32),
+				new DataParameter("@definition",  @definition,  DataType.VarBinary));
+		}
+
+		#endregion
+
+		#region SpCreatediagram
+
+		public static int SpCreatediagram(this MiRDB dataConnection, string @diagramname, int? @owner_id, int? @version, byte[] @definition)
+		{
+			return dataConnection.ExecuteProc("[dbo].[sp_creatediagram]",
+				new DataParameter("@diagramname", @diagramname, DataType.NVarChar),
+				new DataParameter("@owner_id",    @owner_id,    DataType.Int32),
+				new DataParameter("@version",     @version,     DataType.Int32),
+				new DataParameter("@definition",  @definition,  DataType.VarBinary));
+		}
+
+		#endregion
+
+		#region SpDropdiagram
+
+		public static int SpDropdiagram(this MiRDB dataConnection, string @diagramname, int? @owner_id)
+		{
+			return dataConnection.ExecuteProc("[dbo].[sp_dropdiagram]",
+				new DataParameter("@diagramname", @diagramname, DataType.NVarChar),
+				new DataParameter("@owner_id",    @owner_id,    DataType.Int32));
+		}
+
+		#endregion
+
+		#region SpHelpdiagramdefinition
+
+		public static IEnumerable<SpHelpdiagramdefinitionResult> SpHelpdiagramdefinition(this MiRDB dataConnection, string @diagramname, int? @owner_id)
+		{
+			return dataConnection.QueryProc<SpHelpdiagramdefinitionResult>("[dbo].[sp_helpdiagramdefinition]",
+				new DataParameter("@diagramname", @diagramname, DataType.NVarChar),
+				new DataParameter("@owner_id",    @owner_id,    DataType.Int32));
+		}
+
+		public partial class SpHelpdiagramdefinitionResult
+		{
+			public int?   version    { get; set; }
+			public byte[] definition { get; set; }
+		}
+
+		#endregion
+
+		#region SpHelpdiagrams
+
+		public static IEnumerable<SpHelpdiagramsResult> SpHelpdiagrams(this MiRDB dataConnection, string @diagramname, int? @owner_id)
+		{
+			return dataConnection.QueryProc<SpHelpdiagramsResult>("[dbo].[sp_helpdiagrams]",
+				new DataParameter("@diagramname", @diagramname, DataType.NVarChar),
+				new DataParameter("@owner_id",    @owner_id,    DataType.Int32));
+		}
+
+		public partial class SpHelpdiagramsResult
+		{
+			public string Database { get; set; }
+			public string Name     { get; set; }
+			public int    ID       { get; set; }
+			public string Owner    { get; set; }
+			public int    OwnerID  { get; set; }
+		}
+
+		#endregion
+
+		#region SpRenamediagram
+
+		public static int SpRenamediagram(this MiRDB dataConnection, string @diagramname, int? @owner_id, string @new_diagramname)
+		{
+			return dataConnection.ExecuteProc("[dbo].[sp_renamediagram]",
+				new DataParameter("@diagramname",     @diagramname,     DataType.NVarChar),
+				new DataParameter("@owner_id",        @owner_id,        DataType.Int32),
+				new DataParameter("@new_diagramname", @new_diagramname, DataType.NVarChar));
+		}
+
+		#endregion
+	}
+
+	public static partial class SqlFunctions
+	{
+		#region FnDiagramobjects
+
+		[Sql.Function(Name="dbo.fn_diagramobjects", ServerSideOnly=true)]
+		public static int? FnDiagramobjects()
+		{
+			throw new InvalidOperationException();
+		}
+
+		#endregion
 	}
 
 	public static partial class TableExtensions
@@ -672,12 +763,6 @@ namespace DataModels
 		}
 
 		public static Registration Find(this ITable<Registration> table, int ID)
-		{
-			return table.FirstOrDefault(t =>
-				t.ID == ID);
-		}
-
-		public static SecurityEvent Find(this ITable<SecurityEvent> table, int ID)
 		{
 			return table.FirstOrDefault(t =>
 				t.ID == ID);

@@ -1,7 +1,7 @@
-﻿using DataModels;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.Extensions.Logging;
+using MiRAPI.DataModels;
 using MiRAPI.DTO;
 using System;
 using System.Collections.Generic;

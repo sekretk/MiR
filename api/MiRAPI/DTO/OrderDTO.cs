@@ -12,7 +12,7 @@ namespace MiRAPI.DTO
         public int Qtty { get; set; }
     }
 
-    public class Order
+    public class OrderDTO
     {
         public IEnumerable<OrderItem> Items { get; set; }
 

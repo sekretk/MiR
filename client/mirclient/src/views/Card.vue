@@ -4,6 +4,7 @@
       <h2 class="ml-2">Заказ</h2>
       <v-spacer></v-spacer>
       <v-btn center color="indigo" class="mr-5" @click="createOrder">Создать заказ</v-btn>
+      <v-btn center color="purple" class="mr-5" @click="gotoOrders">Перейти к заказам</v-btn>
     </v-row>
     <div class="ml-2 mr-2" v-if="goods.length == 0">
       <p>Ещё не выбраны позиции</p>
@@ -72,6 +73,9 @@ export default {
     ...mapActions("app", { createOrder: CREATE_ORDER }),
     gotoStore() {
       this.$router.push({ name: "store" });
+    },
+    gotoOrders() {
+       this.$router.push({ name: "orders" });
     }
   },
   computed: {

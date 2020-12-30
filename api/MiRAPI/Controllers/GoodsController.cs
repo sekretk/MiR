@@ -1,6 +1,6 @@
-﻿using DataModels;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using MiRAPI.DataModels;
 using MiRAPI.DTO;
 using MiRAPI.Extentions;
 using System;

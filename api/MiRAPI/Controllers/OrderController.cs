@@ -1,5 +1,4 @@
 ﻿using ClosedXML.Excel;
-using DataModels;
 using LinqToDB;
 using MailKit.Net.Smtp;
 using Microsoft.AspNetCore.Mvc;
@@ -14,6 +13,7 @@ using io = System.IO;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using MiRAPI.DataModels;
 
 namespace MiRAPI.Controllers
 {
@@ -30,7 +30,7 @@ namespace MiRAPI.Controllers
 
         [HttpPost()]
         [Route("create")]
-        public JsonResult Create([FromBody] Order order)
+        public JsonResult Create([FromBody] OrderDTO order)
         {
             var user = (User)HttpContext.Items[MiRConsts.USER_BAG];
 
@@ -144,6 +144,29 @@ namespace MiRAPI.Controllers
                 }
 
                 return Json(null);
+            }
+        }
+
+        [HttpGet()]
+        [Route("list")]
+        public JsonResult List([FromQuery] Page filter)
+        {
+            using (var db = new MiRDB())
+            {
+                var operations = db.Operations.Where(o => o.OperType == 13).GroupBy(o => o.Acct);;
+
+                return Json(new PageResult<OrdersResult>
+                {
+                    Items = operations
+                            .OrderBy(o => o.Key)
+                            .Skip(filter.Skip)
+                            .Take(filter.Size)
+                            .Select(go => 
+                                new OrdersResult(go.Key.GetValueOrDefault(), go.First().Date.GetValueOrDefault()))
+                            .ToArray(),
+                    Skiped = filter.Skip,
+                    TotalAmount = operations.Count(),
+                });
             }
         }
     }
