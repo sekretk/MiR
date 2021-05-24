@@ -1,7 +1,7 @@
 <template>
   <div class="goods-container">
     <v-row align="center">
-      <h2 class="ml-2">Заказ</h2>
+      <h2 class="ml-4">Заказ</h2>
       <v-spacer></v-spacer>
       <v-btn center color="indigo" class="mr-5" @click="createOrder">Создать заказ</v-btn>
       <v-btn center color="purple" class="mr-5" @click="gotoOrders">Перейти к заказам</v-btn>
@@ -34,7 +34,7 @@
                 </template>
                 <span class="white--text">Уменьшить</span>
               </v-tooltip>
-              {{good.count}}
+              <v-text-field :value="good.count" type="number"/>
               <v-tooltip bottom>
                 <template v-slot:activator="{ on }">
                   <v-btn

@@ -1,7 +1,7 @@
 <template>
   <div class="orders-container">
     <v-row align="center">
-      <h2 class="ml-2">Заказы</h2>
+      <h2 class="ml-3">Заказы</h2>
     </v-row>
     <div class="ml-2 mr-2" v-if="orders.length == 0">
       <p>Нет заказов</p>

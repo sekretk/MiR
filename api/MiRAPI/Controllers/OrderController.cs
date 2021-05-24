@@ -14,6 +14,7 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using MiRAPI.DataModels;
+using MiRAPI.enums;
 
 namespace MiRAPI.Controllers
 {
@@ -41,7 +42,7 @@ namespace MiRAPI.Controllers
                 foreach (var item in order.Items)
                 {
                     db.Operations
-                        .Value(o => o.OperType, 13)
+                        .Value(o => o.OperType, (int)ORDER_TYPE.Offer)
                         .Value(o => o.GoodID, item.GoodId)
                         .Value(o => o.PartnerID, 1)
                         .Value(o => o.OperatorID, user.ID)

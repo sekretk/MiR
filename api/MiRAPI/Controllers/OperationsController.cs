@@ -2,7 +2,9 @@
 using Microsoft.Extensions.Configuration;
 using MiRAPI.DataModels;
 using MiRAPI.DTO;
+using MiRAPI.enums;
 using MiRAPI.Extentions;
+using MiRAPI.utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,7 +31,7 @@ namespace MiRAPI.Controllers
             using (var db = new MiRDB())
             {
                 Func<Operation, bool> opFilter = 
-                    o => o.OperType == 2 
+                    o => o.OperType == (int)ORDER_TYPE.Sale
                             && o.ObjectID == page.ObjectId 
                             && o.Date == page.Date.Date;
 
